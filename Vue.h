@@ -18,8 +18,6 @@ public:
 protected:
 	int x_;
 	int y_;
-public slots:
-
 };
 
 class VueEchiquier : public QMainWindow {
@@ -27,7 +25,7 @@ class VueEchiquier : public QMainWindow {
 public:
 	VueEchiquier(QWidget* parent, Echiquier& echiquier);
 	~VueEchiquier() override = default;
-	void mettrePiece(QChar& pieceVue, int colonne, int ligne) {
+	void identifierPiece(QChar& pieceVue, int colonne, int ligne) {
 		if (echiquier_.getPiece(colonne, ligne))
 		{
 			Piece* piece = echiquier_.getPiece(colonne, ligne);
@@ -44,8 +42,9 @@ public:
 		}
 	}
 
-signals:
-
+	void ajouterBouton(Bouton* bouton, int ligne, int colonne) {
+		matrice[ligne][colonne] = bouton;
+	}
 
 public slots:
 	void appuye() {
@@ -60,9 +59,8 @@ public slots:
 					for (int colonne = 0; colonne < nColonnes; colonne++)
 					{
 						QChar pieceVue;
-						mettrePiece(pieceVue, colonne, ligne);
-						matrice[ligne][colonne]->setText(pieceVue);
-						
+						identifierPiece(pieceVue, colonne, ligne);
+						matrice[ligne][colonne]->setText(pieceVue);	
 					}
 				}
 			}
@@ -73,10 +71,6 @@ public slots:
 			position1 = e->getPosition();
 			count++;
 		}
-	}
-
-	void ajouterBouton(Bouton* bouton, int ligne, int colonne) {
-		matrice[ligne][colonne] = bouton;
 	}
 
 private:

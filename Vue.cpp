@@ -34,7 +34,7 @@ VueEchiquier::VueEchiquier(QWidget* parent, Echiquier& echiquier) : echiquier_(e
 		{
 			Bouton* bouton;
 			QChar pieceVue;
-			mettrePiece(pieceVue, colonne, ligne);
+			identifierPiece(pieceVue, colonne, ligne);
 
 			bouton = new Bouton(pieceVue, this, colonne, ligne);
 
