@@ -11,9 +11,9 @@
 class Bouton : public QPushButton{
 	Q_OBJECT
 public:
-	Bouton(QChar& piece, QWidget* parent, int x, int y);
+	Bouton(QChar& piece, QWidget* parent, int positionX, int positionY);
 	std::pair<int, int> getPosition() {
-		return { x_, y_ };
+		return { positionX_, positionY_ };
 	}
 	void initialiserCouleur(int ligne, int colonne) {
 		QColor couleur;
@@ -34,8 +34,8 @@ public:
 	}
 
 protected:
-	int x_;
-	int y_;
+	int positionX_;
+	int positionY_;
 };
 
 class VueEchiquier : public QMainWindow {
@@ -65,25 +65,13 @@ public:
 	}
 
 protected slots:
-	void appuye() {
+	void boutonAppuye() {
 		Bouton* boutonAppuye = qobject_cast<Bouton*>(sender());
 
 		if (nClick) {
 			nClick--; 
 			position2 = boutonAppuye->getPosition();
-			bool mouvement = echiquier_.effectuerMouvement(position1.first, position1.second, position2.first, position2.second);
-			if (mouvement) {
-				for (int ligne = 0; ligne < nLignes; ligne++) {
-					for (int colonne = 0; colonne < nColonnes; colonne++)
-					{
-						QChar pieceVue;
-						identifierPiece(pieceVue, colonne, ligne);
-						matriceBoutons[ligne][colonne]->setText(pieceVue);	
-					}
-				}
-			}
-			else std::cout << "Mouvement invalide." << endl;
-
+			miseAJourVue(position1, position2);
 		}
 		else {
 			position1 = boutonAppuye->getPosition();
@@ -97,4 +85,18 @@ private:
 	std::pair<int, int> position1;
 	std::pair<int, int> position2;
 	Bouton* matriceBoutons[nLignes][nColonnes];
+	void miseAJourVue(std::pair<int, int> position1, std::pair<int, int> position2) {
+		bool mouvement = echiquier_.effectuerMouvement(position1.first, position1.second, position2.first, position2.second);
+		if (mouvement) {
+			for (int ligne = 0; ligne < nLignes; ligne++) {
+				for (int colonne = 0; colonne < nColonnes; colonne++)
+				{
+					QChar pieceVue;
+					identifierPiece(pieceVue, colonne, ligne);
+					matriceBoutons[ligne][colonne]->setText(pieceVue);
+				}
+			}
+		}
+		else std::cout << "Mouvement invalide." << endl;
+	}
 };

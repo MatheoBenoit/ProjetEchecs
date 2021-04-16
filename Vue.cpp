@@ -14,9 +14,9 @@
 #include <QPalette>
 #include <QGridLayout>
 
-Bouton::Bouton(QChar& piece, QWidget* parent, int x, int y) : QPushButton(piece, parent) {
-	x_ = x;
-	y_ = y;
+Bouton::Bouton(QChar& piece, QWidget* parent, int positionX, int positionY) : QPushButton(piece, parent) {
+	positionX_ = positionX;
+	positionY_ = positionY;
 }
 
 VueEchiquier::VueEchiquier(QWidget* parent, Echiquier& echiquier) : echiquier_(echiquier),  QMainWindow(parent) {
@@ -43,7 +43,7 @@ VueEchiquier::VueEchiquier(QWidget* parent, Echiquier& echiquier) : echiquier_(e
 			gridLayout->addWidget(bouton, nColonnes - 1 - colonne, ligne);
 			ajouterBouton(bouton, ligne, colonne);
 
-			QObject::connect(bouton, &QPushButton::clicked, this, &VueEchiquier::appuye);
+			QObject::connect(bouton, &QPushButton::clicked, this, &VueEchiquier::boutonAppuye);
 		}
 	}
 	setCentralWidget(widget);
