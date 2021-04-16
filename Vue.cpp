@@ -48,7 +48,7 @@ VueEchiquier::VueEchiquier(QWidget* parent, Echiquier& echiquier) : echiquier_(e
 					couleur ? pieceVue = QChar(0x265E) : pieceVue = QChar(0x2658);
 				}
 			}
-			bouton = new Bouton(pieceVue, this, ligne, colonne);
+			bouton = new Bouton(pieceVue, this, colonne, ligne);
 
 			QFont font = VueEchiquier::font();
 			font.setPointSize(45);
@@ -65,6 +65,9 @@ VueEchiquier::VueEchiquier(QWidget* parent, Echiquier& echiquier) : echiquier_(e
 			bouton->setAutoFillBackground(true);
 			bouton->setFlat(true);
 			bouton->setPalette(couleurVue);
+
+			QObject::connect(bouton, &QPushButton::clicked, bouton, &Bouton::appuye);
+			QObject::connect(bouton, &QPushButton::clicked, this, &VueEchiquier::appuye2);
 		}
 	}
 	setCentralWidget(widget);
