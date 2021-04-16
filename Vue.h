@@ -1,3 +1,10 @@
+/*
+* Fichier contenant les classes de la Vue du projet final et leurs fonctions.
+* file
+* author Benoit - Paraschivoiu et St - Arnaud
+* date    16 avril 2021
+* Créé le 14 avril 2021
+*/
 #pragma once
 #include <QApplication>
 #include <QPainter>
