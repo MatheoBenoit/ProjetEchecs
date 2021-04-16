@@ -55,7 +55,9 @@ VueEchiquier::VueEchiquier(QWidget* parent, Echiquier& echiquier) : echiquier_(e
 			bouton->setFixedSize(taille);
 
 			QColor couleur;
-			(ligne % 2) == (colonne % 2) ? couleur = QColor(255, 255, 255) : couleur = QColor(50, 137, 48);
+			(ligne % 2) == (colonne % 2) ? couleur = QColor(50, 137, 48): couleur = QColor(255, 255, 255);
+			(ligne % 2) == (colonne % 2) ? couleur = QColor(200,200,229) : couleur = QColor(255,255,255);
+
 
 			QPalette couleurVue = palette();
 			couleurVue.setColor(QPalette::Button, couleur);
