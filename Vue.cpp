@@ -23,37 +23,24 @@ VueEchiquier::VueEchiquier(QWidget* parent, Echiquier& echiquier) : echiquier_(e
 	
 	auto widget = new QWidget(this);
 	auto layout = new QVBoxLayout(widget);
-	auto vue = new QGridLayout();
+	auto gridLayout = new QGridLayout();
 
-	layout->addLayout(vue);
-	vue->setVerticalSpacing(0);
-	vue->setHorizontalSpacing(0);
+	layout->addLayout(gridLayout);
+	gridLayout->setVerticalSpacing(0);
+	gridLayout->setHorizontalSpacing(0);
 
 	for (int ligne = 0; ligne < nLignes; ligne++) {
 		for (int colonne = 0; colonne < nColonnes; colonne++)
 		{
-			Bouton* bouton;
 			QChar pieceVue;
 			identifierPiece(pieceVue, colonne, ligne);
-
-			bouton = new Bouton(pieceVue, this, colonne, ligne);
+			Bouton* bouton = new Bouton(pieceVue, this, colonne, ligne);
 
 			QFont font = VueEchiquier::font();
-			font.setPointSize(45);
-			bouton->setFont(font);
-			vue->addWidget(bouton, nColonnes - 1 - colonne, ligne);
-			QSize taille = QSize(100, 100);
-			bouton->setFixedSize(taille);
+			bouton->initialiserTaille(font);
+			bouton->initialiserCouleur(ligne, colonne);
 
-			QColor couleur;
-			(ligne % 2) == (colonne % 2) ? couleur = QColor(200,200,229) : couleur = QColor(255,255,255);
-
-			QPalette couleurVue = palette();
-			couleurVue.setColor(QPalette::Button, couleur);
-			bouton->setAutoFillBackground(true);
-			bouton->setFlat(true);
-			bouton->setPalette(couleurVue);
-
+			gridLayout->addWidget(bouton, nColonnes - 1 - colonne, ligne);
 			ajouterBouton(bouton, ligne, colonne);
 
 			QObject::connect(bouton, &QPushButton::clicked, this, &VueEchiquier::appuye);

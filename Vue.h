@@ -15,6 +15,24 @@ public:
 	std::pair<int, int> getPosition() {
 		return { x_, y_ };
 	}
+	void initialiserCouleur(int ligne, int colonne) {
+		QColor couleur;
+		(ligne % 2) == (colonne % 2) ? couleur = QColor(200, 200, 229) : couleur = QColor(255, 255, 255);
+
+		QPalette couleurVue = palette();
+		couleurVue.setColor(QPalette::Button, couleur);
+		setAutoFillBackground(true);
+		setFlat(true);
+		setPalette(couleurVue);
+	}
+
+	void initialiserTaille(QFont font) {
+		font.setPointSize(45);
+		setFont(font);
+		QSize taille = QSize(100, 100);
+		setFixedSize(taille);
+	}
+
 protected:
 	int x_;
 	int y_;
@@ -43,16 +61,16 @@ public:
 	}
 
 	void ajouterBouton(Bouton* bouton, int ligne, int colonne) {
-		matrice[ligne][colonne] = bouton;
+		matriceBoutons[ligne][colonne] = bouton;
 	}
 
-public slots:
+protected slots:
 	void appuye() {
-		Bouton* e = qobject_cast<Bouton*>(sender());
+		Bouton* boutonAppuye = qobject_cast<Bouton*>(sender());
 
-		if (count) {
-			position2 = e->getPosition();
-			count--; 
+		if (nClick) {
+			nClick--; 
+			position2 = boutonAppuye->getPosition();
 			bool mouvement = echiquier_.effectuerMouvement(position1.first, position1.second, position2.first, position2.second);
 			if (mouvement) {
 				for (int ligne = 0; ligne < nLignes; ligne++) {
@@ -60,7 +78,7 @@ public slots:
 					{
 						QChar pieceVue;
 						identifierPiece(pieceVue, colonne, ligne);
-						matrice[ligne][colonne]->setText(pieceVue);	
+						matriceBoutons[ligne][colonne]->setText(pieceVue);	
 					}
 				}
 			}
@@ -68,15 +86,15 @@ public slots:
 
 		}
 		else {
-			position1 = e->getPosition();
-			count++;
+			position1 = boutonAppuye->getPosition();
+			nClick++;
 		}
 	}
 
 private:
 	Echiquier& echiquier_;
-	int count = 0;
+	int nClick = 0;
 	std::pair<int, int> position1;
 	std::pair<int, int> position2;
-	Bouton* matrice[8][8];
+	Bouton* matriceBoutons[nLignes][nColonnes];
 };
