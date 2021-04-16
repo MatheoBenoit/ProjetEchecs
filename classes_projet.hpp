@@ -278,6 +278,7 @@ public:
 	}
 	
 	bool effectuerMouvement(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) {
+		std::cout << "allo";
 		bool retour;
 		Piece* echiquierTemporaire[8][8];
 		copiePeuProfonde(echiquierTemporaire, echiquier_);

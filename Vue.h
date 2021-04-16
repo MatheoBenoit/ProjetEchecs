@@ -11,19 +11,13 @@ class Bouton : public QPushButton{
 	Q_OBJECT
 public:
 	Bouton(QChar& piece, QWidget* parent, int x, int y);
+	std::pair<int, int> getPosition() {
+		return { x_, y_ };
+	}
 protected:
 	int x_;
 	int y_;
 public slots:
-	/*std::pair<int, int> appuye() {
-		return { x_, y_ };
-	}*/
-	void appuye() {
-		appuye1(x_, y_);
-	}
-	void appuye1(int x, int y) {
-		std::cout << x << " " << y << std::endl;
-	}
 
 };
 
@@ -37,10 +31,24 @@ signals:
 
 
 public slots:
-	void appuye2() {
-		echiquier_.effectuerMouvement(0, 0, 3, 0);
+	void appuye() {
+		Bouton* e = qobject_cast<Bouton*>(sender());
+
+		if (count) {
+			position2 = e->getPosition();
+			count--; 
+			bool mouvement = echiquier_.effectuerMouvement(position1.first, position1.second, position2.first, position2.second);
+			if (!mouvement) std::cout << "Mouvement invalide" << endl;
+		}
+		else {
+			position1 = e->getPosition();
+			count++;
+		}
 	}
 
 private:
 	Echiquier& echiquier_;
+	int count = 0;
+	std::pair<int, int> position1;
+	std::pair<int, int> position2;
 };

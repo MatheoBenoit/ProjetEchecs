@@ -66,8 +66,7 @@ VueEchiquier::VueEchiquier(QWidget* parent, Echiquier& echiquier) : echiquier_(e
 			bouton->setFlat(true);
 			bouton->setPalette(couleurVue);
 
-			QObject::connect(bouton, &QPushButton::clicked, bouton, &Bouton::appuye);
-			QObject::connect(bouton, &QPushButton::clicked, this, &VueEchiquier::appuye2);
+			QObject::connect(bouton, &QPushButton::clicked, this, &VueEchiquier::appuye);
 		}
 	}
 	setCentralWidget(widget);
