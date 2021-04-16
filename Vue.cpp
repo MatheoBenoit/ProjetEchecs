@@ -1,3 +1,10 @@
+/*
+* Fichier contenant l'implementation des methode des classe de la Vue du projet final.
+* file
+* author Benoit - Paraschivoiu et St - Arnaud
+* date    16 avril 2021
+* Créé le 14 avril 2021
+*/
 #include "Vue.h"
 #include <QApplication>
 #include <qwidget.h>
