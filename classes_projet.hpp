@@ -278,7 +278,6 @@ public:
 	}
 	
 	bool effectuerMouvement(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) {
-		std::cout << "allo";
 		bool retour;
 		Piece* echiquierTemporaire[8][8];
 		copiePeuProfonde(echiquierTemporaire, echiquier_);
@@ -287,7 +286,7 @@ public:
 		bool couleur = echiquier_[positionActuelleX][positionActuelleY]->getCouleur();
 		if (pieceEnChemin(positionActuelleX, positionActuelleY, positionVoulueX, positionVoulueY)) return false;
 		else if (echiquier_[positionVoulueX][positionVoulueY] != nullptr) { //donc il y a une piece
-			bool memeCouleur = echiquier_[positionVoulueX][positionVoulueY]->getCouleur() == echiquier_[positionActuelleX][positionActuelleY]->getCouleur();
+			bool memeCouleur = echiquier_[positionVoulueX][positionVoulueY]->getCouleur() == couleur;
 
 			if (memeCouleur) 
 				return false; //peut pas bouger sur une piece de ta couleur

@@ -34,20 +34,8 @@ VueEchiquier::VueEchiquier(QWidget* parent, Echiquier& echiquier) : echiquier_(e
 		{
 			Bouton* bouton;
 			QChar pieceVue;
-			if (echiquier_.getPiece(colonne, ligne))
-			{
-				Piece* piece = echiquier_.getPiece(colonne, ligne);
-				bool couleur = piece->getCouleur();
-				if (dynamic_cast<Roi*>(piece)) {
-					couleur ? pieceVue = QChar(0x265A) : pieceVue = QChar(0x2654);
-				}
-				else if (dynamic_cast<Tour*>(piece)) {
-					couleur ? pieceVue = QChar(0x265C) : pieceVue = QChar(0x2656);
-				}
-				else if (dynamic_cast<Cavalier*>(piece)) {
-					couleur ? pieceVue = QChar(0x265E) : pieceVue = QChar(0x2658);
-				}
-			}
+			mettrePiece(pieceVue, colonne, ligne);
+
 			bouton = new Bouton(pieceVue, this, colonne, ligne);
 
 			QFont font = VueEchiquier::font();
@@ -65,6 +53,8 @@ VueEchiquier::VueEchiquier(QWidget* parent, Echiquier& echiquier) : echiquier_(e
 			bouton->setAutoFillBackground(true);
 			bouton->setFlat(true);
 			bouton->setPalette(couleurVue);
+
+			ajouterBouton(bouton, ligne, colonne);
 
 			QObject::connect(bouton, &QPushButton::clicked, this, &VueEchiquier::appuye);
 		}
