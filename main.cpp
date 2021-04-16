@@ -50,7 +50,7 @@ int main(int argc, char* argv[])
 	calcWindow.show();*/
 	Echiquier echiquier;
 	//VueEchiquier vueEchiquier = VueEchiquier(nullptr, echiquier);
-	echiquier.effectuerMouvement(0, 0, 0, 1);
+	/*echiquier.effectuerMouvement(0, 0, 0, 1);
 	echiquier.effectuerMouvement(0, 0, 7, 0);
 	echiquier.effectuerMouvement(0, 0, 6, 0);
 	echiquier.effectuerMouvement(7, 7, 5, 7);
@@ -61,7 +61,7 @@ int main(int argc, char* argv[])
 	echiquier.effectuerMouvement(0, 1, 2, 2);
 	echiquier.effectuerMouvement(7, 7, 6, 7);
 	echiquier.effectuerMouvement(7, 7, 0, 7);
-	echiquier.effectuerMouvement(7, 7, 6, 7);
+	echiquier.effectuerMouvement(7, 7, 6, 7);*/
 	VueEchiquier vueEchiquier = VueEchiquier(nullptr, echiquier);
 	vueEchiquier.update();
 	vueEchiquier.show();
