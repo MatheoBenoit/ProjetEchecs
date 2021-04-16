@@ -71,7 +71,7 @@ protected slots:
 		if (nClick) {
 			nClick--; 
 			position2 = boutonAppuye->getPosition();
-			miseAJourVue(position1, position2);
+			miseAJourVue();
 		}
 		else {
 			position1 = boutonAppuye->getPosition();
@@ -85,7 +85,7 @@ private:
 	std::pair<int, int> position1;
 	std::pair<int, int> position2;
 	Bouton* matriceBoutons[nLignes][nColonnes];
-	void miseAJourVue(std::pair<int, int> position1, std::pair<int, int> position2) {
+	void miseAJourVue() {
 		bool mouvement = echiquier_.effectuerMouvement(position1.first, position1.second, position2.first, position2.second);
 		if (mouvement) {
 			for (int ligne = 0; ligne < nLignes; ligne++) {
