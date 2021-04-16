@@ -1,5 +1,5 @@
 /*
-* Fichier contenant les classes du projet final et leurs fonctions.
+* Fichier contenant les classes du modele du projet final et leurs fonctions.
 * file   
 * author Benoit - Paraschivoiu et St - Arnaud
 * date    8 avril 2021
@@ -304,6 +304,7 @@ public:
 			// on est alors en echec
 			// on veut remettre les pieces a letat initial et retourner faux
 			copiePeuProfonde(echiquier_, echiquierTemporaire);
+			echiquier_[positionActuelleX][positionActuelleY]->setPosition(positionActuelleX, positionActuelleY); // on remet les attributs de la piece en question a leur valeur initiale pusique le coup est impossible 
 			return false;
 		}
 		return retour;
