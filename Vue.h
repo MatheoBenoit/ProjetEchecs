@@ -60,9 +60,9 @@ public:
 	VueEchiquier(QWidget* parent, Echiquier& echiquier);
 	~VueEchiquier() override = default;
 	void identifierPiece(QChar& pieceVue, int colonne, int ligne) {
-		if (echiquier_.getPiece(colonne, ligne))
+		Piece* piece = echiquier_.getPiece(colonne, ligne);
+		if (piece)
 		{
-			Piece* piece = echiquier_.getPiece(colonne, ligne);
 			bool couleur = piece->getCouleur();
 			if (dynamic_cast<Roi*>(piece)) {
 				couleur ? pieceVue = QChar(0x265A) : pieceVue = QChar(0x2654);
@@ -83,17 +83,16 @@ public:
 protected slots:
 	void boutonAppuye() {
 		Bouton* boutonAppuye = qobject_cast<Bouton*>(sender());
-
 		if (nClick) {
 			nClick--; 
 			position2 = boutonAppuye->getPosition();
-			//matriceBoutons[position1.first][position1.second]->initialiserCouleur(position1.first, position1.second);
 			miseAJourVue();
+			matriceBoutons[position1.first][position1.second]->initialiserCouleur(position1.first, position1.second);
 		}
 		else {
 			position1 = boutonAppuye->getPosition();
 			nClick++;
-			//boutonAppuye->couleurCaseSelectionne();
+			boutonAppuye->couleurCaseSelectionne();
 		}
 	}
 
