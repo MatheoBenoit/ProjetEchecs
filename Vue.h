@@ -77,7 +77,7 @@ public:
 	}
 
 	void ajouterBouton(Bouton* bouton, int ligne, int colonne) {
-		matriceBoutons[ligne][colonne] = bouton;
+		matriceBoutons[ligne][colonne]= bouton;
 	}
 
 protected slots:
@@ -87,7 +87,7 @@ protected slots:
 			nClick--; 
 			position2 = boutonAppuye->getPosition();
 			miseAJourVue();
-			matriceBoutons[position1.first][position1.second]->initialiserCouleur(position1.first, position1.second);
+			matriceBoutons[position1.second][position1.first]->initialiserCouleur(position1.first, position1.second);
 		}
 		else {
 			position1 = boutonAppuye->getPosition();
