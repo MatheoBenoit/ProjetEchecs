@@ -84,37 +84,51 @@ public:
 protected slots:
 	void boutonAppuye() {
 		Bouton* boutonAppuye = qobject_cast<Bouton*>(sender());
-		if (nClick) {
-			nClick--; 
-			position2 = boutonAppuye->getPosition();
-			miseAJourVue();
+		if (premierClickFait) {
+			premierClickFait = false; 
 			matriceBoutons[position1.second][position1.first]->couleurNormal(position1.first, position1.second);
+			if (tourATour()) {
+				position2 = boutonAppuye->getPosition();
+				if (miseAJourVue) tourDesBlancs = !tourDesBlancs;
+			}
 		}
 		else {
 			position1 = boutonAppuye->getPosition();
-			nClick++;
+			premierClickFait = true;
 			boutonAppuye->couleurCaseSelectionne();
 		}
 	}
 
 private:
 	Echiquier& echiquier_;
-	int nClick = 0;
+	bool premierClickFait = false;
+	bool tourDesBlancs = true;
 	std::pair<int, int> position1;
 	std::pair<int, int> position2;
 	Bouton* matriceBoutons[nLignes][nColonnes];
-	void miseAJourVue() {
-		bool mouvement = echiquier_.effectuerMouvement(position1.first, position1.second, position2.first, position2.second);
-		if (mouvement) {
+	bool tourATour() {
+		Piece* piece = echiquier_.getPiece(position1.first, position1.second);
+		if (piece) {
+			bool couleur = piece->getCouleur();
+			if (!couleur == tourDesBlancs) return true;
+		}
+		std::cout << "Ce nest pas votre tour de jouer." << std::endl;
+		return false;
+	}
+	bool miseAJourVue() {
+		bool mouvementFait = echiquier_.effectuerMouvement(position1.first, position1.second, position2.first, position2.second);
+		if (mouvementFait) {
 			for (int ligne = 0; ligne < nLignes; ligne++) {
 				for (int colonne = 0; colonne < nColonnes; colonne++)
 				{
 					QChar pieceVue;
 					identifierPiece(pieceVue, colonne, ligne);
 					matriceBoutons[ligne][colonne]->setText(pieceVue);
+					return mouvementFait;
 				}
 			}
 		}
 		else std::cout << "Mouvement invalide." << endl;
+		return mouvementFait;
 	}
 };
