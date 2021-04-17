@@ -33,6 +33,15 @@ public:
 		setPalette(couleurVue);
 	}
 
+	void couleurCaseSelectionne() {
+		QColor couleur = QColor(255, 190, 125);
+		QPalette couleurVue = palette();
+		couleurVue.setColor(QPalette::Button, couleur);
+		setAutoFillBackground(true);
+		setFlat(true);
+		setPalette(couleurVue);
+	}
+
 	void initialiserTaille(QFont font) {
 		font.setPointSize(45);
 		setFont(font);
@@ -83,6 +92,7 @@ protected slots:
 		else {
 			position1 = boutonAppuye->getPosition();
 			nClick++;
+			boutonAppuye->couleurCaseSelectionne();
 		}
 	}
 
