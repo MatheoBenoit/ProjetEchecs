@@ -1,7 +1,7 @@
 /*
-* Fichier main.
-* file
-* author Benoit - Paraschivoiu et St - Arnaud
+* Fichier main pour rouler le code.
+* file main.cpp
+* auteurs Benoit - Paraschivoiu et St - Arnaud
 * date    8 avril 2021
 * Créé le 1 avril 2021
 */

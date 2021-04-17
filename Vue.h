@@ -1,7 +1,7 @@
 /*
 * Fichier contenant les classes de la Vue du projet final et leurs fonctions.
-* file
-* author Benoit - Paraschivoiu et St - Arnaud
+* file Vue.h
+* auteurs Benoit - Paraschivoiu et St - Arnaud
 * date    16 avril 2021
 * Créé le 14 avril 2021
 */
@@ -19,27 +19,28 @@ class Bouton : public QPushButton{
 	Q_OBJECT
 public:
 	Bouton(QChar& piece, QWidget* parent, int positionX, int positionY);
+	~Bouton() override = default;
 	std::pair<int, int> getPosition() {
 		return { positionX_, positionY_ };
 	}
-	void initialiserCouleur(int ligne, int colonne) {
-		QColor couleur;
-		(ligne % 2) == (colonne % 2) ? couleur = QColor(200, 200, 229) : couleur = QColor(255, 255, 255);
 
+	void initialiserCouleur(QColor couleur) {
 		QPalette couleurVue = palette();
 		couleurVue.setColor(QPalette::Button, couleur);
 		setAutoFillBackground(true);
 		setFlat(true);
 		setPalette(couleurVue);
+	}
+
+	void couleurNormal(int ligne, int colonne) {
+		QColor couleur;
+		(ligne % 2) == (colonne % 2) ? couleur = QColor(200, 200, 229) : couleur = QColor(255, 255, 255);
+		initialiserCouleur(couleur);
 	}
 
 	void couleurCaseSelectionne() {
 		QColor couleur = QColor(255, 190, 125);
-		QPalette couleurVue = palette();
-		couleurVue.setColor(QPalette::Button, couleur);
-		setAutoFillBackground(true);
-		setFlat(true);
-		setPalette(couleurVue);
+		initialiserCouleur(couleur);
 	}
 
 	void initialiserTaille(QFont font) {
@@ -87,7 +88,7 @@ protected slots:
 			nClick--; 
 			position2 = boutonAppuye->getPosition();
 			miseAJourVue();
-			matriceBoutons[position1.second][position1.first]->initialiserCouleur(position1.first, position1.second);
+			matriceBoutons[position1.second][position1.first]->couleurNormal(position1.first, position1.second);
 		}
 		else {
 			position1 = boutonAppuye->getPosition();

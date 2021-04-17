@@ -45,7 +45,7 @@ VueEchiquier::VueEchiquier(QWidget* parent, Echiquier& echiquier) : echiquier_(e
 
 			QFont font = VueEchiquier::font();
 			bouton->initialiserTaille(font);
-			bouton->initialiserCouleur(ligne, colonne);
+			bouton->couleurNormal(ligne, colonne);
 
 			gridLayout->addWidget(bouton, nColonnes - 1 - colonne, ligne);
 			ajouterBouton(bouton, ligne, colonne);

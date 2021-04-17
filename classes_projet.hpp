@@ -1,7 +1,7 @@
 /*
 * Fichier contenant les classes du modele du projet final et leurs fonctions.
-* file   
-* author Benoit - Paraschivoiu et St - Arnaud
+* file classes_projet.hpp
+* auteurs Benoit - Paraschivoiu et St - Arnaud
 * date    8 avril 2021
 * Créé le 1 avril 2021
 */
@@ -316,7 +316,7 @@ private:
 	bool echangerPiece(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY, bool pieceAdverse) {
 		if (echiquier_[positionActuelleX][positionActuelleY]->setPosition(positionVoulueX, positionVoulueY)) { //on change les attributs de la piece quon bouge si le mouvement est valide
 			if (!dynamic_cast<Roi*>(echiquier_[positionVoulueX][positionVoulueY])) {
-				//on rentre ici si le mouvement est valide
+				//on rentre ici si le mouvement est valide et quon ne mange pas un roi
 				if (pieceAdverse) delete echiquier_[positionVoulueX][positionVoulueY];
 				echiquier_[positionVoulueX][positionVoulueY] = echiquier_[positionActuelleX][positionActuelleY]; //on change sa position dans la matrice
 				echiquier_[positionActuelleX][positionActuelleY] = nullptr; //il y a maintenant rien a la position actuelle
