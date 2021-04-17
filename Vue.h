@@ -87,12 +87,13 @@ protected slots:
 		if (nClick) {
 			nClick--; 
 			position2 = boutonAppuye->getPosition();
+			//matriceBoutons[position1.first][position1.second]->initialiserCouleur(position1.first, position1.second);
 			miseAJourVue();
 		}
 		else {
 			position1 = boutonAppuye->getPosition();
 			nClick++;
-			boutonAppuye->couleurCaseSelectionne();
+			//boutonAppuye->couleurCaseSelectionne();
 		}
 	}
 
