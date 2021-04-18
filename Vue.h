@@ -5,7 +5,7 @@
 * date    16 avril 2021
 * Créé le 14 avril 2021
 */
-#pragma once
+#pragma warning(push, 0)
 #include <QApplication>
 #include <QPainter>
 #include <QPushButton>
@@ -13,6 +13,7 @@
 #include <QPaintEvent>
 #include <QMainWindow>
 #include <QChar>
+#pragma pop()
 #include "classes_projet.hpp"
 
 class Bouton : public QPushButton{

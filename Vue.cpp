@@ -6,6 +6,7 @@
 * Créé le 14 avril 2021
 */
 #include "Vue.h"
+#pragma warning(push, 0)
 #include <QApplication>
 #include <qwidget.h>
 #include <QPainter>
@@ -20,6 +21,7 @@
 #include <QColor>
 #include <QPalette>
 #include <QGridLayout>
+#pragma pop()
 
 Bouton::Bouton(QChar& piece, QWidget* parent, int positionX, int positionY) : QPushButton(piece, parent) {
 	positionX_ = positionX;
