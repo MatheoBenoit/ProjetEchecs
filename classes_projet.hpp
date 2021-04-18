@@ -7,11 +7,6 @@
 */
 #pragma once
 
-#include <QApplication>
-#include <QPainter>
-#include <qwidget.h>
-#include <QPaintEvent>
-#include <QMainWindow>
 #include <string>
 #include <utility>
 #include <cmath>
@@ -211,8 +206,7 @@ public:
 	}
 };*/
 
-class Echiquier : public QWidget {
-	Q_OBJECT
+class Echiquier {
 public:
 	Echiquier() {
 		for (int ligne = 0; ligne < nLignes; ligne++) {

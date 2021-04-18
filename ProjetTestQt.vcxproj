@@ -119,7 +119,7 @@
     <ClCompile Include="Test.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="classes_projet.hpp" />
+    <ClInclude Include="classes_projet.hpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Vue.h" />
