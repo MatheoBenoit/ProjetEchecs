@@ -89,10 +89,6 @@ protected slots:
 			matriceBoutons[position1.second][position1.first]->couleurNormal(position1.first, position1.second);
 			position2 = boutonAppuye->getPosition();
 			miseAJourVue();
-			//if (tourATour()) {
-			//	position2 = boutonAppuye->getPosition();
-			//	//if (miseAJourVue()) tourDesBlancs = !tourDesBlancs;
-			//}
 		}
 		else {
 			position1 = boutonAppuye->getPosition();
@@ -118,8 +114,8 @@ private:
 				tourDesBlancs = !tourDesBlancs;
 				return true;
 			}
+			std::cout << "Ce nest pas votre tour de jouer." << std::endl;
 		}
-		std::cout << "Ce nest pas votre tour de jouer." << std::endl;
 		return false;
 	}
 	void miseAJourVue() {
