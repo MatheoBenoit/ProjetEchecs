@@ -87,15 +87,19 @@ protected slots:
 		if (premierClickFait) {
 			premierClickFait = false; 
 			matriceBoutons[position1.second][position1.first]->couleurNormal(position1.first, position1.second);
-			if (tourATour()) {
-				position2 = boutonAppuye->getPosition();
-				if (miseAJourVue) tourDesBlancs = !tourDesBlancs;
-			}
+			position2 = boutonAppuye->getPosition();
+			miseAJourVue();
+			//if (tourATour()) {
+			//	position2 = boutonAppuye->getPosition();
+			//	//if (miseAJourVue()) tourDesBlancs = !tourDesBlancs;
+			//}
 		}
 		else {
 			position1 = boutonAppuye->getPosition();
-			premierClickFait = true;
-			boutonAppuye->couleurCaseSelectionne();
+			if (tourATour()) {
+				premierClickFait = true;
+				boutonAppuye->couleurCaseSelectionne();
+			}
 		}
 	}
 
@@ -110,12 +114,15 @@ private:
 		Piece* piece = echiquier_.getPiece(position1.first, position1.second);
 		if (piece) {
 			bool couleur = piece->getCouleur();
-			if (!couleur == tourDesBlancs) return true;
+			if (!couleur == tourDesBlancs) {
+				tourDesBlancs = !tourDesBlancs;
+				return true;
+			}
 		}
 		std::cout << "Ce nest pas votre tour de jouer." << std::endl;
 		return false;
 	}
-	bool miseAJourVue() {
+	void miseAJourVue() {
 		bool mouvementFait = echiquier_.effectuerMouvement(position1.first, position1.second, position2.first, position2.second);
 		if (mouvementFait) {
 			for (int ligne = 0; ligne < nLignes; ligne++) {
@@ -124,11 +131,9 @@ private:
 					QChar pieceVue;
 					identifierPiece(pieceVue, colonne, ligne);
 					matriceBoutons[ligne][colonne]->setText(pieceVue);
-					return mouvementFait;
 				}
 			}
 		}
 		else std::cout << "Mouvement invalide." << endl;
-		return mouvementFait;
 	}
 };
