@@ -23,38 +23,3 @@
 #include <QGridLayout>
 #pragma pop()
 
-Bouton::Bouton(QChar& piece, QWidget* parent, int positionX, int positionY) : QPushButton(piece, parent) {
-	positionX_ = positionX;
-	positionY_ = positionY;
-}
-
-VueEchiquier::VueEchiquier(QWidget* parent, Echiquier& echiquier) : echiquier_(echiquier),  QMainWindow(parent) {
-	
-	auto widget = new QWidget(this);
-	auto layout = new QVBoxLayout(widget);
-	auto gridLayout = new QGridLayout();
-
-	layout->addLayout(gridLayout);
-	gridLayout->setVerticalSpacing(0);
-	gridLayout->setHorizontalSpacing(0);
-
-	for (int ligne = 0; ligne < nLignes; ligne++) {
-		for (int colonne = 0; colonne < nColonnes; colonne++)
-		{
-			QChar pieceVue;
-			identifierPiece(pieceVue, colonne, ligne);
-			Bouton* bouton = new Bouton(pieceVue, this, colonne, ligne);
-
-			QFont font = VueEchiquier::font();
-			bouton->initialiserTaille(font);
-			bouton->couleurNormal(ligne, colonne);
-
-			gridLayout->addWidget(bouton, nColonnes - 1 - colonne, ligne);
-			ajouterBouton(bouton, ligne, colonne);
-
-			QObject::connect(bouton, &QPushButton::clicked, this, &VueEchiquier::boutonAppuye);
-		}
-	}
-	setCentralWidget(widget);
-	setWindowTitle("Jeu d'Echec");
-}

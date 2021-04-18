@@ -7,19 +7,29 @@
 */
 #pragma warning(push, 0)
 #include <QApplication>
-#include <QPainter>
 #include <QPushButton>
 #include <qwidget.h>
-#include <QPaintEvent>
 #include <QMainWindow>
 #include <QChar>
+#include <QMainWindow>
+#include <QGraphicsScene>
+#include <QGraphicsRectItem>
+#include <QLabel>
+#include <QVBoxLayout>
+#include <QWidget>
+#include <QColor>
+#include <QPalette>
+#include <QGridLayout>
 #pragma pop()
 #include "classes_projet.hpp"
 
 class Bouton : public QPushButton{
 	Q_OBJECT
 public:
-	Bouton(QChar& piece, QWidget* parent, int positionX, int positionY);
+	Bouton(QChar& piece, QWidget* parent, int positionX, int positionY) : QPushButton(piece, parent) {
+		positionX_ = positionX;
+		positionY_ = positionY;
+	}
 	~Bouton() override = default;
 	std::pair<int, int> getPosition() {
 		return { positionX_, positionY_ };
@@ -59,8 +69,39 @@ protected:
 class VueEchiquier : public QMainWindow {
 	Q_OBJECT
 public:
-	VueEchiquier(QWidget* parent, Echiquier& echiquier);
+	VueEchiquier(QWidget* parent, Echiquier& echiquier) : echiquier_(echiquier), QMainWindow(parent) {
+
+		auto widget = new QWidget(this);
+		auto layout = new QVBoxLayout(widget);
+		auto gridLayout = new QGridLayout();
+
+		layout->addLayout(gridLayout);
+		gridLayout->setVerticalSpacing(0);
+		gridLayout->setHorizontalSpacing(0);
+
+		for (int ligne = 0; ligne < nLignes; ligne++) {
+			for (int colonne = 0; colonne < nColonnes; colonne++)
+			{
+				QChar pieceVue;
+				identifierPiece(pieceVue, colonne, ligne);
+				Bouton* bouton = new Bouton(pieceVue, this, colonne, ligne);
+
+				QFont font = VueEchiquier::font();
+				bouton->initialiserTaille(font);
+				bouton->couleurNormal(ligne, colonne);
+
+				gridLayout->addWidget(bouton, nColonnes - 1 - colonne, ligne);
+				ajouterBouton(bouton, ligne, colonne);
+
+				QObject::connect(bouton, &QPushButton::clicked, this, &VueEchiquier::boutonAppuye);
+			}
+		}
+		setCentralWidget(widget);
+		setWindowTitle("Jeu d'Echec");
+	}
+
 	~VueEchiquier() override = default;
+
 	void identifierPiece(QChar& pieceVue, int colonne, int ligne) {
 		Piece* piece = echiquier_.getPiece(colonne, ligne);
 		if (piece)
@@ -107,6 +148,7 @@ private:
 	std::pair<int, int> position1;
 	std::pair<int, int> position2;
 	Bouton* matriceBoutons[nLignes][nColonnes];
+
 	bool tourATour() {
 		Piece* piece = echiquier_.getPiece(position1.first, position1.second);
 		if (piece) {
@@ -119,6 +161,7 @@ private:
 		}
 		return false;
 	}
+
 	void miseAJourVue() {
 		bool mouvementFait = echiquier_.effectuerMouvement(position1.first, position1.second, position2.first, position2.second);
 		if (mouvementFait) {

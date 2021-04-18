@@ -8,11 +8,6 @@
 #include "classes_projet.hpp"
 #include "Vue.h"
 
-#include <QApplication>
-#include <QGraphicsScene>
-#include <QGraphicsRectItem>
-#include <QLabel>
-
 #if __has_include("bibliotheque_cours.hpp")
 #include "bibliotheque_cours.hpp"
 #define BIBLIOTHEQUE_COURS_INCLUS
