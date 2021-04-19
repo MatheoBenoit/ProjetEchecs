@@ -129,7 +129,7 @@ namespace vue {
 				tourDesBlancs_ = !tourDesBlancs_;
 				return true;
 			}
-			std::cout << "Ce n'est pas votre tour de jouer." << std::endl;
+			std::cout << "Ce n'est pas à votre tour de jouer." << std::endl;
 			return false;
 		}
 		else {
