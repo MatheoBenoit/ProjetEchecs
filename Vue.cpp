@@ -125,11 +125,11 @@ namespace vue {
 		modele::Piece* piece = echiquier_.getPiece(positionChoisie_.first, positionChoisie_.second);
 		if (piece) { // si cette position de l echiquier est vide cela retourne un nullptr, equivalent donc a false
 			bool couleur = piece->getCouleur(); // retourne faux si blanc et vrai si noir
-			if (!couleur == tourDesBlancs_) { // on inverse donc la variable couleur pour savoir si c est le tour de la couleur selectionnee de jouer
+			if (!couleur == tourDesBlancs_) { // on inverse donc la variable couleur pour savoir si c est le tour de la couleur selectionnee de jouer (blanc est 0 selon limplementation faites plus tot alors que si cest au tour des blancs, la variable tourDesBlancs est a true)
 				tourDesBlancs_ = !tourDesBlancs_;
 				return true;
 			}
-			std::cout << "Ce n'est pas votre tour de jouer." << std::endl;
+			std::cout << "Ce n'est pas à votre tour de jouer." << std::endl;
 			return false;
 		}
 		else {

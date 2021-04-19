@@ -28,22 +28,15 @@ namespace vue {
 		Q_OBJECT
 	public:
 		Bouton(QChar& piece, QWidget* parent, int positionX, int positionY);
-
 		~Bouton() override = default;
-
 		std::pair<int, int> getPosition();
-
 		void initialiserCouleur(QColor couleur);
-
 		void couleurNormal(int ligne, int colonne);
-
 		void couleurCaseSelectionne();
-
 		void initialiserTaille(QFont font);
 
 	protected:
 		int positionX_;
-
 		int positionY_;
 	};
 
@@ -51,11 +44,8 @@ namespace vue {
 		Q_OBJECT
 	public:
 		VueEchiquier(QWidget* parent, modele::Echiquier& echiquier);
-
 		~VueEchiquier() override = default;
-
 		void identifierPiece(QChar& pieceVue, int colonne, int ligne) const;
-
 		void ajouterBouton(Bouton* bouton, int ligne, int colonne);
 
 	protected slots:
@@ -63,19 +53,12 @@ namespace vue {
 
 	private:
 		modele::Echiquier& echiquier_;
-
 		bool premierClickFait_ = false;
-
 		bool tourDesBlancs_ = true;
-
 		std::pair<int, int> positionChoisie_; // position sur l echiquier de la piece qu on veutb bouger
-
 		std::pair<int, int> positionVoulue_; // position ou on deplace la piece prealablement choisie
-
 		Bouton* matriceBoutons_[nLignes][nColonnes];
-
 		bool tourATour();
-
 		void miseAJourVue();
 	};
 }
