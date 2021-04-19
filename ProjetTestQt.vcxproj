@@ -116,13 +116,15 @@
     <ClCompile Include="bibliotheque_cours\verification_allocation.cpp" />
     <ClCompile Include="googletest\src\gtest-all.cc" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="modele.cpp" />
     <ClCompile Include="Test.cpp" />
+    <ClCompile Include="vue.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="classes_projet.hpp" />
+    <ClInclude Include="modele.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="Vue.h" />
+    <QtMoc Include="vue.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

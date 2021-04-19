@@ -5,7 +5,7 @@
 * date    8 avril 2021
 * Créé le 1 avril 2021
 */
-#include "classes_projet.hpp"
+#include "modele.hpp"
 
 #if __has_include("gtest/gtest.h")
 #include "gtest/gtest.h"

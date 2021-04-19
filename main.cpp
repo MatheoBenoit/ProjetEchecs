@@ -5,8 +5,8 @@
 * date    8 avril 2021
 * Créé le 1 avril 2021
 */
-#include "classes_projet.hpp"
-#include "Vue.h"
+#include "modele.hpp"
+#include "vue.hpp"
 
 #if __has_include("bibliotheque_cours.hpp")
 #include "bibliotheque_cours.hpp"

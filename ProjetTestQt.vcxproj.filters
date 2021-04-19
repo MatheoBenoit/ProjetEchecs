@@ -37,14 +37,20 @@
     <ClCompile Include="Test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="vue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="modele.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="Vue.h">
+    <QtMoc Include="vue.hpp">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="classes_projet.hpp">
+    <ClInclude Include="modele.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
