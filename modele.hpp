@@ -32,32 +32,23 @@ namespace modele {
 	class Piece {
 	public:
 		Piece(bool couleur);
-
 		virtual ~Piece() = default;
-		
 		Piece& operator= (const Piece& autrePiece);
-
 		bool setPosition(int positionLigne, int positionColonne);
-
 		std::pair<int, int> getPosition() const;
-
 		bool getCouleur() const;
-
 		virtual bool mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const;
 
 	protected:
 		int positionLigne_ = 0;
 		int positionColonne_ = 0;
 		bool couleur_; //0 = blanc, 1 = noir
-
 	};
 
 	class Roi : public Piece {
 	public:
 		Roi(bool couleur);
-
 		~Roi();
-
 		bool mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const override;
 
 	private:
@@ -67,42 +58,30 @@ namespace modele {
 	class Cavalier : public Piece {
 	public:
 		Cavalier(bool couleur, bool cote);
-
 		bool mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const override;
 	};
 
 	class Tour : public Piece {
 	public:
 		Tour(bool couleur, bool cote);
-
 		bool mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const override;
 	};
 
 	class Echiquier {
 	public:
 		Echiquier();
-
 		~Echiquier();
-
 		Piece* getPiece(int ligne, int colonne);
-
 		void copieProfonde(Piece* nouveauEchiquier[nLignes][nColonnes], Piece* echiquier[nLignes][nColonnes]);
-
-		Echiquier& operator=(const Echiquier& autre);
-
 		bool effectuerMouvement(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY);
 
 	private:
 		Piece* echiquier_[nLignes][nColonnes]; // nLignes, nColonnes = 8, car jeu d'échecs a 64 cases
-
 		bool echangerPiece(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY, bool pieceAdverse);
-
 		//puisque la seule piece dans notre cas qui peut rencontrer une piece dans son chemin est la tour, le code de cette methode sera implemente en consequent. 
 		//Si jamais une version complete du jeu voudra etre faites, le code suivant devra etre changer pour considerer que le fou et la reine (le pion aussi lorsquil avance de deux) pouraient avoir ce probleme.
 		bool pieceEnChemin(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY);
-
 		std::pair<int, int> getPositionRoi(bool couleur);
-
 		bool miseEnEchec(bool couleur);
 	};
 }
