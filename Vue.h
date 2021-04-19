@@ -176,7 +176,7 @@ namespace vue {
 				}
 			}
 			else {
-				std::cout << "Mouvement invalide." << endl;
+				std::cout << "Mouvement invalide." << std::endl;
 				tourDesBlancs = !tourDesBlancs; // on change le booleen pour que la couleur en jeu reprenne son coup jusqu'a se qu'il soit valide
 			}
 		}

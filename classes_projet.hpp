@@ -14,7 +14,7 @@
 #include <vector>
 #include <memory>
 #include <algorithm>
-using namespace std;
+
 static constexpr int gauche = 0;
 static constexpr int droite = 1;
 static constexpr int blanc = 0;
@@ -24,9 +24,9 @@ static constexpr int nColonnes = 8;
 static constexpr int nRoi = 2;
 
 namespace modele {
-	class ConstructionInvalide : public logic_error {
+	class ConstructionInvalide : public std::logic_error {
 	public:
-		using logic_error::logic_error;
+		using std::logic_error::logic_error;
 	};
 
 	class Piece {
@@ -54,7 +54,7 @@ namespace modele {
 			}
 		}
 
-		pair<int, int> getPosition() const { return { positionLigne_, positionColonne_ }; }
+		std::pair<int, int> getPosition() const { return { positionLigne_, positionColonne_ }; }
 
 		bool getCouleur() const { return couleur_; }
 
@@ -233,7 +233,7 @@ namespace modele {
 					}
 					catch (ConstructionInvalide& e)
 					{
-						cout << "Erreur: " << e.what() << "Cette construction a ete blocque.";
+						std::cout << "Erreur: " << e.what() << "Cette construction a ete blocque.";
 					}
 				}
 			}
@@ -326,9 +326,9 @@ namespace modele {
 		//Si jamais une version complete du jeu voudra etre faites, le code suivant devra etre changer pour considerer que le fou et la reine (le pion aussi lorsquil avance de deux) pouraient avoir se probleme.
 		bool pieceEnChemin(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) {
 			if (dynamic_cast<Tour*>(echiquier_[positionActuelleX][positionActuelleY]) == nullptr) return false;
-			pair<int, int> position;
+			std::pair<int, int> position;
 			int variationLigne = abs(positionActuelleX - positionVoulueX);
-			variationLigne > 0 ? position = minmax(positionActuelleX, positionVoulueX) : position = minmax(positionActuelleY, positionVoulueY);
+			variationLigne > 0 ? position = std::minmax(positionActuelleX, positionVoulueX) : position = std::minmax(positionActuelleY, positionVoulueY);
 
 			bool enChemin;
 			for (int i = position.first + 1; i < position.second; i++) { //on ne regarde pas sil y a une piece a la positon acteulle ni voulu, car ceci est deja considerer dans la fonction effectuerMouvement
@@ -338,7 +338,7 @@ namespace modele {
 			return false;
 		}
 
-		pair<int, int> getPositionRoi(bool couleur) {
+		std::pair<int, int> getPositionRoi(bool couleur) {
 			for (int ligne = 0; ligne < nLignes; ligne++)
 			{
 				for (int colonne = 0; colonne < nColonnes; colonne++)
