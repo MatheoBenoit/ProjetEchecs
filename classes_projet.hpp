@@ -252,7 +252,7 @@ namespace modele {
 			return echiquier_[ligne][colonne];
 		}
 
-		void copiePeuProfonde(Piece* nouveauEchiquier[8][8], Piece* echiquier[8][8]) {
+		void copieProfonde(Piece* nouveauEchiquier[8][8], Piece* echiquier[8][8]) {
 			for (int ligne = 0; ligne < nLignes; ligne++)
 			{
 				for (int colonne = 0; colonne < nColonnes; colonne++)
@@ -276,7 +276,7 @@ namespace modele {
 		bool effectuerMouvement(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) {
 			bool retour;
 			Piece* echiquierTemporaire[8][8];
-			copiePeuProfonde(echiquierTemporaire, echiquier_);
+			copieProfonde(echiquierTemporaire, echiquier_);
 
 			if (echiquier_[positionActuelleX][positionActuelleY] == nullptr) return false; //peut pas bouger une piece qui existe pas
 			bool couleur = echiquier_[positionActuelleX][positionActuelleY]->getCouleur();
@@ -299,7 +299,7 @@ namespace modele {
 			if (retour && miseEnEchec(couleur)) {
 				// on est alors en echec
 				// on veut remettre les pieces a letat initial et retourner faux
-				copiePeuProfonde(echiquier_, echiquierTemporaire);
+				copieProfonde(echiquier_, echiquierTemporaire);
 				echiquier_[positionActuelleX][positionActuelleY]->setPosition(positionActuelleX, positionActuelleY); // on remet les attributs de la piece en question a leur valeur initiale pusique le coup est impossible 
 				return false;
 			}
