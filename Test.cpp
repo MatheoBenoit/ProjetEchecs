@@ -13,6 +13,7 @@
 #ifdef TEST
 
 TEST(TestRoi, TestInitilisation) {
+	using namespace modele;
 	Roi roi = Roi(blanc);
 	EXPECT_EQ(blanc, roi.getCouleur());
 	EXPECT_EQ(0, roi.getPosition().first);
@@ -25,6 +26,7 @@ TEST(TestRoi, TestInitilisation) {
 }
 
 TEST(TestRoi, TestMouvement) {
+	using namespace modele;
 	Roi roi = Roi(blanc);
 	//tests avec des mouvements valides
 	EXPECT_TRUE(roi.setPosition(0, 5));
@@ -39,6 +41,7 @@ TEST(TestRoi, TestMouvement) {
 }
 
 TEST(TestCavalier, TestInitilisation) {
+	using namespace modele;
 	Cavalier cav = Cavalier(blanc, gauche);
 	EXPECT_EQ(blanc, cav.getCouleur());
 	EXPECT_EQ(0, cav.getPosition().first);
@@ -51,6 +54,7 @@ TEST(TestCavalier, TestInitilisation) {
 }
 
 TEST(TestCavalier, TestMouvement) {
+	using namespace modele;
 	Cavalier cav = Cavalier(blanc, gauche);
 	//tests avec des mouvements valides
 	EXPECT_TRUE(cav.setPosition(2, 2));
@@ -65,6 +69,7 @@ TEST(TestCavalier, TestMouvement) {
 }
 
 TEST(TestTour, TestInitilisation) {
+	using namespace modele;
 	Tour tour = Tour(blanc, gauche);
 	EXPECT_EQ(blanc, tour.getCouleur());
 	EXPECT_EQ(0, tour.getPosition().first);
@@ -77,6 +82,7 @@ TEST(TestTour, TestInitilisation) {
 }
 
 TEST(TestTour, TestMouvement) {
+	using namespace modele;
 	Tour tour = Tour(blanc, gauche);
 	//tests avec des mouvements valides
 	EXPECT_TRUE(tour.setPosition(0, 2));
@@ -91,6 +97,7 @@ TEST(TestTour, TestMouvement) {
 }
 
 TEST(TestEchiquier, TestMouvement) {
+	using namespace modele;
 	Echiquier echiquier = Echiquier();
 	// test de mouvement invalide pour une tour...
 	EXPECT_FALSE(echiquier.effectuerMouvement(0, 0, 2, 1));
@@ -114,6 +121,7 @@ TEST(TestEchiquier, TestMouvement) {
 }
 
 TEST(TestEchiquier, TestPieceEnChemin) {
+	using namespace modele;
 	Echiquier echiquier = Echiquier();
 	echiquier.effectuerMouvement(7, 0, 4, 0);
 
@@ -129,6 +137,7 @@ TEST(TestEchiquier, TestPieceEnChemin) {
 }
 
 TEST(TestEchiquier, TestManger) {
+	using namespace modele;
 	Echiquier echiquier = Echiquier();
 	Tour tourNoire = Tour(noir, gauche);
 	Tour tourBlanche = Tour(blanc, gauche);
@@ -154,6 +163,7 @@ TEST(TestEchiquier, TestManger) {
 }
 
 TEST(TestEchiquier, TestMiseEnEchec){
+	using namespace modele;
 	Echiquier echiquier = Echiquier();
 	EXPECT_TRUE(echiquier.effectuerMouvement(0, 0, 2, 0));
 	EXPECT_TRUE(echiquier.effectuerMouvement(2, 0, 2, 4)); // echec de la tour blanche
