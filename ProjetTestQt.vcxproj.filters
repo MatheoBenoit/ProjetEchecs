@@ -34,13 +34,13 @@
     <ClCompile Include="googletest\src\gtest-all.cc">
       <Filter>Sources Bibliotheques</Filter>
     </ClCompile>
-    <ClCompile Include="Test.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="vue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="modele.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

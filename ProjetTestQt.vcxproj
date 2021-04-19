@@ -117,7 +117,7 @@
     <ClCompile Include="googletest\src\gtest-all.cc" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="modele.cpp" />
-    <ClCompile Include="Test.cpp" />
+    <ClCompile Include="tests.cpp" />
     <ClCompile Include="vue.cpp" />
   </ItemGroup>
   <ItemGroup>
