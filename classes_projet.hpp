@@ -21,6 +21,7 @@ static constexpr int blanc = 0;
 static constexpr int noir = 1;
 static constexpr int nLignes = 8;
 static constexpr int nColonnes = 8;
+static constexpr int nRoi = 2;
 
 namespace modele {
 	class ConstructionInvalide : public logic_error {
@@ -54,9 +55,10 @@ namespace modele {
 		}
 
 		pair<int, int> getPosition() const { return { positionLigne_, positionColonne_ }; }
+
 		bool getCouleur() const { return couleur_; }
 
-		virtual bool mouvementValide(int positionLigneVoulue, int positionColonneVoulue) {
+		virtual bool mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const {
 			if ((positionLigneVoulue < 0) | (positionLigneVoulue >= nLignes)) return false;
 			else if ((positionColonneVoulue < 0) | (positionColonneVoulue >= nColonnes)) return false;
 			else if ((positionColonneVoulue == positionColonne_ && positionLigneVoulue == positionLigne_)) return false;
@@ -73,9 +75,7 @@ namespace modele {
 	class Roi : public Piece {
 	public:
 		Roi(bool couleur) : Piece(couleur) {
-			try
-			{
-				if (compteur_ >= 2) {
+				if (compteur_ >= nRoi) {
 					throw ConstructionInvalide("Plus de deux instances de roi on ete construite.");
 				}
 				else {
@@ -83,17 +83,12 @@ namespace modele {
 					couleur ? positionLigne_ = 7, positionColonne_ = 4 : positionLigne_ = 0, positionColonne_ = 4;
 					//        roi noir                                   roi blanc
 				}
-			}
-			catch (ConstructionInvalide& e)
-			{
-				cout << "Erreur: " << e.what() << "Cette construction a ete blocque.";
-			}
 		}
 		~Roi() {
 			compteur_--;
 		}
 
-		bool mouvementValide(int positionLigneVoulue, int positionColonneVoulue) override {
+		bool mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const override {
 			if (Piece::mouvementValide(positionLigneVoulue, positionColonneVoulue)) {
 
 				bool validationLigne = abs(positionLigne_ - positionLigneVoulue) <= 1;
@@ -125,7 +120,7 @@ namespace modele {
 			}
 		}
 
-		bool mouvementValide(int positionLigneVoulue, int positionColonneVoulue) override {
+		bool mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const override {
 			if (Piece::mouvementValide(positionLigneVoulue, positionColonneVoulue)) {
 				int variationLigne = abs(positionLigne_ - positionLigneVoulue);
 				int variationColonne = abs(positionColonne_ - positionColonneVoulue);
@@ -155,7 +150,7 @@ namespace modele {
 			}
 		}
 
-		bool mouvementValide(int positionLigneVoulue, int positionColonneVoulue) {
+		bool mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const override {
 			if (Piece::mouvementValide(positionLigneVoulue, positionColonneVoulue)) {
 				int variationLigne = abs(positionLigne_ - positionLigneVoulue);
 				int variationColonne = abs(positionColonne_ - positionColonneVoulue);
@@ -212,27 +207,33 @@ namespace modele {
 		Echiquier() {
 			for (int ligne = 0; ligne < nLignes; ligne++) {
 				for (int colonne = 0; colonne < nColonnes; colonne++) {
+					try
+					{
+						echiquier_[ligne][colonne] = nullptr;
+						if (ligne == 0) {
 
-					echiquier_[ligne][colonne] = nullptr;
-					if (ligne == 0) {
+							if (colonne == 0) echiquier_[ligne][colonne] = new Tour(blanc, gauche);
+							if (colonne == 1) echiquier_[ligne][colonne] = new Cavalier(blanc, gauche);
+							else if (colonne == 4) echiquier_[ligne][colonne] = new Roi(blanc);
+							else if (colonne == 6) echiquier_[ligne][colonne] = new Cavalier(blanc, droite);
+							else if (colonne == 7) echiquier_[ligne][colonne] = new Tour(blanc, droite);
+						}
+						//else if (ligne == 1) echiquier_[ligne][colonne] = new Pion(BLANC, colonne); // pions blancs
 
-						if (colonne == 0) echiquier_[ligne][colonne] = new Tour(blanc, gauche);
-						if (colonne == 1) echiquier_[ligne][colonne] = new Cavalier(blanc, gauche);
-						else if (colonne == 4) echiquier_[ligne][colonne] = new Roi(blanc);
-						else if (colonne == 6) echiquier_[ligne][colonne] = new Cavalier(blanc, droite);
-						else if (colonne == 7) echiquier_[ligne][colonne] = new Tour(blanc, droite);
+						//else if (ligne == 6) echiquier_[ligne][colonne] = new Pion(NOIR, colonne); // pions noirs
+
+						else if (ligne == 7) {
+
+							if (colonne == 0) echiquier_[ligne][colonne] = new Tour(noir, gauche);
+							else if (colonne == 1) echiquier_[ligne][colonne] = new Cavalier(noir, gauche);
+							else if (colonne == 4) echiquier_[ligne][colonne] = new Roi(noir);
+							else if (colonne == 6) echiquier_[ligne][colonne] = new Cavalier(noir, droite);
+							else if (colonne == 7) echiquier_[ligne][colonne] = new Tour(noir, droite);
+						}
 					}
-					//else if (ligne == 1) echiquier_[ligne][colonne] = new Pion(BLANC, colonne); // pions blancs
-
-					//else if (ligne == 6) echiquier_[ligne][colonne] = new Pion(NOIR, colonne); // pions noirs
-
-					else if (ligne == 7) {
-
-						if (colonne == 0) echiquier_[ligne][colonne] = new Tour(noir, gauche);
-						else if (colonne == 1) echiquier_[ligne][colonne] = new Cavalier(noir, gauche);
-						else if (colonne == 4) echiquier_[ligne][colonne] = new Roi(noir);
-						else if (colonne == 6) echiquier_[ligne][colonne] = new Cavalier(noir, droite);
-						else if (colonne == 7) echiquier_[ligne][colonne] = new Tour(noir, droite);
+					catch (ConstructionInvalide& e)
+					{
+						cout << "Erreur: " << e.what() << "Cette construction a ete blocque.";
 					}
 				}
 			}

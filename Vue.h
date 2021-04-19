@@ -103,7 +103,7 @@ namespace vue {
 
 		~VueEchiquier() override = default;
 
-		void identifierPiece(QChar& pieceVue, int colonne, int ligne) {
+		void identifierPiece(QChar& pieceVue, int colonne, int ligne) const {
 			modele::Piece* piece = echiquier_.getPiece(colonne, ligne);
 			if (piece)
 			{
