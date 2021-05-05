@@ -59,7 +59,8 @@ namespace vue {
 		gridLayout->setVerticalSpacing(0);
 		gridLayout->setHorizontalSpacing(0);
 
-		for (int ligne = 0; ligne < nLignes; ligne++) {
+		for (int ligne = 0; ligne < nLignes; ligne++) 
+		{
 			for (int colonne = 0; colonne < nColonnes; colonne++)
 			{
 				QChar pieceVue;
@@ -76,6 +77,12 @@ namespace vue {
 				QObject::connect(bouton, &QPushButton::clicked, this, &VueEchiquier::boutonAppuye);
 			}
 		}
+		QPushButton* bouton = new QPushButton("&Partie1");
+		gridLayout->addWidget(bouton, 9, 4);
+		QObject::connect(bouton, &QPushButton::clicked, this, &VueEchiquier::boutonAppuye);
+		QPushButton* bouton2 = new QPushButton("&Partie2");
+		gridLayout->addWidget(bouton2, 9, 3);
+
 		setCentralWidget(widget);
 		setWindowTitle("Jeu d'Echec");
 	}

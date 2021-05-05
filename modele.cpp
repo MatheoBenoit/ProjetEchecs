@@ -13,6 +13,11 @@ namespace modele {
 
 	Piece::Piece(bool couleur) { couleur_ = couleur; }
 
+	Piece::Piece(bool couleur, int positionLigne, int positionColonne) : Piece(couleur) {
+		positionLigne_ = positionLigne;
+		positionColonne_ = positionColonne;
+	}
+
 	Piece & Piece::operator= (const Piece & autrePiece) {
 		if (this != &autrePiece) {
 			positionLigne_ = autrePiece.positionLigne_;
@@ -57,6 +62,9 @@ namespace modele {
 			//        roi noir                                   roi blanc
 		}
 	}
+
+	Roi::Roi(bool couleur, int positionLigne, int positionColonne) : Piece(couleur, positionLigne, positionColonne) {}
+
 	Roi::~Roi() {
 		compteur_--;
 	}
@@ -89,6 +97,8 @@ namespace modele {
 		}
 	}
 
+	Cavalier::Cavalier(bool couleur, int positionLigne, int positionColonne) : Piece(couleur, positionLigne, positionColonne) {}
+
 	bool Cavalier::mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const {
 		if (Piece::mouvementValide(positionLigneVoulue, positionColonneVoulue)) {
 			int variationLigne = abs(positionLigne_ - positionLigneVoulue);
@@ -117,6 +127,8 @@ namespace modele {
 			//     a droite                                   a gauche
 		}
 	}
+
+	Tour::Tour(bool couleur, int positionLigne, int positionColonne) : Piece(couleur, positionLigne, positionColonne) {}
 
 	bool Tour::mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const {
 		if (Piece::mouvementValide(positionLigneVoulue, positionColonneVoulue)) {
@@ -158,7 +170,7 @@ namespace modele {
 				}
 				catch (ConstructionInvalide& e)
 				{
-					std::cout << "Erreur: " << e.what() << "Cette construction a ete blocque.";
+					std::cout << "Erreur: " << e.what() << "Cette construction a ete bloque.";
 				}
 			}
 		}

@@ -8,7 +8,7 @@
 #pragma warning(push, 0)
 #include <QApplication>
 #include <QPushButton>
-#include <qwidget.h>
+#include <Qwidget.h>
 #include <QMainWindow>
 #include <QChar>
 #include <QMainWindow>
