@@ -144,7 +144,7 @@ namespace modele {
 
 	// methodes de la classe Echiquier
 	
-	Echiquier::Echiquier() {
+	Echiquier::Echiquier() { 
 		for (int ligne = 0; ligne < nLignes; ligne++) {
 			for (int colonne = 0; colonne < nColonnes; colonne++) {
 				try
@@ -166,6 +166,42 @@ namespace modele {
 						else if (colonne == 4) echiquier_[ligne][colonne] = new Roi(noir);
 						else if (colonne == 6) echiquier_[ligne][colonne] = new Cavalier(noir, droite);
 						else if (colonne == 7) echiquier_[ligne][colonne] = new Tour(noir, droite);
+					}
+				}
+				catch (ConstructionInvalide& e)
+				{
+					std::cout << "Erreur: " << e.what() << "Cette construction a ete bloque.";
+				}
+			}
+		}
+	}
+
+	Echiquier::Echiquier(std::string nomFichier) { // la lecture des positions se fait selon une notation tres similaire a la notation FEN
+		std::ifstream fichier(nomFichier);
+		for (int ligne = 0; ligne < nLignes; ligne++) {
+			for (int colonne = 0; colonne < nColonnes; colonne++) {
+				try
+				{
+					char caractereFEN;
+					fichier >> caractereFEN;
+					//std::cout << int(caractereFEN);
+
+					//echiquier_[ligne][colonne] = nullptr;
+
+					if (caractereFEN == '/') colonne -= 1; // ce caractere sert a delimiter une nouvelle ligne en notation FEN, on veut qu'il agisse comme iteration vide
+					else if(caractereFEN == 't') echiquier_[ligne][colonne] = new Tour(noir, ligne, colonne);
+					else if (caractereFEN == 'T') echiquier_[ligne][colonne] = new Tour(blanc, ligne, colonne);
+					else if (caractereFEN == 'c') echiquier_[ligne][colonne] = new Cavalier(noir, ligne, colonne);
+					else if (caractereFEN == 'C') echiquier_[ligne][colonne] = new Cavalier(blanc, ligne, colonne);
+					else if (caractereFEN == 'r') echiquier_[ligne][colonne] = new Roi(noir, ligne, colonne);
+					else if (caractereFEN == 'R') echiquier_[ligne][colonne] = new Roi(blanc, ligne, colonne);
+					else {
+						int iterations = caractereFEN - zeroEnASCII;
+						for (int i = 0; i < iterations; i++)
+						{
+							echiquier_[ligne][colonne + i] = nullptr;
+						}
+						colonne += iterations - 1;
 					}
 				}
 				catch (ConstructionInvalide& e)

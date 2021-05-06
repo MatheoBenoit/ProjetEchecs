@@ -11,9 +11,11 @@
 #include <utility>
 #include <cmath>
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <memory>
 #include <algorithm>
+#include <string>
 
 static constexpr int gauche = 0;
 static constexpr int droite = 1;
@@ -22,6 +24,7 @@ static constexpr int noir = 1;
 static constexpr int nLignes = 8;
 static constexpr int nColonnes = 8;
 static constexpr int nRoi = 2;
+static constexpr int zeroEnASCII = 48;
 
 namespace modele {
 	class ConstructionInvalide : public std::logic_error {
@@ -73,7 +76,8 @@ namespace modele {
 
 	class Echiquier {
 	public:
-		Echiquier();
+		Echiquier(); // construit un echiquier avec la position des pieces standard de début de partie
+		Echiquier(std::string nomFichier); // construit un echiquier avec les position des pieces ecrite dans un fichier
 		~Echiquier();
 		Piece* getPiece(int ligne, int colonne);
 		void copieProfonde(Piece* nouveauEchiquier[nLignes][nColonnes], Piece* echiquier[nLignes][nColonnes]);
