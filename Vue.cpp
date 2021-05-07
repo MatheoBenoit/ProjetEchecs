@@ -90,11 +90,13 @@ namespace vue {
 		connect(&mapper, SIGNAL(mappedString(QString)), this, SLOT(initialiserPartie(QString)));*/
 
 		QPushButton* bouton1 = new QPushButton("&Partie1");
-		gridLayout->addWidget(bouton1, 4, 9);
+		bouton1->setFixedSize(QSize(100, 100));
+		gridLayout->addWidget(bouton1, 3, nColonnes + 1);
 		QObject::connect(bouton1, &QPushButton::clicked, this, &VueEchiquier::initPartie1);
 
 		QPushButton* bouton2 = new QPushButton("&Partie2");
-		gridLayout->addWidget(bouton2, 5, 9);
+		gridLayout->addWidget(bouton2, 4, nColonnes + 1);
+		bouton2->setFixedSize(QSize(100, 100));
 		QObject::connect(bouton2, &QPushButton::clicked, this, &VueEchiquier::initPartie2);
 
 		setCentralWidget(widget);
