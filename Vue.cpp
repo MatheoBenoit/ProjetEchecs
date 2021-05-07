@@ -72,29 +72,29 @@ namespace vue {
 				gridLayout->addWidget(bouton, nColonnes - 1 - colonne, ligne);
 				ajouterBouton(bouton, ligne, colonne);
 
-				QObject::connect(bouton, &QPushButton::clicked, this, &VueEchiquier::boutonAppuye);
+				connect(bouton, &QPushButton::clicked, this, &VueEchiquier::boutonAppuye);
 			}
 		}
 		/*QSignalMapper mapper;
 
 		QPushButton* bouton1 = new QPushButton("&Partie1");
 		gridLayout->addWidget(bouton1, 9, 4);
-		QObject::connect(bouton1, SIGNAL(clicked()), &mapper, SLOT(map()));
+		connect(bouton1, SIGNAL(clicked()), &mapper, SLOT(map()));
 		mapper.setMapping(bouton1, "Partie1.txt");
 
 		QPushButton* bouton2 = new QPushButton("&Partie2");
 		gridLayout->addWidget(bouton2, 9, 3);
-		QObject::connect(bouton2, SIGNAL(clicked()), &mapper, SLOT(map()));
+		connect(bouton2, SIGNAL(clicked()), &mapper, SLOT(map()));
 		mapper.setMapping(bouton2, "Partie2.txt");
 
-		connect(&mapper, SIGNAL(mappedString(std::string)), this, SLOT(initialiserPartie(std::string)));*/
+		connect(&mapper, SIGNAL(mappedString(QString)), this, SLOT(initialiserPartie(QString)));*/
 
 		QPushButton* bouton1 = new QPushButton("&Partie1");
-		gridLayout->addWidget(bouton1, 9, 4);
+		gridLayout->addWidget(bouton1, 4, 9);
 		QObject::connect(bouton1, &QPushButton::clicked, this, &VueEchiquier::initPartie1);
 
 		QPushButton* bouton2 = new QPushButton("&Partie2");
-		gridLayout->addWidget(bouton2, 9, 3);
+		gridLayout->addWidget(bouton2, 5, 9);
 		QObject::connect(bouton2, &QPushButton::clicked, this, &VueEchiquier::initPartie2);
 
 		setCentralWidget(widget);
@@ -181,9 +181,11 @@ namespace vue {
 		}
 	}
 
-	void VueEchiquier::initialiserPartie(std::string fichier) {
+	void VueEchiquier::initialiserPartie(QString fichier) {
 		echiquier_.~Echiquier();
-		echiquier_ = *new modele::Echiquier(fichier);
+		std::cout << "allo";
+		std::string string = fichier.toUtf8().constData();
+		echiquier_ = *new modele::Echiquier(string);
 		mettrePieces();
 	}
 
@@ -197,6 +199,5 @@ namespace vue {
 		echiquier_.~Echiquier();
 		echiquier_ = *new modele::Echiquier("Partie2.txt");
 		mettrePieces();
-
 	}
 }

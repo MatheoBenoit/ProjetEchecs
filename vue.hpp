@@ -51,7 +51,7 @@ namespace vue {
 
 	protected slots:
 		void boutonAppuye();
-		void initialiserPartie(std::string fichier);
+		void initialiserPartie(QString fichier);
 		void initPartie1();
 		void initPartie2();
 
