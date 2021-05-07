@@ -149,24 +149,7 @@ namespace modele {
 			for (int colonne = 0; colonne < nColonnes; colonne++) {
 				try
 				{
-					echiquier_[ligne][colonne] = nullptr;
-					/*if (ligne == 0) {
-
-						if (colonne == 0) echiquier_[ligne][colonne] = new Tour(blanc, gauche);
-						if (colonne == 1) echiquier_[ligne][colonne] = new Cavalier(blanc, gauche);
-						else if (colonne == 4) echiquier_[ligne][colonne] = new Roi(blanc);
-						else if (colonne == 6) echiquier_[ligne][colonne] = new Cavalier(blanc, droite);
-						else if (colonne == 7) echiquier_[ligne][colonne] = new Tour(blanc, droite);
-					}
-
-					else if (ligne == 7) {
-
-						if (colonne == 0) echiquier_[ligne][colonne] = new Tour(noir, gauche);
-						else if (colonne == 1) echiquier_[ligne][colonne] = new Cavalier(noir, gauche);
-						else if (colonne == 4) echiquier_[ligne][colonne] = new Roi(noir);
-						else if (colonne == 6) echiquier_[ligne][colonne] = new Cavalier(noir, droite);
-						else if (colonne == 7) echiquier_[ligne][colonne] = new Tour(noir, droite);
-					}*/
+					echiquier_[ligne][colonne] = nullptr
 				}
 				catch (ConstructionInvalide& e)
 				{
