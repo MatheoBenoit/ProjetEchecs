@@ -41,8 +41,8 @@ int main(int argc, char* argv[])
 	QApplication app(argc, argv);
 	initialiserBibliothequeCours(argc, argv);
 
-	modele::Echiquier echiquier;
-	vue::VueEchiquier vueEchiquier = vue::VueEchiquier(nullptr, echiquier);
+	modele::Echiquier echiquier; //construction dun echiquier par default
+	vue::VueEchiquier vueEchiquier = vue::VueEchiquier(nullptr, echiquier); //construction de la vue de lechiquier
 	
 	vueEchiquier.show();
 	app.exec();

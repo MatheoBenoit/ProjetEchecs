@@ -92,8 +92,8 @@ namespace vue {
 	}
 
 	void VueEchiquier::initBoutonsParties(QGridLayout* gridLayout) {
-		QPushButton* bouton3 = creerBoutonsParties(gridLayout, "Partie Standard", 2);
-		QObject::connect(bouton3, &QPushButton::clicked, this, &VueEchiquier::initPartieStandard);
+		QPushButton* bouton0 = creerBoutonsParties(gridLayout, "Partie Standard", 2);
+		QObject::connect(bouton0, &QPushButton::clicked, this, &VueEchiquier::initPartieStandard);
 
 		QPushButton* bouton1 = creerBoutonsParties(gridLayout, "Partie 1", 3);
 		QObject::connect(bouton1, &QPushButton::clicked, this, &VueEchiquier::initPartie1);

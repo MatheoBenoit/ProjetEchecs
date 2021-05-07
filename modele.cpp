@@ -161,17 +161,6 @@ namespace modele {
 		}
 	}
 
-	Echiquier& Echiquier::operator=(const Echiquier& autre) {
-		for (int ligne = 0; ligne < nLignes; ligne++)
-		{
-			for (int colonne = 0; colonne < nColonnes; colonne++)
-			{
-				this->echiquier_[ligne][colonne] = autre.echiquier_[ligne][colonne];
-			}
-		}
-		return *this;
-	}
-
 	void Echiquier::modifierEchiquier(std::string nomFichier) { // la lecture des positions se fait selon une notation tres similaire a la notation FEN
 		std::ifstream fichier(nomFichier);
 		for (int ligne = 0; ligne < nLignes; ligne++) {
