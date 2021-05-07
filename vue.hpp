@@ -22,6 +22,7 @@
 #include <QGridLayout>
 #include <QSignalMapper>
 #pragma pop()
+#include <memory>
 #include "modele.hpp"
 
 namespace vue {

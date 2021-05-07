@@ -79,6 +79,7 @@ namespace modele {
 		Echiquier(); // construit un echiquier avec la position des pieces standard de début de partie
 		Echiquier(std::string nomFichier); // construit un echiquier avec les position des pieces ecrite dans un fichier
 		~Echiquier();
+		Echiquier& operator=(const Echiquier& autre);
 		Piece* getPiece(int ligne, int colonne);
 		void copieProfonde(Piece* nouveauEchiquier[nLignes][nColonnes], Piece* echiquier[nLignes][nColonnes]);
 		bool effectuerMouvement(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY);

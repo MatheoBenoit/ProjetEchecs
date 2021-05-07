@@ -166,6 +166,7 @@ namespace vue {
 				QChar pieceVue;
 				identifierPiece(pieceVue, colonne, ligne);
 				matriceBoutons_[ligne][colonne]->setText(pieceVue);
+				matriceBoutons_[ligne][colonne]->couleurNormal(ligne, colonne); //on remet les bonnes couleurs si jamais un des cases avait une couleur orange (case selectionnee)
 			}
 		}
 	}
@@ -187,17 +188,23 @@ namespace vue {
 		std::string string = fichier.toUtf8().constData();
 		echiquier_ = *new modele::Echiquier(string);
 		mettrePieces();
+		tourDesBlancs_ = true;
+		premierClickFait_ = false;
 	}
 
 	void VueEchiquier::initPartie1() {
 		echiquier_.~Echiquier();
 		echiquier_ = *new modele::Echiquier("Partie1.txt");
 		mettrePieces();
+		tourDesBlancs_ = true;
+		premierClickFait_ = false;
 	}
 
 	void VueEchiquier::initPartie2() {
 		echiquier_.~Echiquier();
 		echiquier_ = *new modele::Echiquier("Partie2.txt");
 		mettrePieces();
+		tourDesBlancs_ = true;
+		premierClickFait_ = false;
 	}
 }
