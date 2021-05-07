@@ -22,7 +22,6 @@
 #include <QGridLayout>
 #include <QSignalMapper>
 #pragma pop()
-#include <memory>
 #include "modele.hpp"
 
 namespace vue {
@@ -47,12 +46,13 @@ namespace vue {
 	public:
 		VueEchiquier(QWidget* parent, modele::Echiquier& echiquier);
 		~VueEchiquier() override = default;
+		void initBoutonsParties(QGridLayout* gridLayout);
 		void identifierPiece(QChar& pieceVue, int colonne, int ligne) const;
 		void ajouterBouton(Bouton* bouton, int ligne, int colonne);
 
 	protected slots:
 		void boutonAppuye();
-		void initialiserPartie(QString fichier);
+		void initialiserPartie(std::string fichier);
 		void initPartie1();
 		void initPartie2();
 

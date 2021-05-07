@@ -75,20 +75,12 @@ namespace vue {
 				connect(bouton, &QPushButton::clicked, this, &VueEchiquier::boutonAppuye);
 			}
 		}
-		/*QSignalMapper mapper;
+		initBoutonsParties(gridLayout);
+		setCentralWidget(widget);
+		setWindowTitle("Jeu d'Echec");
+	}
 
-		QPushButton* bouton1 = new QPushButton("&Partie1");
-		gridLayout->addWidget(bouton1, 9, 4);
-		connect(bouton1, SIGNAL(clicked()), &mapper, SLOT(map()));
-		mapper.setMapping(bouton1, "Partie1.txt");
-
-		QPushButton* bouton2 = new QPushButton("&Partie2");
-		gridLayout->addWidget(bouton2, 9, 3);
-		connect(bouton2, SIGNAL(clicked()), &mapper, SLOT(map()));
-		mapper.setMapping(bouton2, "Partie2.txt");
-
-		connect(&mapper, SIGNAL(mappedString(QString)), this, SLOT(initialiserPartie(QString)));*/
-
+	void VueEchiquier::initBoutonsParties(QGridLayout* gridLayout) {
 		QPushButton* bouton1 = new QPushButton("&Partie1");
 		bouton1->setFixedSize(QSize(100, 100));
 		gridLayout->addWidget(bouton1, 3, nColonnes + 1);
@@ -98,9 +90,6 @@ namespace vue {
 		gridLayout->addWidget(bouton2, 4, nColonnes + 1);
 		bouton2->setFixedSize(QSize(100, 100));
 		QObject::connect(bouton2, &QPushButton::clicked, this, &VueEchiquier::initPartie2);
-
-		setCentralWidget(widget);
-		setWindowTitle("Jeu d'Echec");
 	}
 
 	void VueEchiquier::identifierPiece(QChar & pieceVue, int colonne, int ligne) const {
@@ -184,29 +173,19 @@ namespace vue {
 		}
 	}
 
-	void VueEchiquier::initialiserPartie(QString fichier) {
+	void VueEchiquier::initialiserPartie(std::string fichier) {
 		echiquier_.~Echiquier();
-		std::cout << "allo";
-		std::string string = fichier.toUtf8().constData();
-		echiquier_ = *new modele::Echiquier(string);
+		echiquier_ = *new modele::Echiquier(fichier);
 		mettrePieces();
 		tourDesBlancs_ = true;
 		premierClickFait_ = false;
 	}
 
 	void VueEchiquier::initPartie1() {
-		echiquier_.~Echiquier();
-		echiquier_ = *new modele::Echiquier("Partie1.txt");
-		mettrePieces();
-		tourDesBlancs_ = true;
-		premierClickFait_ = false;
+		initialiserPartie("Partie1.txt");
 	}
 
 	void VueEchiquier::initPartie2() {
-		echiquier_.~Echiquier();
-		echiquier_ = *new modele::Echiquier("Partie2.txt");
-		mettrePieces();
-		tourDesBlancs_ = true;
-		premierClickFait_ = false;
+		initialiserPartie("Partie2.txt");
 	}
 }
