@@ -20,6 +20,7 @@
 #include <QColor>
 #include <QPalette>
 #include <QGridLayout>
+#include <QSignalMapper>
 #pragma pop()
 #include "modele.hpp"
 
@@ -27,7 +28,7 @@ namespace vue {
 	class Bouton : public QPushButton {
 		Q_OBJECT
 	public:
-		Bouton(QChar& piece, QWidget* parent, int positionX, int positionY);
+		Bouton(QWidget* parent, int positionX, int positionY);
 		~Bouton() override = default;
 		std::pair<int, int> getPosition();
 		void initialiserCouleur(QColor couleur);
@@ -50,6 +51,9 @@ namespace vue {
 
 	protected slots:
 		void boutonAppuye();
+		void initialiserPartie(std::string fichier);
+		void initPartie1();
+		void initPartie2();
 
 	private:
 		modele::Echiquier& echiquier_;
@@ -60,5 +64,6 @@ namespace vue {
 		Bouton* matriceBoutons_[nLignes][nColonnes];
 		bool tourATour();
 		void miseAJourVue();
+		void mettrePieces();
 	};
 }

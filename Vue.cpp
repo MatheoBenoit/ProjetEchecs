@@ -11,7 +11,7 @@ namespace vue {
 
 	// methodes de la classe Bouton
 
-	Bouton::Bouton(QChar& piece, QWidget* parent, int positionX, int positionY) : QPushButton(piece, parent) {
+	Bouton::Bouton(QWidget* parent, int positionX, int positionY) : QPushButton(parent) {
 		positionX_ = positionX;
 		positionY_ = positionY;
 	}
@@ -63,9 +63,7 @@ namespace vue {
 		{
 			for (int colonne = 0; colonne < nColonnes; colonne++)
 			{
-				QChar pieceVue;
-				identifierPiece(pieceVue, colonne, ligne);
-				Bouton* bouton = new Bouton(pieceVue, this, colonne, ligne);
+				Bouton* bouton = new Bouton(this, colonne, ligne);
 
 				QFont font = VueEchiquier::font();
 				bouton->initialiserTaille(font);
@@ -77,11 +75,27 @@ namespace vue {
 				QObject::connect(bouton, &QPushButton::clicked, this, &VueEchiquier::boutonAppuye);
 			}
 		}
-		QPushButton* bouton = new QPushButton("&Partie1");
-		gridLayout->addWidget(bouton, 9, 4);
-		QObject::connect(bouton, &QPushButton::clicked, this, &VueEchiquier::boutonAppuye);
+		/*QSignalMapper mapper;
+
+		QPushButton* bouton1 = new QPushButton("&Partie1");
+		gridLayout->addWidget(bouton1, 9, 4);
+		QObject::connect(bouton1, SIGNAL(clicked()), &mapper, SLOT(map()));
+		mapper.setMapping(bouton1, "Partie1.txt");
+
 		QPushButton* bouton2 = new QPushButton("&Partie2");
 		gridLayout->addWidget(bouton2, 9, 3);
+		QObject::connect(bouton2, SIGNAL(clicked()), &mapper, SLOT(map()));
+		mapper.setMapping(bouton2, "Partie2.txt");
+
+		connect(&mapper, SIGNAL(mappedString(std::string)), this, SLOT(initialiserPartie(std::string)));*/
+
+		QPushButton* bouton1 = new QPushButton("&Partie1");
+		gridLayout->addWidget(bouton1, 9, 4);
+		QObject::connect(bouton1, &QPushButton::clicked, this, &VueEchiquier::initPartie1);
+
+		QPushButton* bouton2 = new QPushButton("&Partie2");
+		gridLayout->addWidget(bouton2, 9, 3);
+		QObject::connect(bouton2, &QPushButton::clicked, this, &VueEchiquier::initPartie2);
 
 		setCentralWidget(widget);
 		setWindowTitle("Jeu d'Echec");
@@ -145,21 +159,44 @@ namespace vue {
 		}
 	}
 
+	void VueEchiquier::mettrePieces() {
+		for (int ligne = 0; ligne < nLignes; ligne++) {
+			for (int colonne = 0; colonne < nColonnes; colonne++)
+			{
+				QChar pieceVue;
+				identifierPiece(pieceVue, colonne, ligne);
+				matriceBoutons_[ligne][colonne]->setText(pieceVue);
+			}
+		}
+	}
+
 	void VueEchiquier::miseAJourVue() {
 		bool mouvementFait = echiquier_.effectuerMouvement(positionChoisie_.first, positionChoisie_.second, positionVoulue_.first, positionVoulue_.second);
 		if (mouvementFait) {
-			for (int ligne = 0; ligne < nLignes; ligne++) {
-				for (int colonne = 0; colonne < nColonnes; colonne++)
-				{
-					QChar pieceVue;
-					identifierPiece(pieceVue, colonne, ligne);
-					matriceBoutons_[ligne][colonne]->setText(pieceVue);
-				}
-			}
+			mettrePieces();
 		}
 		else {
 			std::cout << "Mouvement invalide." << std::endl;
 			tourDesBlancs_ = !tourDesBlancs_; // on change le booleen pour que la couleur en jeu reprenne son coup jusqu'a se qu'il soit valide
 		}
+	}
+
+	void VueEchiquier::initialiserPartie(std::string fichier) {
+		echiquier_.~Echiquier();
+		echiquier_ = *new modele::Echiquier(fichier);
+		mettrePieces();
+	}
+
+	void VueEchiquier::initPartie1() {
+		echiquier_.~Echiquier();
+		echiquier_ = *new modele::Echiquier("Partie1.txt");
+		mettrePieces();
+	}
+
+	void VueEchiquier::initPartie2() {
+		echiquier_.~Echiquier();
+		echiquier_ = *new modele::Echiquier("Partie2.txt");
+		mettrePieces();
+
 	}
 }
