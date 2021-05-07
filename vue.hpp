@@ -55,6 +55,7 @@ namespace vue {
 		void initialiserPartie(std::string fichier);
 		void initPartie1();
 		void initPartie2();
+		void initPartieStandard();
 
 	private:
 		modele::Echiquier& echiquier_;
