@@ -147,14 +147,7 @@ namespace modele {
 	Echiquier::Echiquier() { 
 		for (int ligne = 0; ligne < nLignes; ligne++) {
 			for (int colonne = 0; colonne < nColonnes; colonne++) {
-				try
-				{
-					echiquier_[ligne][colonne] = nullptr
-				}
-				catch (ConstructionInvalide& e)
-				{
-					std::cout << "Erreur: " << e.what() << "Cette construction a ete bloque.";
-				}
+					echiquier_[ligne][colonne] = nullptr;
 			}
 		}
 	}
