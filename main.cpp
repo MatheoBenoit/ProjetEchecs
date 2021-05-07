@@ -41,7 +41,7 @@ int main(int argc, char* argv[])
 	QApplication app(argc, argv);
 	initialiserBibliothequeCours(argc, argv);
 
-	modele::Echiquier echiquier("Partie1.txt");
+	modele::Echiquier echiquier;
 	vue::VueEchiquier vueEchiquier = vue::VueEchiquier(nullptr, echiquier);
 	
 	vueEchiquier.show();
