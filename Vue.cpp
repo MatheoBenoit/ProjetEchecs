@@ -91,10 +91,10 @@ namespace vue {
 		bouton2->setFixedSize(QSize(100, 100));
 		QObject::connect(bouton2, &QPushButton::clicked, this, &VueEchiquier::initPartie2);
 
-		QPushButton* bouton2 = new QPushButton("&Partie3");
-		gridLayout->addWidget(bouton2, 4, nColonnes + 1);
+		QPushButton* bouton3 = new QPushButton("&Partie3");
+		gridLayout->addWidget(bouton3, 4, nColonnes + 1);
 		bouton2->setFixedSize(QSize(100, 100));
-		QObject::connect(bouton2, &QPushButton::clicked, this, &VueEchiquier::initPartie2);
+		QObject::connect(bouton3, &QPushButton::clicked, this, &VueEchiquier::initPartie2);
 	}
 
 	void VueEchiquier::identifierPiece(QChar & pieceVue, int colonne, int ligne) const {
