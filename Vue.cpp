@@ -7,6 +7,10 @@
 */
 #include "vue.hpp"
 
+static constexpr int tailleCase = 100;
+static constexpr int tailleTexte = 45;
+static constexpr int tailleBoutons = 120;
+
 namespace vue {
 
 	// methodes de la classe Bouton
@@ -40,9 +44,9 @@ namespace vue {
 	}
 
 	void Bouton::initialiserTaille(QFont font) {
-		font.setPointSize(45);
+		font.setPointSize(tailleTexte);
 		setFont(font);
-		QSize taille = QSize(100, 100);
+		QSize taille = QSize(tailleCase, tailleCase);
 		setFixedSize(taille);
 	}
 
@@ -83,17 +87,17 @@ namespace vue {
 	void VueEchiquier::initBoutonsParties(QGridLayout* gridLayout) {
 		QPushButton* bouton3 = new QPushButton("Partie Standard");
 		gridLayout->addWidget(bouton3, 2, nColonnes + 1);
-		bouton3->setFixedSize(QSize(120, 100));
+		bouton3->setFixedSize(QSize(tailleBoutons, tailleCase));
 		QObject::connect(bouton3, &QPushButton::clicked, this, &VueEchiquier::initPartieStandard);
 
 		QPushButton* bouton1 = new QPushButton("Partie1");
-		bouton1->setFixedSize(QSize(120, 100));
+		bouton1->setFixedSize(QSize(tailleBoutons, tailleCase));
 		gridLayout->addWidget(bouton1, 3, nColonnes + 1);
 		QObject::connect(bouton1, &QPushButton::clicked, this, &VueEchiquier::initPartie1);
 
 		QPushButton* bouton2 = new QPushButton("Partie2");
 		gridLayout->addWidget(bouton2, 4, nColonnes + 1);
-		bouton2->setFixedSize(QSize(120, 100));
+		bouton2->setFixedSize(QSize(tailleBoutons, tailleCase));
 		QObject::connect(bouton2, &QPushButton::clicked, this, &VueEchiquier::initPartie2);
 
 	}
