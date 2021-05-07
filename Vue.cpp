@@ -84,20 +84,21 @@ namespace vue {
 		setWindowTitle("Jeu d'Echec");
 	}
 
+	QPushButton* VueEchiquier::creerBoutonsParties(QGridLayout* gridLayout, QString nomBouton, int positionY) {
+		QPushButton* bouton = new QPushButton(nomBouton);
+		gridLayout->addWidget(bouton, positionY, nColonnes + 1);
+		bouton->setFixedSize(QSize(tailleBoutons, tailleCase));
+		return bouton;
+	}
+
 	void VueEchiquier::initBoutonsParties(QGridLayout* gridLayout) {
-		QPushButton* bouton3 = new QPushButton("Partie Standard");
-		gridLayout->addWidget(bouton3, 2, nColonnes + 1);
-		bouton3->setFixedSize(QSize(tailleBoutons, tailleCase));
+		QPushButton* bouton3 = creerBoutonsParties(gridLayout, "Partie Standard", 2);
 		QObject::connect(bouton3, &QPushButton::clicked, this, &VueEchiquier::initPartieStandard);
 
-		QPushButton* bouton1 = new QPushButton("Partie1");
-		bouton1->setFixedSize(QSize(tailleBoutons, tailleCase));
-		gridLayout->addWidget(bouton1, 3, nColonnes + 1);
+		QPushButton* bouton1 = creerBoutonsParties(gridLayout, "Partie 1", 3);
 		QObject::connect(bouton1, &QPushButton::clicked, this, &VueEchiquier::initPartie1);
 
-		QPushButton* bouton2 = new QPushButton("Partie2");
-		gridLayout->addWidget(bouton2, 4, nColonnes + 1);
-		bouton2->setFixedSize(QSize(tailleBoutons, tailleCase));
+		QPushButton* bouton2 = creerBoutonsParties(gridLayout, "Partie 2", 4);
 		QObject::connect(bouton2, &QPushButton::clicked, this, &VueEchiquier::initPartie2);
 
 	}

@@ -46,6 +46,7 @@ namespace vue {
 	public:
 		VueEchiquier(QWidget* parent, modele::Echiquier& echiquier);
 		~VueEchiquier() override = default;
+		QPushButton* creerBoutonsParties(QGridLayout* gridLayout, QString nomBouton, int positionY);
 		void initBoutonsParties(QGridLayout* gridLayout);
 		void identifierPiece(QChar& pieceVue, int colonne, int ligne) const;
 		void ajouterBouton(Bouton* bouton, int ligne, int colonne);
