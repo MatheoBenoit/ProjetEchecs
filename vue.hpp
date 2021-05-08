@@ -56,8 +56,8 @@ namespace vue {
 		std::pair<int, int> positionChoisie_; // position sur l echiquier de la piece qu on veutb bouger
 		std::pair<int, int> positionVoulue_; // position ou on deplace la piece prealablement choisie
 		Bouton* matriceBoutons_[nLignes][nColonnes];
-		QPushButton* creerBoutonsParties(QGridLayout* gridLayout, QString nomBouton, int positionY);
-		void initBoutonsParties(QGridLayout* gridLayout);
+		QPushButton* creerBoutonPartie(QGridLayout* gridLayout, QString nomBouton, int positionY);
+		void initBoutonsPartie(QGridLayout* gridLayout);
 		void identifierPiece(QChar& pieceVue, int colonne, int ligne) const;
 		void ajouterBouton(Bouton* bouton, int ligne, int colonne);
 		bool tourATour();

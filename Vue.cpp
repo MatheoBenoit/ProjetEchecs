@@ -79,26 +79,26 @@ namespace vue {
 				connect(bouton, &QPushButton::clicked, this, &VueEchiquier::boutonAppuye);
 			}
 		}
-		initBoutonsParties(gridLayout);
+		initBoutonsPartie(gridLayout);
 		setCentralWidget(widget);
 		setWindowTitle("Jeu d'Echec");
 	}
 
-	QPushButton* VueEchiquier::creerBoutonsParties(QGridLayout* gridLayout, QString nomBouton, int positionY) {
+	QPushButton* VueEchiquier::creerBoutonPartie(QGridLayout* gridLayout, QString nomBouton, int positionY) {
 		QPushButton* bouton = new QPushButton(nomBouton);
 		gridLayout->addWidget(bouton, positionY, nColonnes + 1);
 		bouton->setFixedSize(QSize(tailleBoutons, tailleCase));
 		return bouton;
 	}
 
-	void VueEchiquier::initBoutonsParties(QGridLayout* gridLayout) {
-		QPushButton* bouton0 = creerBoutonsParties(gridLayout, "Partie Standard", 2);
+	void VueEchiquier::initBoutonsPartie(QGridLayout* gridLayout) {
+		QPushButton* bouton0 = creerBoutonPartie(gridLayout, "Partie Standard", 2);
 		QObject::connect(bouton0, &QPushButton::clicked, this, &VueEchiquier::initPartieStandard);
 
-		QPushButton* bouton1 = creerBoutonsParties(gridLayout, "Partie 1", 3);
+		QPushButton* bouton1 = creerBoutonPartie(gridLayout, "Partie 1", 3);
 		QObject::connect(bouton1, &QPushButton::clicked, this, &VueEchiquier::initPartie1);
 
-		QPushButton* bouton2 = creerBoutonsParties(gridLayout, "Partie 2", 4);
+		QPushButton* bouton2 = creerBoutonPartie(gridLayout, "Partie 2", 4);
 		QObject::connect(bouton2, &QPushButton::clicked, this, &VueEchiquier::initPartie2);
 
 	}
@@ -128,7 +128,6 @@ namespace vue {
 	void VueEchiquier::boutonAppuye() {
 
 		Bouton* boutonAppuye = qobject_cast<Bouton*>(sender());
-
 		if (premierClickFait_) {
 			premierClickFait_ = false;
 			matriceBoutons_[positionChoisie_.second][positionChoisie_.first]->couleurNormal(positionChoisie_.first, positionChoisie_.second);
@@ -168,7 +167,7 @@ namespace vue {
 				QChar pieceVue;
 				identifierPiece(pieceVue, colonne, ligne);
 				matriceBoutons_[ligne][colonne]->setText(pieceVue);
-				matriceBoutons_[ligne][colonne]->couleurNormal(ligne, colonne); //on remet les bonnes couleurs si jamais un des cases avait une couleur orange (case selectionnee)
+				matriceBoutons_[ligne][colonne]->couleurNormal(ligne, colonne); //on remet les bonnes couleurs si jamais une des cases avaient une couleur orange (case selectionnee)
 			}
 		}
 	}
@@ -180,15 +179,15 @@ namespace vue {
 		}
 		else {
 			std::cout << "Mouvement invalide." << std::endl;
-			tourDesBlancs_ = !tourDesBlancs_; // on change le booleen pour que la couleur en jeu reprenne son coup jusqu'a se qu'il soit valide
+			tourDesBlancs_ = !tourDesBlancs_; // on change le booleen pour que la couleur entrain de jouer doive reprendre son coup jusqu'a ce qu'il soit valide
 		}
 	}
 
 	void VueEchiquier::initialiserPartie(std::string fichier) {
-		echiquier_.~Echiquier();
-		echiquier_.modifierEchiquier(fichier);
-		mettrePieces();
-		tourDesBlancs_ = true;
+		echiquier_.~Echiquier(); //on detruit les pieces de lancien echiquier
+		echiquier_.modifierEchiquier(fichier); //on met les pieces dans lechiquier selon le fichier en parametre
+		mettrePieces(); //on met les pieces dans la vue de lechiquier
+		tourDesBlancs_ = true; 
 		premierClickFait_ = false;
 	}
 
