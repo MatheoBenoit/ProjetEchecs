@@ -34,7 +34,6 @@ namespace modele {
 
 	class Piece {
 	public:
-		Piece(bool couleur);
 		Piece(bool couleur, int positionLigne, int positionColonne);
 		virtual ~Piece() = default;
 		Piece& operator= (const Piece& autrePiece);
@@ -51,7 +50,6 @@ namespace modele {
 
 	class Roi : public Piece {
 	public:
-		Roi(bool couleur);
 		Roi(bool couleur, int positionLigne, int positionColonne);
 		~Roi();
 		bool mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const override;
@@ -62,14 +60,12 @@ namespace modele {
 
 	class Cavalier : public Piece {
 	public:
-		Cavalier(bool couleur, bool cote);
 		Cavalier(bool couleur, int positionLigne, int positionColonne);
 		bool mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const override;
 	};
 
 	class Tour : public Piece {
 	public:
-		Tour(bool couleur, bool cote);
 		Tour(bool couleur, int positionLigne, int positionColonne);
 		bool mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const override;
 	};
@@ -77,7 +73,6 @@ namespace modele {
 	class Echiquier {
 	public:
 		Echiquier(); // construit un echiquier avec la position des pieces standard de début de partie
-		Echiquier(std::string nomFichier); // construit un echiquier avec les position des pieces ecrite dans un fichier
 		~Echiquier();
 		void modifierEchiquier(std::string nomFichier);
 		Piece* getPiece(int ligne, int colonne);

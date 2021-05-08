@@ -11,9 +11,8 @@ namespace modele {
 
 	// methodes de la classe Piece 
 
-	Piece::Piece(bool couleur) { couleur_ = couleur; }
-
-	Piece::Piece(bool couleur, int positionLigne, int positionColonne) : Piece(couleur) {
+	Piece::Piece(bool couleur, int positionLigne, int positionColonne) {
+		couleur_ = couleur;
 		positionLigne_ = positionLigne;
 		positionColonne_ = positionColonne;
 	}
@@ -52,18 +51,10 @@ namespace modele {
 
 	//  methodes de la classe Roi
 
-	Roi::Roi(bool couleur) : Piece(couleur) {
-		if (compteur_ >= nRoi) {
-			throw ConstructionInvalide("Plus de deux instances de roi on ete construite.");
-		}
-		else {
-			compteur_++;
-			couleur ? positionLigne_ = 7, positionColonne_ = 4 : positionLigne_ = 0, positionColonne_ = 4;
-			//        roi noir                                   roi blanc
-		}
+	Roi::Roi(bool couleur, int positionLigne, int positionColonne) : Piece(couleur, positionLigne, positionColonne) {
+		if (compteur_ >= 2) throw ConstructionInvalide("Plus de deux instances de Roi.");
+		compteur_++;
 	}
-
-	Roi::Roi(bool couleur, int positionLigne, int positionColonne) : Piece(couleur, positionLigne, positionColonne) {}
 
 	Roi::~Roi() {
 		compteur_--;
@@ -84,19 +75,6 @@ namespace modele {
 
 	//  methodes de la classe Cavalier
 
-	Cavalier::Cavalier(bool couleur, bool cote) : Piece(couleur) { //cote a 1 est a droite, 0 est a gauche
-		if (couleur) { //donc le cheval noir
-			//cout << "COTE: " << cote << endl;
-			cote ? (positionLigne_ = 7, positionColonne_ = 6) : (positionLigne_ = 7, positionColonne_ = 1);
-			//     a droite                                   a gauche
-		}
-		else { //cheval blanc
-			//cout << "COTE: " << cote << endl;
-			cote ? (positionLigne_ = 0, positionColonne_ = 6) : (positionLigne_ = 0, positionColonne_ = 1);
-			//     a droite                                   a gauche
-		}
-	}
-
 	Cavalier::Cavalier(bool couleur, int positionLigne, int positionColonne) : Piece(couleur, positionLigne, positionColonne) {}
 
 	bool Cavalier::mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const {
@@ -116,17 +94,6 @@ namespace modele {
 	}
 
 	//  methodes de la classe Tour
-
-	Tour::Tour(bool couleur, bool cote) : Piece(couleur) { //cote a 1 est a droite, 0 est a gauche
-		if (couleur) { //donc la tour noire
-			cote ? (positionLigne_ = 7, positionColonne_ = 7) : (positionLigne_ = 7, positionColonne_ = 0);
-			//     a droite                                   a gauche
-		}
-		else { //tour blanche
-			cote ? (positionLigne_ = 0, positionColonne_ = 7) : (positionLigne_ = 0, positionColonne_ = 0);
-			//     a droite                                   a gauche
-		}
-	}
 
 	Tour::Tour(bool couleur, int positionLigne, int positionColonne) : Piece(couleur, positionLigne, positionColonne) {}
 
