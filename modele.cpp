@@ -17,16 +17,6 @@ namespace modele {
 		positionColonne_ = positionColonne;
 	}
 
-	Piece & Piece::operator= (const Piece & autrePiece) {
-		if (this != &autrePiece) {
-			positionLigne_ = autrePiece.positionLigne_;
-			positionColonne_ = autrePiece.positionColonne_;
-			couleurNoire_ = autrePiece.couleurNoire_;
-		}
-		return *this;
-	}
-
-
 	bool Piece::setPosition(int positionLigne, int positionColonne) {
 		if (this->mouvementValide(positionLigne, positionColonne)) {
 			positionLigne_ = positionLigne;

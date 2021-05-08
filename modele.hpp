@@ -36,7 +36,6 @@ namespace modele {
 	public:
 		Piece(bool couleur, int positionLigne, int positionColonne);
 		virtual ~Piece() = default;
-		Piece& operator= (const Piece& autrePiece);
 		bool setPosition(int positionLigne, int positionColonne);
 		std::pair<int, int> getPosition() const;
 		bool getCouleur() const;
@@ -74,7 +73,7 @@ namespace modele {
 	public:
 		Echiquier(); // construit un echiquier avec la position des pieces standard de début de partie
 		~Echiquier();
-		void modifierEchiquier(std::string nomFichier);
+		void modifierEchiquier(std::string nomFichier); //place des pieces aux bonnes position selon le fichier passe en parametre
 		Piece* getPiece(int ligne, int colonne);
 		void copieProfonde(Piece* nouveauEchiquier[nLignes][nColonnes], Piece* echiquier[nLignes][nColonnes]);
 		bool effectuerMouvement(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY);
