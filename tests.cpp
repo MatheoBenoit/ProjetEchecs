@@ -1,8 +1,8 @@
 /*
-* Fichier contenant les tests sur nos classes du projet final.
+* Fichier contenant les tests sur nos classes et methodes du projet final afin davoir 100% de couverture de code.
 * file Test.cpp
 * auteurs Benoit - Paraschivoiu et St - Arnaud
-* date    8 avril 2021
+* date    8 mai 2021
 * Créé le 1 avril 2021
 */
 #include "modele.hpp"
