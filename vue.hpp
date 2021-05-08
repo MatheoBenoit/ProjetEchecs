@@ -11,16 +11,12 @@
 #include <Qwidget.h>
 #include <QMainWindow>
 #include <QChar>
-#include <QMainWindow>
-#include <QGraphicsScene>
-#include <QGraphicsRectItem>
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QWidget>
 #include <QColor>
 #include <QPalette>
 #include <QGridLayout>
-#include <QSignalMapper>
 #pragma pop()
 #include "modele.hpp"
 

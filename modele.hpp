@@ -7,15 +7,9 @@
 */
 #pragma once
 
-#include <string>
-#include <utility>
-#include <cmath>
 #include <iostream>
 #include <fstream>
-#include <vector>
-#include <memory>
 #include <algorithm>
-#include <string>
 
 static constexpr int gauche = 0;
 static constexpr int droite = 1;
