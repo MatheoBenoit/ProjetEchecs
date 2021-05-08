@@ -12,7 +12,7 @@ namespace modele {
 	// methodes de la classe Piece 
 
 	Piece::Piece(bool couleur, int positionLigne, int positionColonne) {
-		couleur_ = couleur;
+		couleurNoire_ = couleur;
 		positionLigne_ = positionLigne;
 		positionColonne_ = positionColonne;
 	}
@@ -21,7 +21,7 @@ namespace modele {
 		if (this != &autrePiece) {
 			positionLigne_ = autrePiece.positionLigne_;
 			positionColonne_ = autrePiece.positionColonne_;
-			couleur_ = autrePiece.couleur_;
+			couleurNoire_ = autrePiece.couleurNoire_;
 		}
 		return *this;
 	}
@@ -40,7 +40,7 @@ namespace modele {
 
 	std::pair<int, int> Piece::getPosition() const { return { positionLigne_, positionColonne_ }; }
 
-	bool Piece::getCouleur() const { return couleur_; }
+	bool Piece::getCouleur() const { return couleurNoire_; }
 
 	bool Piece::mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const {
 		if ((positionLigneVoulue < 0) | (positionLigneVoulue >= nLignes)) return false;
@@ -52,7 +52,7 @@ namespace modele {
 	//  methodes de la classe Roi
 
 	Roi::Roi(bool couleur, int positionLigne, int positionColonne) : Piece(couleur, positionLigne, positionColonne) {
-		if (compteur_ >= 2) throw ConstructionInvalide("Plus de deux instances de Roi.");
+		if (compteur_ >= nRoi) throw ConstructionInvalide("Plus de deux instances de Roi.");
 		compteur_++;
 	}
 
@@ -256,6 +256,7 @@ namespace modele {
 			{
 				if (!echiquier_[ligne][colonne] || echiquier_[ligne][colonne]->getCouleur() == couleur) continue;
 				else if (!pieceEnChemin(ligne, colonne, positionRoiX, positionRoiY) && echiquier_[ligne][colonne]->mouvementValide(positionRoiX, positionRoiY)) {
+					std::cout << "Vous etes en echec: ";
 					return true;
 				}
 			}

@@ -45,7 +45,7 @@ namespace modele {
 	protected:
 		int positionLigne_ = 0;
 		int positionColonne_ = 0;
-		bool couleur_; //0 = blanc, 1 = noir
+		bool couleurNoire_; //0 = blanc, 1 = noir
 	};
 
 	class Roi : public Piece {
