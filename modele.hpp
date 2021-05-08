@@ -2,7 +2,7 @@
 * Fichier contenant les classes du modele du projet final et leurs fonctions.
 * file classes_projet.hpp
 * auteurs Benoit - Paraschivoiu et St - Arnaud
-* date    8 avril 2021
+* date    8 mai 2021
 * Créé le 1 avril 2021
 */
 #pragma once

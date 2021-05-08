@@ -1,8 +1,8 @@
 /*
 * Fichier contenant les classes de la Vue du projet final et leurs fonctions.
-* file Vue.h
+* file    vue.hpp
 * auteurs Benoit - Paraschivoiu et St - Arnaud
-* date    16 avril 2021
+* date    8 mai 2021
 * Créé le 14 avril 2021
 */
 #pragma warning(push, 0)

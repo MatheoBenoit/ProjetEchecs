@@ -1,8 +1,8 @@
 /*
-* Fichier contenant l'implementation des methode des classe de la Vue du projet final.
-* file
+* Fichier contenant l'implementation des methode des classes de la Vue du projet final.
+* file   vue.cpp
 * author Benoit - Paraschivoiu et St - Arnaud
-* date    16 avril 2021
+* date    8 mai 2021
 * Créé le 14 avril 2021
 */
 #include "vue.hpp"
