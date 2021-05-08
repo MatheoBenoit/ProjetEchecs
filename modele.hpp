@@ -11,8 +11,6 @@
 #include <fstream>
 #include <algorithm>
 
-static constexpr int gauche = 0;
-static constexpr int droite = 1;
 static constexpr int blanc = 0;
 static constexpr int noir = 1;
 static constexpr int nLignes = 8;

@@ -5,7 +5,6 @@
 * date    8 avril 2021
 * Créé le 1 avril 2021
 */
-#include "modele.hpp"
 #include "vue.hpp"
 
 #if __has_include("bibliotheque_cours.hpp")

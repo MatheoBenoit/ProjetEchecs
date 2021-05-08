@@ -10,7 +10,6 @@
 #include <QPushButton>
 #include <Qwidget.h>
 #include <QMainWindow>
-#include <QChar>
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QWidget>
@@ -27,12 +26,12 @@ namespace vue {
 		Bouton(QWidget* parent, int positionX, int positionY);
 		~Bouton() override = default;
 		std::pair<int, int> getPosition();
-		void initialiserCouleur(QColor couleur);
 		void couleurNormal(int ligne, int colonne);
 		void couleurCaseSelectionne();
 		void initialiserTaille(QFont font);
+		void initialiserCouleur(QColor couleur);
 
-	protected:
+	private:
 		int positionX_;
 		int positionY_;
 	};
@@ -42,10 +41,6 @@ namespace vue {
 	public:
 		VueEchiquier(QWidget* parent, modele::Echiquier& echiquier);
 		~VueEchiquier() override = default;
-		QPushButton* creerBoutonsParties(QGridLayout* gridLayout, QString nomBouton, int positionY);
-		void initBoutonsParties(QGridLayout* gridLayout);
-		void identifierPiece(QChar& pieceVue, int colonne, int ligne) const;
-		void ajouterBouton(Bouton* bouton, int ligne, int colonne);
 
 	protected slots:
 		void boutonAppuye();
@@ -61,6 +56,10 @@ namespace vue {
 		std::pair<int, int> positionChoisie_; // position sur l echiquier de la piece qu on veutb bouger
 		std::pair<int, int> positionVoulue_; // position ou on deplace la piece prealablement choisie
 		Bouton* matriceBoutons_[nLignes][nColonnes];
+		QPushButton* creerBoutonsParties(QGridLayout* gridLayout, QString nomBouton, int positionY);
+		void initBoutonsParties(QGridLayout* gridLayout);
+		void identifierPiece(QChar& pieceVue, int colonne, int ligne) const;
+		void ajouterBouton(Bouton* bouton, int ligne, int colonne);
 		bool tourATour();
 		void miseAJourVue();
 		void mettrePieces();
