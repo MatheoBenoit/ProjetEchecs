@@ -171,7 +171,7 @@ namespace modele {
 			}
 		}
 	}
-
+	//est surtout utilise pour les tests puisque lechiquier est prive
 	Piece* Echiquier::getPiece(int ligne, int colonne) {
 		return echiquier_[ligne][colonne];
 	}
@@ -189,7 +189,7 @@ namespace modele {
 	bool Echiquier::effectuerMouvement(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) {
 		bool retour;
 		Piece* echiquierTemporaire[8][8];
-		Piece* pieceTemporaire = nullptr;
+		Piece* pieceVoulue = nullptr;
 		copieProfonde(echiquierTemporaire, echiquier_);
 
 		if (echiquier_[positionActuelleX][positionActuelleY] == nullptr) return false; //peut pas bouger une piece qui existe pas
@@ -197,19 +197,12 @@ namespace modele {
 		if (pieceEnChemin(positionActuelleX, positionActuelleY, positionVoulueX, positionVoulueY)) return false;
 		else if (echiquier_[positionVoulueX][positionVoulueY] != nullptr) { //donc il y a une piece
 			bool memeCouleur = echiquier_[positionVoulueX][positionVoulueY]->getCouleur() == couleur;
-
 			if (memeCouleur)
 				return false; //peut pas bouger sur une piece de ta couleur
-			else {
-				//donc il y a une piece adverse
-				pieceTemporaire = echiquier_[positionVoulueX][positionVoulueY];
-				retour = echangerPiece(positionActuelleX, positionActuelleY, positionVoulueX, positionVoulueY);
-			}
 		}
-		else {
-			//donc il ny a pas de piece
-			retour = echangerPiece(positionActuelleX, positionActuelleY, positionVoulueX, positionVoulueY);
-		}
+
+		pieceVoulue = echiquier_[positionVoulueX][positionVoulueY]; //on garde une copie de lendroit ou on va, soit un nullptr ou une piece*
+		retour = echangerPiece(positionActuelleX, positionActuelleY, positionVoulueX, positionVoulueY); //on effectue le mouvement
 		//on regarde si la derniere modification a genere un echec
 		if (retour && miseEnEchec(couleur)) {
 			// on est alors en echec
@@ -218,7 +211,7 @@ namespace modele {
 			echiquier_[positionActuelleX][positionActuelleY]->setPosition(positionActuelleX, positionActuelleY); // on remet les attributs de la piece en question a leur valeur initiale pusique le coup est impossible 
 			return false;
 		}
-		else delete pieceTemporaire;
+		else delete pieceVoulue; //on supprime la copie pour ne pas avoir de fuites si jamais il y avait une piece a cet endroit
 		return retour;
 	}
 
