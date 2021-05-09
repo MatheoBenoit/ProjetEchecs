@@ -18,7 +18,7 @@ TEST(TestRoi, TestInitilisation) {
 	EXPECT_EQ(blanc, roi.getCouleur());
 	EXPECT_EQ(0, roi.getPosition().first);
 	EXPECT_EQ(4, roi.getPosition().second);
-
+	
 	Roi roiN = Roi(noir, 7, 4);
 	EXPECT_EQ(noir, roiN.getCouleur());
 	EXPECT_EQ(7, roiN.getPosition().first);

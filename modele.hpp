@@ -43,6 +43,7 @@ namespace modele {
 	public:
 		Roi(bool couleur, int positionLigne, int positionColonne);
 		~Roi();
+	private:
 		bool mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const override;
 
 	private:
@@ -52,12 +53,14 @@ namespace modele {
 	class Cavalier : public Piece {
 	public:
 		Cavalier(bool couleur, int positionLigne, int positionColonne);
+	private:
 		bool mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const override;
 	};
 
 	class Tour : public Piece {
 	public:
 		Tour(bool couleur, int positionLigne, int positionColonne);
+	private:
 		bool mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const override;
 	};
 
