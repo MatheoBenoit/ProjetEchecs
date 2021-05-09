@@ -38,6 +38,7 @@ TEST(TestRoi, TestMouvement) {
 	//tests avec des mouvements invalides
 	EXPECT_FALSE(roi.setPosition(1, 6));
 	EXPECT_FALSE(roi.setPosition(12, 5));
+	EXPECT_FALSE(roi.setPosition(5, 12));
 	EXPECT_FALSE(roi.setPosition(3, 6));
 	EXPECT_FALSE(roi.setPosition(1, 8));
 }
