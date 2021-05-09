@@ -164,7 +164,7 @@ namespace modele {
 						colonne += iterations - 1;
 					}
 				}
-				catch (ConstructionInvalide& e)
+				catch (ConstructionInvalide& e) // on attrape l erreur de creation de plus de 2 rois
 				{
 					std::cout << "Erreur: " << e.what() << "Cette construction a ete bloque.";
 				}

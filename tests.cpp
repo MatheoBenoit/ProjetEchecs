@@ -12,6 +12,13 @@
 #endif
 #ifdef TEST
 
+TEST(TestRoi, TestInstance) {
+	using namespace modele;
+	EXPECT_ANY_THROW(Roi roi1 = Roi(noir, 0, 4);
+					 Roi roi2 = Roi(noir, 0, 5);
+					 Roi roi3 = Roi(noir, 7, 4)); // construction d'un 3eme roi lance une exception
+}
+
 TEST(TestRoi, TestInitilisation) {
 	using namespace modele;
 	Roi roi = Roi(blanc, 0, 4);
@@ -23,8 +30,6 @@ TEST(TestRoi, TestInitilisation) {
 	EXPECT_EQ(noir, roiN.getCouleur());
 	EXPECT_EQ(7, roiN.getPosition().first);
 	EXPECT_EQ(4, roiN.getPosition().second);
-
-	EXPECT_ANY_THROW(Roi roi3 = Roi(noir, 7, 4)); // construction d'un 3eme roi lance une exception
 }
 
 TEST(TestRoi, TestMouvement) {
@@ -97,6 +102,13 @@ TEST(TestTour, TestMouvement) {
 	EXPECT_FALSE(tour.setPosition(8, 7));
 	EXPECT_FALSE(tour.setPosition(6, 6));
 	EXPECT_FALSE(tour.setPosition(5, 4));
+}
+
+TEST(TestEchiquier, TestConstructionInvalide) {
+	using namespace modele;
+	Echiquier echiquier = Echiquier();
+	EXPECT_NO_FATAL_FAILURE(echiquier.modifierEchiquier("PartieAvecTroisRois.txt")); // la lecture de ce fichier est sensé lancer une execption, qui sera attrapee
+	EXPECT_FALSE(echiquier.getPiece(7, 2)); // le roi a cette position n'a donc jamais ete créé, cette fonction retourne donc nullptr (il est considerer comme false)
 }
 
 TEST(TestEchiquier, TestMouvement) {
