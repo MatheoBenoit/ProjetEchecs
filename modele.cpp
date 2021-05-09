@@ -171,7 +171,8 @@ namespace modele {
 			}
 		}
 	}
-	//est surtout utilise pour les tests puisque lechiquier est prive
+
+	//est surtout utilisee pour les tests puisque lechiquier est prive
 	Piece* Echiquier::getPiece(int ligne, int colonne) {
 		return echiquier_[ligne][colonne];
 	}
@@ -189,7 +190,6 @@ namespace modele {
 	bool Echiquier::effectuerMouvement(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) {
 		bool retour;
 		Piece* echiquierTemporaire[8][8];
-		Piece* pieceVoulue = nullptr;
 		copieProfonde(echiquierTemporaire, echiquier_);
 
 		if (echiquier_[positionActuelleX][positionActuelleY] == nullptr) return false; //peut pas bouger une piece qui existe pas
@@ -201,8 +201,9 @@ namespace modele {
 				return false; //peut pas bouger sur une piece de ta couleur
 		}
 
-		pieceVoulue = echiquier_[positionVoulueX][positionVoulueY]; //on garde une copie de lendroit ou on va, soit un nullptr ou une piece*
+		Piece* pieceVoulue = echiquier_[positionVoulueX][positionVoulueY]; //on prend une copie du pointeur de la case a la position voulue
 		retour = echangerPiece(positionActuelleX, positionActuelleY, positionVoulueX, positionVoulueY); //on effectue le mouvement
+
 		//on regarde si la derniere modification a genere un echec
 		if (retour && miseEnEchec(couleur)) {
 			// on est alors en echec
@@ -211,8 +212,9 @@ namespace modele {
 			echiquier_[positionActuelleX][positionActuelleY]->setPosition(positionActuelleX, positionActuelleY); // on remet les attributs de la piece en question a leur valeur initiale pusique le coup est impossible 
 			return false;
 		}
-		else delete pieceVoulue; //on supprime la copie pour ne pas avoir de fuites si jamais il y avait une piece a cet endroit
-		return retour;
+		//on est alors pas en echec et le mouvement peut se faire
+		else if (retour) delete pieceVoulue; //on libere l'espace memoire associe a la case ou notre piece a ete bougée
+		return retour; 
 	}
 
 	bool Echiquier::echangerPiece(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) {
