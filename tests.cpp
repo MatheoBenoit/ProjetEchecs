@@ -101,7 +101,6 @@ TEST(TestTour, TestMouvement) {
 TEST(TestEchiquier, TestMouvement) {
 	using namespace modele;
 	Echiquier echiquier = Echiquier();
-	echiquier.~Echiquier();
 	echiquier.modifierEchiquier("PartieStandard.txt");
 	// test de mouvement invalide pour une tour...
 	EXPECT_FALSE(echiquier.effectuerMouvement(0, 0, 2, 1));
@@ -127,7 +126,6 @@ TEST(TestEchiquier, TestMouvement) {
 TEST(TestEchiquier, TestPieceEnChemin) {
 	using namespace modele;
 	Echiquier echiquier = Echiquier();
-	echiquier.~Echiquier();
 	echiquier.modifierEchiquier("PartieStandard.txt");
 	echiquier.effectuerMouvement(7, 0, 4, 0);
 
@@ -145,7 +143,6 @@ TEST(TestEchiquier, TestPieceEnChemin) {
 TEST(TestEchiquier, TestManger) {
 	using namespace modele;
 	Echiquier echiquier = Echiquier();
-	echiquier.~Echiquier();
 	echiquier.modifierEchiquier("PartieStandard.txt");
 	Tour tourNoire = Tour(noir, 7, 0);
 	Tour tourBlanche = Tour(blanc, 0, 0);
@@ -173,7 +170,6 @@ TEST(TestEchiquier, TestManger) {
 TEST(TestEchiquier, TestMiseEnEchec){
 	using namespace modele;
 	Echiquier echiquier = Echiquier();
-	echiquier.~Echiquier();
 	echiquier.modifierEchiquier("PartieStandard.txt");
 	EXPECT_TRUE(echiquier.effectuerMouvement(0, 0, 2, 0));
 	EXPECT_TRUE(echiquier.effectuerMouvement(2, 0, 2, 4)); // echec de la tour blanche

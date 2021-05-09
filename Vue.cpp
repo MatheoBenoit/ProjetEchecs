@@ -184,7 +184,6 @@ namespace vue {
 	}
 
 	void VueEchiquier::initialiserPartie(std::string fichier) {
-		echiquier_.~Echiquier(); //on detruit les pieces de lancien echiquier
 		echiquier_.modifierEchiquier(fichier); //on met les pieces dans lechiquier selon le fichier en parametre
 		mettrePieces(); //on met les pieces dans la vue de lechiquier
 		tourDesBlancs_ = true; 

@@ -119,7 +119,9 @@ namespace modele {
 	}
 
 	void Echiquier::modifierEchiquier(std::string nomFichier) { // la lecture des positions se fait selon une notation tres similaire a la notation FEN
+		this->~Echiquier(); // on libere l'espace memoire de toutes les pieces precedemment placees sur l'echiquier
 		std::ifstream fichier(nomFichier);
+		// constrcution du nouvel echiquier selon le fichier .txt
 		for (int ligne = 0; ligne < nLignes; ligne++) {
 			for (int colonne = 0; colonne < nColonnes; colonne++) {
 				try
