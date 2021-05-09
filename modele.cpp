@@ -101,7 +101,7 @@ namespace modele {
 
 	// methodes de la classe Echiquier
 	
-	Echiquier::Echiquier() { 
+	Echiquier::Echiquier() { // construction d'un echiquier vide de pieces
 		for (int ligne = 0; ligne < nLignes; ligne++) {
 			for (int colonne = 0; colonne < nColonnes; colonne++) {
 					echiquier_[ligne][colonne] = nullptr;
@@ -118,10 +118,29 @@ namespace modele {
 		}
 	}
 
-	void Echiquier::modifierEchiquier(std::string nomFichier) { // la lecture des positions se fait selon une notation tres similaire a la notation FEN
+	void Echiquier::modifierEchiquier(std::string nomFichier) { // la lecture des positions se fait selon une notation tres similaire a la notation FEN (une notation pour generer des endgames au echecs)
+		// NOTATION DE LECTURE DE FICHIER
+
+		/* le fichier .txt se lit donc ainsi:
+		* la lecture de chaque ligne de l'echiquier est separé par un '/', la lecture commence par remplir la ligne du bas de l'echiquier vers le haut
+		* les caractere entre les '/' servent a remplir les cases de cette ligne de l'echiquier, il doivent donc remplir 8 cases entre les '/'
+		* chaque chiffre represente un nombre de case vide
+		* chaque caractere alphabetique represente une piece, si le caractere est majuscule c'est une piece blanche et s'il est minuscule il est noir (r = roi noir, R = roi blanc, c = cavalier noir, etc.)
+		* le remplissage se fait de gauche a droite comme la lecture du fichier
+		* exemple de lecture des deux premieres lignes:                  2rt4/T5Cc/
+		* la lecture de ce fichier donnerait le remplissage suivant: 
+		*	**lecture de gauche a droite et de bas vers le haut**
+		* 
+		*									premiere ligne (2rt4) :     case vide | case vide | roi noir | tour noir | case vide | case vide | case vide      | case vide
+		* 
+		*									deuxieme ligne (T5Cc) :  tour blanche | case vide | case vide|case vide  | case vide | case vide | cavalier blanc | cavalier noir
+		*																
+		*/
+
 		this->~Echiquier(); // on libere l'espace memoire de toutes les pieces precedemment placees sur l'echiquier
+
+		// allocation des pieces sur l'echiquier selon la lecture du fichier .txt
 		std::ifstream fichier(nomFichier);
-		// constrcution du nouvel echiquier selon le fichier .txt
 		for (int ligne = 0; ligne < nLignes; ligne++) {
 			for (int colonne = 0; colonne < nColonnes; colonne++) {
 				try
@@ -129,14 +148,14 @@ namespace modele {
 					char caractereFEN;
 					fichier >> caractereFEN;
 
-					if (caractereFEN == '/') colonne -= 1; // ce caractere sert a delimiter une nouvelle ligne en notation FEN, on veut qu'il agisse comme iteration vide
+					if (caractereFEN == '/') colonne -= 1; // ce caractere sert a delimiter une nouvelle ligne dans notre fichier, on veut donc qu'il agisse comme iteration vide
 					else if (caractereFEN == 't') echiquier_[ligne][colonne] = new Tour(noir, ligne, colonne);
 					else if (caractereFEN == 'T') echiquier_[ligne][colonne] = new Tour(blanc, ligne, colonne);
 					else if (caractereFEN == 'c') echiquier_[ligne][colonne] = new Cavalier(noir, ligne, colonne);
 					else if (caractereFEN == 'C') echiquier_[ligne][colonne] = new Cavalier(blanc, ligne, colonne);
 					else if (caractereFEN == 'r') echiquier_[ligne][colonne] = new Roi(noir, ligne, colonne);
 					else if (caractereFEN == 'R') echiquier_[ligne][colonne] = new Roi(blanc, ligne, colonne);
-					else {
+					else { // caractereFEN est necessairement un chiffre
 						int iterations = caractereFEN - zeroEnASCII;
 						for (int i = 0; i < iterations; i++)
 						{
@@ -214,7 +233,7 @@ namespace modele {
 	}
 
 	bool Echiquier::pieceEnChemin(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) {
-		if (dynamic_cast<Tour*>(echiquier_[positionActuelleX][positionActuelleY]) == nullptr) return false;
+		if (dynamic_cast<Tour*>(echiquier_[positionActuelleX][positionActuelleY]) == nullptr) return false; // on regarde ce critere seulement si la piece en question est une tour
 		std::pair<int, int> position;
 		int variationLigne = abs(positionActuelleX - positionVoulueX);
 		variationLigne > 0 ? position = std::minmax(positionActuelleX, positionVoulueX) : position = std::minmax(positionActuelleY, positionVoulueY);

@@ -124,7 +124,7 @@ namespace vue {
 		matriceBoutons_[ligne][colonne] = bouton;
 	}
 
-	// methode appellee lors d un click de bouton par l usager
+	// methode appellee lors d'un click de bouton par l usager
 	void VueEchiquier::boutonAppuye() {
 
 		Bouton* boutonAppuye = qobject_cast<Bouton*>(sender());
