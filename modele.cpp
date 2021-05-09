@@ -189,6 +189,7 @@ namespace modele {
 	bool Echiquier::effectuerMouvement(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) {
 		bool retour;
 		Piece* echiquierTemporaire[8][8];
+		Piece* pieceTemporaire = nullptr;
 		copieProfonde(echiquierTemporaire, echiquier_);
 
 		if (echiquier_[positionActuelleX][positionActuelleY] == nullptr) return false; //peut pas bouger une piece qui existe pas
@@ -201,12 +202,13 @@ namespace modele {
 				return false; //peut pas bouger sur une piece de ta couleur
 			else {
 				//donc il y a une piece adverse
-				retour = echangerPiece(positionActuelleX, positionActuelleY, positionVoulueX, positionVoulueY, true);
+				pieceTemporaire = echiquier_[positionVoulueX][positionVoulueY];
+				retour = echangerPiece(positionActuelleX, positionActuelleY, positionVoulueX, positionVoulueY);
 			}
 		}
 		else {
 			//donc il ny a pas de piece
-			retour = echangerPiece(positionActuelleX, positionActuelleY, positionVoulueX, positionVoulueY, false);
+			retour = echangerPiece(positionActuelleX, positionActuelleY, positionVoulueX, positionVoulueY);
 		}
 		//on regarde si la derniere modification a genere un echec
 		if (retour && miseEnEchec(couleur)) {
@@ -216,18 +218,15 @@ namespace modele {
 			echiquier_[positionActuelleX][positionActuelleY]->setPosition(positionActuelleX, positionActuelleY); // on remet les attributs de la piece en question a leur valeur initiale pusique le coup est impossible 
 			return false;
 		}
+		else delete pieceTemporaire;
 		return retour;
 	}
 
-	bool Echiquier::echangerPiece(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY, bool pieceAdverse) {
+	bool Echiquier::echangerPiece(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) {
 		if (echiquier_[positionActuelleX][positionActuelleY]->setPosition(positionVoulueX, positionVoulueY)) { //on change les attributs de la piece quon bouge si le mouvement est valide
-			if (!dynamic_cast<Roi*>(echiquier_[positionVoulueX][positionVoulueY])) {
-				//on rentre ici si le mouvement est valide et quon ne mange pas un roi
-				if (pieceAdverse) delete echiquier_[positionVoulueX][positionVoulueY];
-				echiquier_[positionVoulueX][positionVoulueY] = echiquier_[positionActuelleX][positionActuelleY]; //on change sa position dans la matrice
-				echiquier_[positionActuelleX][positionActuelleY] = nullptr; //il y a maintenant rien a la position actuelle
-				return true;
-			}
+			echiquier_[positionVoulueX][positionVoulueY] = echiquier_[positionActuelleX][positionActuelleY]; //on change sa position dans la matrice
+			echiquier_[positionActuelleX][positionActuelleY] = nullptr; //il y a maintenant rien a la position actuelle
+			return true;
 		}
 		return false;
 	}
@@ -251,7 +250,7 @@ namespace modele {
 		{
 			for (int colonne = 0; colonne < nColonnes; colonne++)
 			{
-				if (dynamic_cast<Roi*>(echiquier_[ligne][colonne]) && echiquier_[ligne][colonne]->getCouleur() == couleur)
+				if (dynamic_cast<Roi*>(echiquier_[ligne][colonne]) && echiquier_[ligne][colonne]->getCouleur() == couleur )
 					return echiquier_[ligne][colonne]->getPosition();
 			}
 		}
@@ -259,8 +258,9 @@ namespace modele {
 	}
 
 	bool Echiquier::miseEnEchec(bool couleur) {
-		int positionRoiX = getPositionRoi(couleur).first;
-		int positionRoiY = getPositionRoi(couleur).second;
+		std::pair<int, int> positionRoi = getPositionRoi(couleur);
+		int positionRoiX = positionRoi.first;
+		int positionRoiY = positionRoi.second;
 		for (int ligne = 0; ligne < nLignes; ligne++)
 		{
 			for (int colonne = 0; colonne < nColonnes; colonne++)
