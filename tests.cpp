@@ -23,6 +23,8 @@ TEST(TestRoi, TestInitilisation) {
 	EXPECT_EQ(noir, roiN.getCouleur());
 	EXPECT_EQ(7, roiN.getPosition().first);
 	EXPECT_EQ(4, roiN.getPosition().second);
+
+	EXPECT_ANY_THROW(Roi roi3 = Roi(noir, 7, 4)); // construction d'un 3eme roi lance une exception
 }
 
 TEST(TestRoi, TestMouvement) {
