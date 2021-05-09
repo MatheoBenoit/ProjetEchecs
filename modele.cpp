@@ -121,7 +121,7 @@ namespace modele {
 	void Echiquier::modifierEchiquier(std::string nomFichier) { // la lecture des positions se fait selon une notation tres similaire a la notation FEN (une notation pour generer des endgames au echecs)
 		// NOTATION DE LECTURE DE FICHIER
 
-		/* le fichier .txt se lit donc ainsi:
+		/* le fichier .txt se lit ainsi:
 		* la lecture de chaque ligne de l'echiquier est separé par un '/', la lecture commence par remplir la ligne du bas de l'echiquier vers le haut
 		* les caractere entre les '/' servent a remplir les cases de cette ligne de l'echiquier, il doivent donc remplir 8 cases entre les '/'
 		* chaque chiffre represente un nombre de case vide
