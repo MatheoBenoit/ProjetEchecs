@@ -117,6 +117,15 @@ namespace vue {
 			else if (dynamic_cast<modele::Cavalier*>(piece)) {
 				couleur ? pieceVue = QChar(0x265E) : pieceVue = QChar(0x2658); // unicode de cavalier blanc ou noir
 			}
+			else if (dynamic_cast<modele::Fou*>(piece)) {
+				couleur ? pieceVue = QChar(0x265D) : pieceVue = QChar(0x2657); // unicode de fou blanc ou noir
+			}
+			else if (dynamic_cast<modele::Pion*>(piece)) {
+				couleur ? pieceVue = QChar(0x265F) : pieceVue = QChar(0x2659); // unicode de pion blanc ou noir
+			}
+			else if (dynamic_cast<modele::Reine*>(piece)) {
+				couleur ? pieceVue = QChar(0x265B) : pieceVue = QChar(0x2655); // unicode de reine blanc ou noir
+			}
 		}
 	}
 
