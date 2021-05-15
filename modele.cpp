@@ -83,6 +83,27 @@ namespace modele {
 		return false;
 	}
 
+	//methodes de la classe Pion 
+
+	Pion::Pion(bool couleur, int positionLigne, int positionColonne) : Piece(couleur, positionLigne, positionColonne) {}
+
+	bool Pion::mouvementValide(int positionLigneVoulue, int positionColonneVoulue) {
+		if (Piece::mouvementValide(positionLigneVoulue, positionColonneVoulue)) {
+			if (couleurNoire_ && (positionLigneVoulue >= positionLigne_)) return false;   // ces deux conditions sassurent qu une piece avance
+			else if (!couleurNoire_ && positionLigneVoulue <= positionLigne_) return false;
+			int variationLigne = abs(positionLigne_ - positionLigneVoulue);
+			int variationColonne = abs(positionColonne_ - positionColonneVoulue);
+			if (variationColonne == 0) { //et quil ny a pas de piece la, a ajouter
+				if (variationLigne == 1) return true;
+				else if ((variationLigne == 2) && couleurNoire_ && (positionLigne_ == 6)) return true;  // double saut au debut pour les noirs
+				else if ((variationLigne == 2) && !couleurNoire_ && (positionLigne_ == 1)) return true; //double saut a lavant pour les blancs
+			}
+			if (variationColonne == 1 && variationLigne == 1) //et quil y a une piece la
+				return true;
+		}
+		return false;
+	}
+
 	//  methodes de la classe Tour
 
 	Tour::Tour(bool couleur, int positionLigne, int positionColonne) : Piece(couleur, positionLigne, positionColonne) {}
@@ -111,6 +132,8 @@ namespace modele {
 		}
 		return false;
 	}
+
+	//methode de la classe Reine
 
 	Reine::Reine(bool couleur, int positionLigne, int positionColonne) : Piece(couleur, positionLigne, positionColonne), Fou(couleur, positionLigne, positionColonne), Tour(couleur, positionLigne, positionColonne) {}
 
@@ -172,6 +195,12 @@ namespace modele {
 					else if (caractereFEN == 'T') echiquier_[ligne][colonne] = new Tour(blanc, ligne, colonne);
 					else if (caractereFEN == 'c') echiquier_[ligne][colonne] = new Cavalier(noir, ligne, colonne);
 					else if (caractereFEN == 'C') echiquier_[ligne][colonne] = new Cavalier(blanc, ligne, colonne);
+					else if (caractereFEN == 'f') echiquier_[ligne][colonne] = new Fou(noir, ligne, colonne);
+					else if (caractereFEN == 'F') echiquier_[ligne][colonne] = new Fou(blanc, ligne, colonne);
+					else if (caractereFEN == 'q') echiquier_[ligne][colonne] = new Reine(noir, ligne, colonne);
+					else if (caractereFEN == 'Q') echiquier_[ligne][colonne] = new Reine(blanc, ligne, colonne);
+					else if (caractereFEN == 'p') echiquier_[ligne][colonne] = new Pion(noir, ligne, colonne);
+					else if (caractereFEN == 'P') echiquier_[ligne][colonne] = new Pion(blanc, ligne, colonne);
 					else if (caractereFEN == 'r') echiquier_[ligne][colonne] = new Roi(noir, ligne, colonne);
 					else if (caractereFEN == 'R') echiquier_[ligne][colonne] = new Roi(blanc, ligne, colonne);
 					else { // caractereFEN est necessairement un chiffre

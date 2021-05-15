@@ -64,7 +64,12 @@ namespace modele {
 		bool mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const override;
 	};
 
-	class Pion {};
+	class Pion : public Piece {
+	public:
+		Pion(bool couleur, int positionLigne, int positionColonne);
+
+		bool mouvementValide(int positionLigneVoulue, int positionColonneVoulue);
+	};
 
 	class Fou : virtual public Piece {
 	public:
