@@ -287,8 +287,17 @@ namespace modele {
 		return false;
 	}
 
-	bool Echiquier::pieceEnChemin(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) {
-		if (dynamic_cast<Tour*>(echiquier_[positionActuelleX][positionActuelleY]) == nullptr) return false; // on regarde ce critere seulement si la piece en question est une tour
+	bool Echiquier::enCheminPion(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) {
+		int variationColonne = abs(positionActuelleY - positionVoulueY);
+		int variationLigne = abs(positionActuelleX - positionVoulueX);
+		if (variationLigne && variationColonne == 0)
+			if (echiquier_[positionVoulueX][positionVoulueY] != nullptr) return true;
+			if (variationLigne == 2)
+				if (echiquier_[positionVoulueX - 1][positionVoulueY] != nullptr) return true; //marche juste pour les blancs, pour les noirs ca doit etre +1
+		return false;
+	}
+
+	bool Echiquier::enCheminTour(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) {
 		std::pair<int, int> position;
 		int variationLigne = abs(positionActuelleX - positionVoulueX);
 		variationLigne > 0 ? position = std::minmax(positionActuelleX, positionVoulueX) : position = std::minmax(positionActuelleY, positionVoulueY);
@@ -298,6 +307,22 @@ namespace modele {
 			variationLigne > 0 ? enChemin = (echiquier_[i][positionActuelleY] != nullptr) : enChemin = (echiquier_[positionActuelleX][i] != nullptr);
 			if (enChemin) return true;
 		}
+		return false;
+	}
+
+	bool Echiquier::enCheminFou(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) {
+		return false;
+	}
+
+	bool Echiquier::enCheminReine(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) {
+		return false;
+	}
+
+	bool Echiquier::pieceEnChemin(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) {
+		if (dynamic_cast<Pion*>(echiquier_[positionActuelleX][positionActuelleY])) return enCheminPion(positionActuelleX, positionActuelleY, positionVoulueX, positionVoulueY);
+		else if (dynamic_cast<Tour*>(echiquier_[positionActuelleX][positionActuelleY])) return enCheminTour(positionActuelleX, positionActuelleY, positionVoulueX, positionVoulueY); // on regarde ce critere seulement si la piece en question est une tour
+		else if (dynamic_cast<Fou*>(echiquier_[positionActuelleX][positionActuelleY])) return enCheminPion(positionActuelleX, positionActuelleY, positionVoulueX, positionVoulueY);
+		else if (dynamic_cast<Reine*>(echiquier_[positionActuelleX][positionActuelleY])) return enCheminPion(positionActuelleX, positionActuelleY, positionVoulueX, positionVoulueY);
 		return false;
 	}
 
