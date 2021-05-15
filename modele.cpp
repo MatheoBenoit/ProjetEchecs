@@ -135,10 +135,23 @@ namespace modele {
 
 	//methode de la classe Reine
 
-	Reine::Reine(bool couleur, int positionLigne, int positionColonne) : Piece(couleur, positionLigne, positionColonne), Fou(couleur, positionLigne, positionColonne), Tour(couleur, positionLigne, positionColonne) {}
+	Reine::Reine(bool couleur, int positionLigne, int positionColonne) : Piece(couleur, positionLigne, positionColonne) {}
 
 	bool Reine::mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const {
-		return Fou::mouvementValide(positionLigneVoulue, positionColonneVoulue) ^ Tour::mouvementValide(positionLigneVoulue, positionColonneVoulue);
+		if (!Piece::mouvementValide(positionLigneVoulue, positionColonneVoulue)) return false;
+		bool mouvementFou;
+		int variationLigne = abs(positionLigne_ - positionLigneVoulue);
+		int variationColonne = abs(positionColonne_ - positionColonneVoulue);
+		if (variationColonne == variationLigne)
+			mouvementFou = true;
+		else mouvementFou = false;
+
+		bool mouvementTour;
+		if ((variationColonne == 0 && variationLigne > 0) | (variationLigne == 0 && variationColonne > 0))
+			mouvementTour = true;
+		else mouvementTour = false;
+
+		return mouvementFou ^ mouvementTour;
 	}
 
 	// methodes de la classe Echiquier

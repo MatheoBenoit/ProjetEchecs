@@ -57,28 +57,28 @@ namespace modele {
 		bool mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const override;
 	};
 
-	class Tour : virtual public Piece {
+	class Tour : public Piece {
 	public:
 		Tour(bool couleur, int positionLigne, int positionColonne);
-	protected:
+	private:
 		bool mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const override;
 	};
 
 	class Pion : public Piece {
 	public:
 		Pion(bool couleur, int positionLigne, int positionColonne);
-
+	private:
 		bool mouvementValide(int positionLigneVoulue, int positionColonneVoulue);
 	};
 
-	class Fou : virtual public Piece {
+	class Fou : public Piece {
 	public:
 		Fou(bool couleur, int positionLigne, int positionColonne);
-	protected:
+	private:
 		bool mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const override;
 	};
 
-	class Reine : public Fou, public Tour {
+	class Reine : public Piece {
 	public:
 		Reine(bool couleur, int positionLigne, int positionColonne);
 	private:
