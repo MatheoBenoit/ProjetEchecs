@@ -68,7 +68,7 @@ namespace modele {
 	public:
 		Pion(bool couleur, int positionLigne, int positionColonne);
 	private:
-		bool mouvementValide(int positionLigneVoulue, int positionColonneVoulue);
+		bool mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const override;
 	};
 
 	class Fou : public Piece {

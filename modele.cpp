@@ -87,7 +87,7 @@ namespace modele {
 
 	Pion::Pion(bool couleur, int positionLigne, int positionColonne) : Piece(couleur, positionLigne, positionColonne) {}
 
-	bool Pion::mouvementValide(int positionLigneVoulue, int positionColonneVoulue) {
+	bool Pion::mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const {
 		if (Piece::mouvementValide(positionLigneVoulue, positionColonneVoulue)) {
 			if (couleurNoire_ && (positionLigneVoulue >= positionLigne_)) return false;   // ces deux conditions sassurent qu une piece avance
 			else if (!couleurNoire_ && positionLigneVoulue <= positionLigne_) return false;
