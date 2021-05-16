@@ -254,8 +254,8 @@ namespace modele {
 		copieProfonde(echiquierTemporaire, echiquier_);
 
 		if (echiquier_[positionActuelleX][positionActuelleY] == nullptr) return false; //peut pas bouger une piece qui existe pas
-		bool couleur = echiquier_[positionActuelleX][positionActuelleY]->getCouleur();
 		if (effectuerRoc(positionActuelleX, positionActuelleY, positionVoulueX, positionVoulueY)) return true;
+		bool couleur = echiquier_[positionActuelleX][positionActuelleY]->getCouleur();
 		if (pieceEnChemin(positionActuelleX, positionActuelleY, positionVoulueX, positionVoulueY)) return false;
 		else if (echiquier_[positionVoulueX][positionVoulueY] != nullptr) { //donc il y a une piece
 			bool memeCouleur = echiquier_[positionVoulueX][positionVoulueY]->getCouleur() == couleur;
@@ -327,9 +327,9 @@ namespace modele {
 		std::pair<int, int> departY = std::minmax(positionActuelleY, positionVoulueY);
 
 		bool enChemin;
-		for (int i = ++departX.first; i < departX.second; i++) // etablie un nb diterations
+		for (int i = departX.first + 1; i < departX.second; i++) // etablie un nb diterations
 		{
-			mouvement > 0 ? enChemin = (echiquier_[departX.first++][departY.first++] != nullptr) : enChemin = (echiquier_[departX.first++][departY.second--] != nullptr);
+			mouvement > 0 ? enChemin = (echiquier_[++departX.first][++departY.first] != nullptr) : enChemin = (echiquier_[++departX.first][--departY.second] != nullptr);
 			if (enChemin) return true;
 		}
 		return false;
