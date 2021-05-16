@@ -279,6 +279,10 @@ namespace modele {
 	}
 
 	bool Echiquier::echangerPiece(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) {
+		int variationColonne = abs(positionActuelleY - positionVoulueY);
+		if (dynamic_cast<Pion*>(echiquier_[positionActuelleX][positionActuelleY]) && variationColonne > 0 && echiquier_[positionVoulueX][positionVoulueY] == nullptr)
+			return false;
+
 		if (echiquier_[positionActuelleX][positionActuelleY]->setPosition(positionVoulueX, positionVoulueY)) { //on change les attributs de la piece quon bouge si le mouvement est valide
 			echiquier_[positionVoulueX][positionVoulueY] = echiquier_[positionActuelleX][positionActuelleY]; //on change sa position dans la matrice
 			echiquier_[positionActuelleX][positionActuelleY] = nullptr; //il y a maintenant rien a la position actuelle
