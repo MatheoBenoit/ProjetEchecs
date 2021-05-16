@@ -255,6 +255,7 @@ namespace modele {
 
 		if (echiquier_[positionActuelleX][positionActuelleY] == nullptr) return false; //peut pas bouger une piece qui existe pas
 		bool couleur = echiquier_[positionActuelleX][positionActuelleY]->getCouleur();
+		if (effectuerRoc(positionActuelleX, positionActuelleY, positionVoulueX, positionVoulueY)) return true;
 		if (pieceEnChemin(positionActuelleX, positionActuelleY, positionVoulueX, positionVoulueY)) return false;
 		else if (echiquier_[positionVoulueX][positionVoulueY] != nullptr) { //donc il y a une piece
 			bool memeCouleur = echiquier_[positionVoulueX][positionVoulueY]->getCouleur() == couleur;
@@ -275,6 +276,7 @@ namespace modele {
 		}
 		//on est alors pas en echec et le mouvement peut se faire
 		else if (retour) delete pieceVoulue; //on libere l'espace memoire associe a la case ou notre piece a ete bougée
+		promotionEnReine();
 		return retour; 
 	}
 
@@ -378,6 +380,60 @@ namespace modele {
 			}
 		}
 		return false;
+	}
+
+	void Echiquier::promotionEnReine() {
+		for (int i = 0; i <= 7; i++) {
+			if (dynamic_cast<Pion*>(echiquier_[0][i])) {
+				if (echiquier_[0][i]->getCouleur() == noir) {
+					delete echiquier_[0][i];
+					echiquier_[0][i] = new Reine(noir, 0, i);
+				}
+			}
+			else if (dynamic_cast<Pion*>(echiquier_[7][i])) {
+				if (echiquier_[7][i]->getCouleur() == blanc) {
+					delete echiquier_[7][i];
+					echiquier_[7][i] = new Reine(blanc, 7, i);
+				}
+			}
+		}
+	}
+
+	bool Echiquier::effectuerRoc(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) {
+		if (dynamic_cast<Roi*>(echiquier_[positionActuelleX][positionActuelleY])) {
+			if (positionVoulueY == 2 && !enCheminTour(positionActuelleX, positionActuelleY, positionVoulueX, 0)) {
+				grandRoc(positionActuelleX);
+				return true;
+			}
+			else if (positionVoulueY == 6 && !enCheminTour(positionActuelleX, positionActuelleY, positionVoulueX, 7)) {
+				petitRoc(positionActuelleX);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	void Echiquier::grandRoc(int positionX) {
+		delete echiquier_[positionX][0];
+		echiquier_[positionX][0] = nullptr;
+		delete echiquier_[positionX][4];
+		echiquier_[positionX][4] = nullptr;
+		bool couleurNoire;
+		positionX == 0 ? couleurNoire = false : couleurNoire = true;
+		echiquier_[positionX][2] = new Roi(couleurNoire, positionX, 2);
+		echiquier_[positionX][3] = new Tour(couleurNoire, positionX, 3);
+	
+	}
+
+	void Echiquier::petitRoc(int positionX) {
+		delete echiquier_[positionX][7];
+		echiquier_[positionX][7] = nullptr;
+		delete echiquier_[positionX][4];
+		echiquier_[positionX][4] = nullptr;
+		bool couleurNoire;
+		positionX == 0 ? couleurNoire = false : couleurNoire = true;
+		echiquier_[positionX][6] = new Roi(couleurNoire, positionX, 6);
+		echiquier_[positionX][5] = new Tour(couleurNoire, positionX, 5);
 	}
 
 }

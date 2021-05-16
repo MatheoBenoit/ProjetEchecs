@@ -104,5 +104,9 @@ namespace modele {
 		bool pieceEnChemin(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY);
 		std::pair<int, int> getPositionRoi(bool couleur);
 		bool miseEnEchec(bool couleur);
+		void promotionEnReine();
+		bool effectuerRoc(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY);
+		void grandRoc(int positionX);
+		void petitRoc(int positionX);
 	};
 }
