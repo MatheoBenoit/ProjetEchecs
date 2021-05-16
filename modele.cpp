@@ -318,9 +318,18 @@ namespace modele {
 	}
 
 	bool Echiquier::enCheminFou(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) {
-		for (int i = positionActuelleX + 1; i < positionVoulueX; i++)
-			for (int j = positionActuelleY + 1; j < positionVoulueY; j++)
-				if (echiquier_[i][j] != nullptr) return false;
+		int variationColonne = positionVoulueY - positionActuelleY;
+		int variationLigne = positionVoulueX - positionActuelleX;
+		int mouvement = variationColonne * variationLigne; // si mouvement est positif alors '/' si negatif "backslash"
+		std::pair<int, int> departX = std::minmax(positionActuelleX, positionVoulueX);
+		std::pair<int, int> departY = std::minmax(positionActuelleY, positionVoulueY);
+
+		bool enChemin;
+		for (int i = ++departX.first; i < departX.second; i++) // etablie un nb diterations
+		{
+			mouvement > 0 ? enChemin = (echiquier_[departX.first++][departY.first++] != nullptr) : enChemin = (echiquier_[departX.first++][departY.second--] != nullptr);
+			if (enChemin) return true;
+		}
 		return false;
 	}
 
