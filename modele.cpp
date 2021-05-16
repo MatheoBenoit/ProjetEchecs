@@ -406,7 +406,9 @@ namespace modele {
 
 	void Echiquier::grandRoc(int positionX) {
 		delete echiquier_[positionX][0];
+		echiquier_[positionX][0] = nullptr;
 		delete echiquier_[positionX][4];
+		echiquier_[positionX][4] = nullptr;
 		bool couleurNoire;
 		positionX == 0 ? couleurNoire = false : couleurNoire = true;
 		echiquier_[positionX][2] = new Roi(couleurNoire, positionX, 2);
@@ -416,7 +418,9 @@ namespace modele {
 
 	void Echiquier::petitRoc(int positionX) {
 		delete echiquier_[positionX][7];
+		echiquier_[positionX][7] = nullptr;
 		delete echiquier_[positionX][4];
+		echiquier_[positionX][4] = nullptr;
 		bool couleurNoire;
 		positionX == 0 ? couleurNoire = false : couleurNoire = true;
 		echiquier_[positionX][6] = new Roi(couleurNoire, positionX, 6);
