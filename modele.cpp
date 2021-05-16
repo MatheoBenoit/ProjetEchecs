@@ -294,10 +294,13 @@ namespace modele {
 	bool Echiquier::enCheminPion(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) {
 		int variationColonne = abs(positionActuelleY - positionVoulueY);
 		int variationLigne = abs(positionActuelleX - positionVoulueX);
+		bool couleurNoire = echiquier_[positionActuelleX][positionActuelleY]->getCouleur();
 		if (variationLigne && variationColonne == 0)
 			if (echiquier_[positionVoulueX][positionVoulueY] != nullptr) return true;
-			if (variationLigne == 2)
-				if (echiquier_[positionVoulueX - 1][positionVoulueY] != nullptr) return true; //marche juste pour les blancs, pour les noirs ca doit etre +1
+			if (variationLigne == 2) {
+				if (couleurNoire && echiquier_[positionVoulueX + 1][positionVoulueY] != nullptr) return true; //marche juste pour les blancs, pour les noirs ca doit etre +1
+				else if (!couleurNoire && echiquier_[positionVoulueX - 1][positionVoulueY] != nullptr) return true;
+			}
 		return false;
 	}
 
@@ -315,6 +318,7 @@ namespace modele {
 	}
 
 	bool Echiquier::enCheminFou(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) {
+		
 		return false;
 	}
 
