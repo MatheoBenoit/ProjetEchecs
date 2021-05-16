@@ -321,8 +321,8 @@ namespace modele {
 	bool Echiquier::pieceEnChemin(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) {
 		if (dynamic_cast<Pion*>(echiquier_[positionActuelleX][positionActuelleY])) return enCheminPion(positionActuelleX, positionActuelleY, positionVoulueX, positionVoulueY);
 		else if (dynamic_cast<Tour*>(echiquier_[positionActuelleX][positionActuelleY])) return enCheminTour(positionActuelleX, positionActuelleY, positionVoulueX, positionVoulueY); // on regarde ce critere seulement si la piece en question est une tour
-		else if (dynamic_cast<Fou*>(echiquier_[positionActuelleX][positionActuelleY])) return enCheminPion(positionActuelleX, positionActuelleY, positionVoulueX, positionVoulueY);
-		else if (dynamic_cast<Reine*>(echiquier_[positionActuelleX][positionActuelleY])) return enCheminPion(positionActuelleX, positionActuelleY, positionVoulueX, positionVoulueY);
+		else if (dynamic_cast<Fou*>(echiquier_[positionActuelleX][positionActuelleY])) return enCheminFou(positionActuelleX, positionActuelleY, positionVoulueX, positionVoulueY);
+		else if (dynamic_cast<Reine*>(echiquier_[positionActuelleX][positionActuelleY])) return enCheminReine(positionActuelleX, positionActuelleY, positionVoulueX, positionVoulueY);
 		return false;
 	}
 
