@@ -64,6 +64,27 @@ namespace modele {
 		bool mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const override;
 	};
 
+	class Pion : public Piece {
+	public:
+		Pion(bool couleur, int positionLigne, int positionColonne);
+	private:
+		bool mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const override;
+	};
+
+	class Fou : public Piece {
+	public:
+		Fou(bool couleur, int positionLigne, int positionColonne);
+	private:
+		bool mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const override;
+	};
+
+	class Reine : public Piece {
+	public:
+		Reine(bool couleur, int positionLigne, int positionColonne);
+	private:
+		bool mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const override;
+	};
+
 	class Echiquier {
 	public:
 		Echiquier(); // construit un echiquier avec la position des pieces standard de début de partie
@@ -76,8 +97,10 @@ namespace modele {
 	private:
 		Piece* echiquier_[nLignes][nColonnes]; // nLignes, nColonnes = 8, car jeu d'échecs a 64 cases
 		bool echangerPiece(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY);
-		//puisque la seule piece dans notre cas qui peut rencontrer une piece dans son chemin est la tour, le code de cette methode sera implemente en consequent. 
-		//Si jamais une version complete du jeu voudra etre faites, le code suivant devra etre changer pour considerer que le fou et la reine (le pion aussi lorsquil avance de deux) pouraient avoir ce probleme.
+		bool enCheminPion(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY);
+		bool enCheminTour(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY);
+		bool enCheminFou(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY);
+		bool enCheminReine(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY);
 		bool pieceEnChemin(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY);
 		std::pair<int, int> getPositionRoi(bool couleur);
 		bool miseEnEchec(bool couleur);

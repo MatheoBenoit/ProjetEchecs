@@ -83,6 +83,27 @@ namespace modele {
 		return false;
 	}
 
+	//methodes de la classe Pion 
+
+	Pion::Pion(bool couleur, int positionLigne, int positionColonne) : Piece(couleur, positionLigne, positionColonne) {}
+
+	bool Pion::mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const {
+		if (Piece::mouvementValide(positionLigneVoulue, positionColonneVoulue)) {
+			if (couleurNoire_ && (positionLigneVoulue >= positionLigne_)) return false;   // ces deux conditions sassurent qu une piece avance
+			else if (!couleurNoire_ && positionLigneVoulue <= positionLigne_) return false;
+			int variationLigne = abs(positionLigne_ - positionLigneVoulue);
+			int variationColonne = abs(positionColonne_ - positionColonneVoulue);
+			if (variationColonne == 0) { //et quil ny a pas de piece la, a ajouter
+				if (variationLigne == 1) return true;
+				else if ((variationLigne == 2) && couleurNoire_ && (positionLigne_ == 6)) return true;  // double saut au debut pour les noirs
+				else if ((variationLigne == 2) && !couleurNoire_ && (positionLigne_ == 1)) return true; //double saut a lavant pour les blancs
+			}
+			if (variationColonne == 1 && variationLigne == 1) //et quil y a une piece la
+				return true;
+		}
+		return false;
+	}
+
 	//  methodes de la classe Tour
 
 	Tour::Tour(bool couleur, int positionLigne, int positionColonne) : Piece(couleur, positionLigne, positionColonne) {}
@@ -92,11 +113,45 @@ namespace modele {
 			int variationLigne = abs(positionLigne_ - positionLigneVoulue);
 			int variationColonne = abs(positionColonne_ - positionColonneVoulue);
 
-			if ((variationColonne == 0 && variationLigne > 0) | (variationLigne == 0 && variationColonne > 0)) {
+			if ((variationColonne == 0 && variationLigne > 0) | (variationLigne == 0 && variationColonne > 0))
 				return true;
-			}
 		}
 		return false;
+	}
+
+	// methodes de la classe Fou
+
+	Fou::Fou(bool couleur, int positionLigne, int positionColonne) : Piece(couleur, positionLigne, positionColonne) {}
+
+	bool Fou::mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const {
+		if (Piece::mouvementValide(positionLigneVoulue, positionColonneVoulue)) {
+			int variationLigne = abs(positionLigne_ - positionLigneVoulue);
+			int variationColonne = abs(positionColonne_ - positionColonneVoulue);
+			if (variationColonne == variationLigne)
+				return true;
+		}
+		return false;
+	}
+
+	//methode de la classe Reine
+
+	Reine::Reine(bool couleur, int positionLigne, int positionColonne) : Piece(couleur, positionLigne, positionColonne) {}
+
+	bool Reine::mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const {
+		if (!Piece::mouvementValide(positionLigneVoulue, positionColonneVoulue)) return false;
+		bool mouvementFou;
+		int variationLigne = abs(positionLigne_ - positionLigneVoulue);
+		int variationColonne = abs(positionColonne_ - positionColonneVoulue);
+		if (variationColonne == variationLigne)
+			mouvementFou = true;
+		else mouvementFou = false;
+
+		bool mouvementTour;
+		if ((variationColonne == 0 && variationLigne > 0) | (variationLigne == 0 && variationColonne > 0))
+			mouvementTour = true;
+		else mouvementTour = false;
+
+		return mouvementFou ^ mouvementTour;
 	}
 
 	// methodes de la classe Echiquier
@@ -153,6 +208,12 @@ namespace modele {
 					else if (caractereFEN == 'T') echiquier_[ligne][colonne] = new Tour(blanc, ligne, colonne);
 					else if (caractereFEN == 'c') echiquier_[ligne][colonne] = new Cavalier(noir, ligne, colonne);
 					else if (caractereFEN == 'C') echiquier_[ligne][colonne] = new Cavalier(blanc, ligne, colonne);
+					else if (caractereFEN == 'f') echiquier_[ligne][colonne] = new Fou(noir, ligne, colonne);
+					else if (caractereFEN == 'F') echiquier_[ligne][colonne] = new Fou(blanc, ligne, colonne);
+					else if (caractereFEN == 'q') echiquier_[ligne][colonne] = new Reine(noir, ligne, colonne);
+					else if (caractereFEN == 'Q') echiquier_[ligne][colonne] = new Reine(blanc, ligne, colonne);
+					else if (caractereFEN == 'p') echiquier_[ligne][colonne] = new Pion(noir, ligne, colonne);
+					else if (caractereFEN == 'P') echiquier_[ligne][colonne] = new Pion(blanc, ligne, colonne);
 					else if (caractereFEN == 'r') echiquier_[ligne][colonne] = new Roi(noir, ligne, colonne);
 					else if (caractereFEN == 'R') echiquier_[ligne][colonne] = new Roi(blanc, ligne, colonne);
 					else { // caractereFEN est necessairement un chiffre
@@ -226,8 +287,17 @@ namespace modele {
 		return false;
 	}
 
-	bool Echiquier::pieceEnChemin(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) {
-		if (dynamic_cast<Tour*>(echiquier_[positionActuelleX][positionActuelleY]) == nullptr) return false; // on regarde ce critere seulement si la piece en question est une tour
+	bool Echiquier::enCheminPion(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) {
+		int variationColonne = abs(positionActuelleY - positionVoulueY);
+		int variationLigne = abs(positionActuelleX - positionVoulueX);
+		if (variationLigne && variationColonne == 0)
+			if (echiquier_[positionVoulueX][positionVoulueY] != nullptr) return true;
+			if (variationLigne == 2)
+				if (echiquier_[positionVoulueX - 1][positionVoulueY] != nullptr) return true; //marche juste pour les blancs, pour les noirs ca doit etre +1
+		return false;
+	}
+
+	bool Echiquier::enCheminTour(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) {
 		std::pair<int, int> position;
 		int variationLigne = abs(positionActuelleX - positionVoulueX);
 		variationLigne > 0 ? position = std::minmax(positionActuelleX, positionVoulueX) : position = std::minmax(positionActuelleY, positionVoulueY);
@@ -237,6 +307,22 @@ namespace modele {
 			variationLigne > 0 ? enChemin = (echiquier_[i][positionActuelleY] != nullptr) : enChemin = (echiquier_[positionActuelleX][i] != nullptr);
 			if (enChemin) return true;
 		}
+		return false;
+	}
+
+	bool Echiquier::enCheminFou(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) {
+		return false;
+	}
+
+	bool Echiquier::enCheminReine(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) {
+		return false;
+	}
+
+	bool Echiquier::pieceEnChemin(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) {
+		if (dynamic_cast<Pion*>(echiquier_[positionActuelleX][positionActuelleY])) return enCheminPion(positionActuelleX, positionActuelleY, positionVoulueX, positionVoulueY);
+		else if (dynamic_cast<Tour*>(echiquier_[positionActuelleX][positionActuelleY])) return enCheminTour(positionActuelleX, positionActuelleY, positionVoulueX, positionVoulueY); // on regarde ce critere seulement si la piece en question est une tour
+		else if (dynamic_cast<Fou*>(echiquier_[positionActuelleX][positionActuelleY])) return enCheminPion(positionActuelleX, positionActuelleY, positionVoulueX, positionVoulueY);
+		else if (dynamic_cast<Reine*>(echiquier_[positionActuelleX][positionActuelleY])) return enCheminPion(positionActuelleX, positionActuelleY, positionVoulueX, positionVoulueY);
 		return false;
 	}
 
