@@ -314,12 +314,19 @@ namespace modele {
 	}
 
 	bool Echiquier::enCheminFou(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) {
-		
+		for (int i = positionActuelleX + 1; i < positionVoulueX; i++)
+			for (int j = positionActuelleY + 1; j < positionVoulueY; j++)
+				if (echiquier_[i][j] != nullptr) return false;
 		return false;
 	}
 
 	bool Echiquier::enCheminReine(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) {
-		return false;
+		int variationLigne = abs(positionActuelleX - positionVoulueX);
+		int variationColonne = abs(positionActuelleY - positionVoulueY);
+		bool cheminFou = enCheminFou(positionActuelleX, positionActuelleY, positionVoulueX, positionVoulueY);
+		bool cheminTour = enCheminTour(positionActuelleX, positionActuelleY, positionVoulueX, positionVoulueY);
+		if (variationColonne && variationLigne) return cheminFou;
+		else return cheminTour;
 	}
 
 	bool Echiquier::pieceEnChemin(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) {
