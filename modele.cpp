@@ -275,6 +275,7 @@ namespace modele {
 		}
 		//on est alors pas en echec et le mouvement peut se faire
 		else if (retour) delete pieceVoulue; //on libere l'espace memoire associe a la case ou notre piece a ete bougée
+		promotionEnReine();
 		return retour; 
 	}
 
@@ -369,6 +370,23 @@ namespace modele {
 			}
 		}
 		return false;
+	}
+
+	void Echiquier::promotionEnReine() {
+		for (int i = 0; i <= 7; i++) {
+			if (dynamic_cast<Pion*>(echiquier_[0][i])) {
+				if (echiquier_[0][i]->getCouleur() == noir) {
+					delete echiquier_[0][i];
+					echiquier_[0][i] = new Reine(noir, 0, i);
+				}
+			}
+			else if (dynamic_cast<Pion*>(echiquier_[7][i])) {
+				if (echiquier_[7][i]->getCouleur() == blanc) {
+					delete echiquier_[7][i];
+					echiquier_[7][i] = new Reine(blanc, 7, i);
+				}
+			}
+		}
 	}
 
 }
