@@ -1,9 +1,6 @@
 /*
 * Fichier main pour rouler le code et voir sil y a des fuites.
 * file main.cpp
-* auteurs Benoit - Paraschivoiu et St - Arnaud
-* date    8 mai 2021
-* Créé le 1 avril 2021
 */
 #include "vue.hpp"
 

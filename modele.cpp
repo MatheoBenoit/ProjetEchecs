@@ -1,9 +1,6 @@
 /*
 * Fichier contenant l'implementation des methode des classes du modele du projet final.
 * file   modele.cpp
-* author Benoit - Paraschivoiu et St - Arnaud
-* date    8 mai 2021
-* Créé le 14 avril 2021
 */
 #include "modele.hpp"
 
