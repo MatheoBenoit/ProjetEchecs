@@ -15,8 +15,10 @@
 #include <QWidget>
 #include <QColor>
 #include <QPalette>
+#include <QStack>
 #include <QGridLayout>
 #pragma pop()
+#include "modele.hpp"
 #include "modele.hpp"
 
 namespace vue {
@@ -45,18 +47,19 @@ namespace vue {
 	protected slots:
 		void boutonAppuye();
 		void initialiserPartie(std::string fichier);
-		void initPartie1();
-		void initPartie2();
+		void redo();
+		void undo();
 		void initPartieStandard();
 
 	private:
+		QStack<modele::Commande*> *undoStack;
 		modele::Echiquier& echiquier_;
 		bool premierClickFait_ = false;
 		bool tourDesBlancs_ = true;
 		std::pair<int, int> positionChoisie_; // position sur l echiquier de la piece qu on veutb bouger
 		std::pair<int, int> positionVoulue_; // position ou on deplace la piece prealablement choisie
 		Bouton* matriceBoutons_[nLignes][nColonnes];
-		QPushButton* creerBoutonPartie(QGridLayout* gridLayout, QString nomBouton, int positionY);
+		QPushButton* creerBouton(QGridLayout* gridLayout, QString nomBouton, int positionY);
 		void initBoutonsPartie(QGridLayout* gridLayout);
 		void identifierPiece(QChar& pieceVue, int colonne, int ligne) const;
 		void ajouterBouton(Bouton* bouton, int ligne, int colonne);

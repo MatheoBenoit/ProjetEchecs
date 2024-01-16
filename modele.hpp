@@ -89,24 +89,53 @@ namespace modele {
 	public:
 		Echiquier(); // construit un echiquier avec la position des pieces standard de début de partie
 		~Echiquier();
-		void modifierEchiquier(std::string nomFichier); //place des pieces aux bonnes position selon le fichier passe en parametre
 		Piece* getPiece(int ligne, int colonne);
-		void copieProfonde(Piece* nouveauEchiquier[nLignes][nColonnes], Piece* echiquier[nLignes][nColonnes]);
+		void modifierEchiquier(std::string nomFichier); //place des pieces aux bonnes position selon le fichier passe en parametre
 		bool effectuerMouvement(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY);
 
 	private:
 		Piece* echiquier_[nLignes][nColonnes]; // nLignes, nColonnes = 8, car jeu d'échecs a 64 cases
-		bool echangerPiece(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY);
-		bool enCheminPion(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY);
-		bool enCheminTour(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY);
-		bool enCheminFou(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY);
-		bool enCheminReine(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY);
+		void copieProfonde(Piece* nouveauEchiquier[nLignes][nColonnes], Piece* echiquier[nLignes][nColonnes]);
 		bool pieceEnChemin(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY);
-		std::pair<int, int> getPositionRoi(bool couleur);
+		bool echangerPiece(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY);
 		bool miseEnEchec(bool couleur);
 		void promotionEnReine();
 		bool effectuerRoc(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY);
 		void grandRoc(int positionX);
 		void petitRoc(int positionX);
+		bool enCheminPion(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY);
+		bool enCheminTour(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY);
+		bool enCheminFou(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY);
+		bool enCheminReine(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY);
+		std::pair<int, int> getPositionRoi(bool couleur);
 	};
+
+	// Commande interface
+	class Commande {
+	public:
+		virtual ~Commande() {}
+		virtual bool effectuerMouvement(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) = 0;
+		Echiquier* echiquier;
+
+	};
+
+	// Concrete command class
+	class MoveCommande : public Commande {
+	public:
+		MoveCommande(Echiquier& echiquier);
+		bool effectuerMouvement(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) override;
+	};
+
+	//// Concrete command class
+	//class RedoCommand : public Commande {
+	//public:
+	//	RedoCommande(Echiquier& echiquier);
+	//	void effectuerMouvement(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) const override;
+	//};
+
+	//class UndoCommand : public Commande {
+	//public:
+	//	UndoCommande(Echiquier& echiquier);
+	//	void effectuerMouvement(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) const override;
+	//};
 }

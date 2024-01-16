@@ -3,6 +3,7 @@
 * file   vue.cpp
 */
 #include "vue.hpp"
+# include "modele.hpp"
 
 static constexpr int tailleCase = 100;
 static constexpr int tailleTexte = 45;
@@ -79,9 +80,10 @@ namespace vue {
 		initBoutonsPartie(gridLayout);
 		setCentralWidget(widget);
 		setWindowTitle("Jeu d'Echec");
+		undoStack = new QStack<modele::Commande*>;
 	}
 
-	QPushButton* VueEchiquier::creerBoutonPartie(QGridLayout* gridLayout, QString nomBouton, int positionY) {
+	QPushButton* VueEchiquier::creerBouton(QGridLayout* gridLayout, QString nomBouton, int positionY) {
 		QPushButton* bouton = new QPushButton(nomBouton);
 		gridLayout->addWidget(bouton, positionY, nColonnes + 1);
 		bouton->setFixedSize(QSize(tailleBoutons, tailleCase));
@@ -89,14 +91,14 @@ namespace vue {
 	}
 
 	void VueEchiquier::initBoutonsPartie(QGridLayout* gridLayout) {
-		QPushButton* bouton0 = creerBoutonPartie(gridLayout, "Partie Standard", 2);
+		QPushButton* bouton0 = creerBouton(gridLayout, "Partie Standard", 2);
 		QObject::connect(bouton0, &QPushButton::clicked, this, &VueEchiquier::initPartieStandard);
 
-		QPushButton* bouton1 = creerBoutonPartie(gridLayout, "Partie 1", 3);
-		QObject::connect(bouton1, &QPushButton::clicked, this, &VueEchiquier::initPartie1);
+		QPushButton* bouton1 = creerBouton(gridLayout, "Undo", 3);
+		QObject::connect(bouton1, &QPushButton::clicked, this, &VueEchiquier::undo);
 
-		QPushButton* bouton2 = creerBoutonPartie(gridLayout, "Partie 2", 4);
-		QObject::connect(bouton2, &QPushButton::clicked, this, &VueEchiquier::initPartie2);
+		QPushButton* bouton2 = creerBouton(gridLayout, "Redo", 4);
+		QObject::connect(bouton2, &QPushButton::clicked, this, &VueEchiquier::redo);
 
 	}
 
@@ -179,8 +181,10 @@ namespace vue {
 	}
 
 	void VueEchiquier::miseAJourVue() {
-		bool mouvementFait = echiquier_.effectuerMouvement(positionChoisie_.first, positionChoisie_.second, positionVoulue_.first, positionVoulue_.second);
+		modele::Commande* commande = new modele::MoveCommande(echiquier_);
+		bool mouvementFait = commande->effectuerMouvement(positionChoisie_.first, positionChoisie_.second, positionVoulue_.first, positionVoulue_.second);
 		if (mouvementFait) {
+			undoStack->push(commande);
 			mettrePieces();
 		}
 		else {
@@ -196,12 +200,20 @@ namespace vue {
 		premierClickFait_ = false;
 	}
 
-	void VueEchiquier::initPartie1() {
+	void VueEchiquier::redo() {
+		// TODO
 		initialiserPartie("Partie1.txt");
 	}
 
-	void VueEchiquier::initPartie2() {
-		initialiserPartie("Partie2.txt");
+	void VueEchiquier::undo() {
+		if (!undoStack->isEmpty()) {
+			undoStack->pop();
+			modele::Commande* commande = undoStack->pop();
+			echiquier_ = *commande->echiquier;
+			mettrePieces();
+			delete commande;
+		}
+		return;
 	}
 
 	void VueEchiquier::initPartieStandard() {

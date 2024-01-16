@@ -433,4 +433,12 @@ namespace modele {
 		echiquier_[positionX][5] = new Tour(couleurNoire, positionX, 5);
 	}
 
+	MoveCommande::MoveCommande(Echiquier& echiquier) {
+		this->echiquier = &echiquier;
+	}
+
+	bool MoveCommande::effectuerMouvement(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) {
+		return echiquier->effectuerMouvement(positionActuelleX, positionActuelleY, positionVoulueX, positionVoulueY);
+	}
+
 }
