@@ -41,6 +41,7 @@ namespace modele {
 	public:
 		Roi(bool couleur, int positionLigne, int positionColonne);
 		~Roi();
+		mutable bool aDejaBouge = false;
 	private:
 		bool mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const override;
 
@@ -106,20 +107,5 @@ namespace modele {
 		bool enCheminFou(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY);
 		bool enCheminReine(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY);
 		std::pair<int, int> getPositionRoi(bool couleur);
-	};
-
-	// Commande interface
-	class Commande {
-	public:
-		virtual ~Commande() {}
-		virtual bool effectuerMouvement(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) = 0;
-		Echiquier* echiquier;
-	};
-
-	// Concrete command class
-	class MoveCommande : public Commande {
-	public:
-		MoveCommande(Echiquier& echiquier);
-		bool effectuerMouvement(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) override;
 	};
 }

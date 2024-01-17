@@ -54,6 +54,7 @@ namespace modele {
 			bool validationColonne = abs(positionColonne_ - positionColonneVoulue) <= 1;
 
 			if (validationLigne && validationColonne) {
+				aDejaBouge = true;
 				return true;
 			}
 		}
@@ -397,15 +398,16 @@ namespace modele {
 	}
 
 	bool Echiquier::effectuerRoc(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) {
-		if (dynamic_cast<Roi*>(echiquier_[positionActuelleX][positionActuelleY])) {
+		Roi* roiActuel = dynamic_cast<Roi*>(echiquier_[positionActuelleX][positionActuelleY]);
+		if (roiActuel != nullptr && !roiActuel->aDejaBouge) {
 			if (positionVoulueY == 2 && !enCheminTour(positionActuelleX, positionActuelleY, positionVoulueX, 0)) {
 				grandRoc(positionActuelleX);
-				return true;
 			}
 			else if (positionVoulueY == 6 && !enCheminTour(positionActuelleX, positionActuelleY, positionVoulueX, avantDerniereCase)) {
 				petitRoc(positionActuelleX);
-				return true;
 			}
+			roiActuel->aDejaBouge = true;
+			return true;
 		}
 		return false;
 	}
@@ -432,13 +434,4 @@ namespace modele {
 		echiquier_[positionX][6] = new Roi(couleurNoire, positionX, 6);
 		echiquier_[positionX][5] = new Tour(couleurNoire, positionX, 5);
 	}
-
-	MoveCommande::MoveCommande(Echiquier& echiquier) {
-		this->echiquier = &echiquier;
-	}
-
-	bool MoveCommande::effectuerMouvement(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) {
-		return echiquier->effectuerMouvement(positionActuelleX, positionActuelleY, positionVoulueX, positionVoulueY);
-	}
-
 }
