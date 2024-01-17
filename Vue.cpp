@@ -168,8 +168,7 @@ namespace vue {
 	}
 
 	void VueEchiquier::miseAJourVue() {
-		modele::Commande* commande = new modele::MoveCommande(echiquier_);
-		bool mouvementFait = commande->effectuerMouvement(positionChoisie_.first, positionChoisie_.second, positionVoulue_.first, positionVoulue_.second);
+		bool mouvementFait = echiquier_.effectuerMouvement(positionChoisie_.first, positionChoisie_.second, positionVoulue_.first, positionVoulue_.second);
 		if (mouvementFait) {
 			mettrePieces();
 		}
