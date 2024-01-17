@@ -1,9 +1,6 @@
 /*
 * Fichier contenant les classes de la Vue du projet final et leurs fonctions.
 * file    vue.hpp
-* auteurs Benoit - Paraschivoiu et St - Arnaud
-* date    8 mai 2021
-* Créé le 14 avril 2021
 */
 #pragma warning(push, 0)
 #include <QApplication>
@@ -46,13 +43,8 @@ namespace vue {
 
 	protected slots:
 		void boutonAppuye();
-		void initialiserPartie(std::string fichier);
-		void redo();
-		void undo();
-		void initPartieStandard();
 
 	private:
-		QStack<modele::Commande*> *undoStack;
 		modele::Echiquier& echiquier_;
 		bool premierClickFait_ = false;
 		bool tourDesBlancs_ = true;
@@ -60,7 +52,7 @@ namespace vue {
 		std::pair<int, int> positionVoulue_; // position ou on deplace la piece prealablement choisie
 		Bouton* matriceBoutons_[nLignes][nColonnes];
 		QPushButton* creerBouton(QGridLayout* gridLayout, QString nomBouton, int positionY);
-		void initBoutonsPartie(QGridLayout* gridLayout);
+		void initialiserPartie(std::string fichier);
 		void identifierPiece(QChar& pieceVue, int colonne, int ligne) const;
 		void ajouterBouton(Bouton* bouton, int ligne, int colonne);
 		bool tourATour();

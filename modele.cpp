@@ -380,17 +380,17 @@ namespace modele {
 	}
 
 	void Echiquier::promotionEnReine() {
-		for (int i = 0; i <= 7; i++) {
+		for (int i = 0; i <= avantDerniereCase; i++) {
 			if (dynamic_cast<Pion*>(echiquier_[0][i])) {
 				if (echiquier_[0][i]->getCouleur() == noir) {
 					delete echiquier_[0][i];
 					echiquier_[0][i] = new Reine(noir, 0, i);
 				}
 			}
-			else if (dynamic_cast<Pion*>(echiquier_[7][i])) {
-				if (echiquier_[7][i]->getCouleur() == blanc) {
-					delete echiquier_[7][i];
-					echiquier_[7][i] = new Reine(blanc, 7, i);
+			else if (dynamic_cast<Pion*>(echiquier_[avantDerniereCase][i])) {
+				if (echiquier_[avantDerniereCase][i]->getCouleur() == blanc) {
+					delete echiquier_[avantDerniereCase][i];
+					echiquier_[avantDerniereCase][i] = new Reine(blanc, avantDerniereCase, i);
 				}
 			}
 		}
@@ -402,7 +402,7 @@ namespace modele {
 				grandRoc(positionActuelleX);
 				return true;
 			}
-			else if (positionVoulueY == 6 && !enCheminTour(positionActuelleX, positionActuelleY, positionVoulueX, 7)) {
+			else if (positionVoulueY == 6 && !enCheminTour(positionActuelleX, positionActuelleY, positionVoulueX, avantDerniereCase)) {
 				petitRoc(positionActuelleX);
 				return true;
 			}
@@ -423,8 +423,8 @@ namespace modele {
 	}
 
 	void Echiquier::petitRoc(int positionX) {
-		delete echiquier_[positionX][7];
-		echiquier_[positionX][7] = nullptr;
+		delete echiquier_[positionX][avantDerniereCase];
+		echiquier_[positionX][avantDerniereCase] = nullptr;
 		delete echiquier_[positionX][4];
 		echiquier_[positionX][4] = nullptr;
 		bool couleurNoire;

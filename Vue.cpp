@@ -77,10 +77,9 @@ namespace vue {
 				connect(bouton, &QPushButton::clicked, this, &VueEchiquier::boutonAppuye);
 			}
 		}
-		initBoutonsPartie(gridLayout);
 		setCentralWidget(widget);
 		setWindowTitle("Jeu d'Echec");
-		undoStack = new QStack<modele::Commande*>;
+		initialiserPartie("PartieStandard.txt");
 	}
 
 	QPushButton* VueEchiquier::creerBouton(QGridLayout* gridLayout, QString nomBouton, int positionY) {
@@ -88,18 +87,6 @@ namespace vue {
 		gridLayout->addWidget(bouton, positionY, nColonnes + 1);
 		bouton->setFixedSize(QSize(tailleBoutons, tailleCase));
 		return bouton;
-	}
-
-	void VueEchiquier::initBoutonsPartie(QGridLayout* gridLayout) {
-		QPushButton* bouton0 = creerBouton(gridLayout, "Partie Standard", 2);
-		QObject::connect(bouton0, &QPushButton::clicked, this, &VueEchiquier::initPartieStandard);
-
-		QPushButton* bouton1 = creerBouton(gridLayout, "Undo", 3);
-		QObject::connect(bouton1, &QPushButton::clicked, this, &VueEchiquier::undo);
-
-		QPushButton* bouton2 = creerBouton(gridLayout, "Redo", 4);
-		QObject::connect(bouton2, &QPushButton::clicked, this, &VueEchiquier::redo);
-
 	}
 
 	void VueEchiquier::identifierPiece(QChar & pieceVue, int colonne, int ligne) const {
@@ -184,7 +171,6 @@ namespace vue {
 		modele::Commande* commande = new modele::MoveCommande(echiquier_);
 		bool mouvementFait = commande->effectuerMouvement(positionChoisie_.first, positionChoisie_.second, positionVoulue_.first, positionVoulue_.second);
 		if (mouvementFait) {
-			undoStack->push(commande);
 			mettrePieces();
 		}
 		else {
@@ -198,25 +184,5 @@ namespace vue {
 		mettrePieces(); //on met les pieces dans la vue de lechiquier
 		tourDesBlancs_ = true; 
 		premierClickFait_ = false;
-	}
-
-	void VueEchiquier::redo() {
-		// TODO
-		initialiserPartie("Partie1.txt");
-	}
-
-	void VueEchiquier::undo() {
-		if (!undoStack->isEmpty()) {
-			undoStack->pop();
-			modele::Commande* commande = undoStack->pop();
-			echiquier_ = *commande->echiquier;
-			mettrePieces();
-			delete commande;
-		}
-		return;
-	}
-
-	void VueEchiquier::initPartieStandard() {
-		initialiserPartie("PartieStandard.txt");
 	}
 }

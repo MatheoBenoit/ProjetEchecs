@@ -1,9 +1,6 @@
 /*
 * Fichier contenant les classes du modele du projet final et leurs fonctions.
 * file classes_projet.hpp
-* auteurs Benoit - Paraschivoiu et St - Arnaud
-* date    8 mai 2021
-* Créé le 1 avril 2021
 */
 #pragma once
 
@@ -15,6 +12,7 @@ static constexpr int blanc = 0;
 static constexpr int noir = 1;
 static constexpr int nLignes = 8;
 static constexpr int nColonnes = 8;
+static constexpr int avantDerniereCase = 7;
 static constexpr int nRoi = 2;
 static constexpr int zeroEnASCII = 48;
 
@@ -116,7 +114,6 @@ namespace modele {
 		virtual ~Commande() {}
 		virtual bool effectuerMouvement(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) = 0;
 		Echiquier* echiquier;
-
 	};
 
 	// Concrete command class
@@ -125,17 +122,4 @@ namespace modele {
 		MoveCommande(Echiquier& echiquier);
 		bool effectuerMouvement(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) override;
 	};
-
-	//// Concrete command class
-	//class RedoCommand : public Commande {
-	//public:
-	//	RedoCommande(Echiquier& echiquier);
-	//	void effectuerMouvement(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) const override;
-	//};
-
-	//class UndoCommand : public Commande {
-	//public:
-	//	UndoCommande(Echiquier& echiquier);
-	//	void effectuerMouvement(int positionActuelleX, int positionActuelleY, int positionVoulueX, int positionVoulueY) const override;
-	//};
 }
