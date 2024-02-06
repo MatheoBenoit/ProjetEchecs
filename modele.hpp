@@ -17,6 +17,14 @@ static constexpr int nRoi = 2;
 static constexpr int zeroEnASCII = 48;
 
 namespace modele {
+
+	class DeplacementStrategie {
+	public:
+		virtual ~DeplacementStrategie() = default;
+		virtual bool mouvementValide(int positionLigne, int positionColonne, int positionLigneVoulue, int positionColonneVoulue) const = 0;
+	};
+
+
 	class ConstructionInvalide : public std::logic_error {
 	public:
 		using std::logic_error::logic_error;
@@ -24,17 +32,55 @@ namespace modele {
 
 	class Piece {
 	public:
-		Piece(bool couleur, int positionLigne, int positionColonne);
+		Piece(bool couleur, int positionLigne, int positionColonne, std::unique_ptr<DeplacementStrategie> strategieDeplacement);
 		virtual ~Piece() = default;
 		bool setPosition(int positionLigne, int positionColonne);
 		std::pair<int, int> getPosition() const;
 		bool getCouleur() const;
-		virtual bool mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const;
+		bool mouvementValide(int positionLigne, int positionColonne, int positionLigneVoulue, int positionColonneVoulue) const {
+			return strategieDeplacement_->mouvementValide(positionLigne, positionColonne, positionLigneVoulue, positionColonneVoulue);
+		}
 
 	protected:
 		int positionLigne_ = 0;
 		int positionColonne_ = 0;
 		bool couleurNoire_; //0 = blanc, 1 = noir
+		std::unique_ptr<DeplacementStrategie> strategieDeplacement_;
+	};
+
+	class MouvementValidePion : public DeplacementStrategie {
+	private:
+		bool couleurNoire_;
+
+	public:
+		MouvementValidePion(bool couleurNoire) : couleurNoire_(couleurNoire) {}
+
+		bool mouvementValide(int positionLigne, int positionColonne, int positionLigneVoulue, int positionColonneVoulue) const override;
+	};
+
+	class MouvementValideRoi : public DeplacementStrategie {
+	public:
+		bool mouvementValide(int positionLigne, int positionColonne, int positionLigneVoulue, int positionColonneVoulue) const override;
+	};
+
+	class MouvementValideReine : public DeplacementStrategie {
+	public:
+		bool mouvementValide(int positionLigne, int positionColonne, int positionLigneVoulue, int positionColonneVoulue) const override;
+	};
+
+	class MouvementValideTour : public DeplacementStrategie {
+	public:
+		bool mouvementValide(int positionLigne, int positionColonne, int positionLigneVoulue, int positionColonneVoulue) const override;
+	};
+
+	class MouvementValideFou : public DeplacementStrategie {
+	public:
+		bool mouvementValide(int positionLigne, int positionColonne, int positionLigneVoulue, int positionColonneVoulue) const override;
+	};
+
+	class MouvementValideCavalier : public DeplacementStrategie {
+	public:
+		bool mouvementValide(int positionLigne, int positionColonne, int positionLigneVoulue, int positionColonneVoulue) const override;
 	};
 
 	class Roi : public Piece {
@@ -43,7 +89,15 @@ namespace modele {
 		~Roi();
 		mutable bool aDejaBouge = false;
 	private:
-		bool mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const override;
+		//bool mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const override;
+		bool mouvementValide(int positionLigne, int positionColonne, int positionLigneVoulue, int positionColonneVoulue) const {
+			if (strategieDeplacement_->mouvementValide(positionLigne, positionColonne, positionLigneVoulue, positionColonneVoulue)) {
+				aDejaBouge = true;
+				return true;
+			}
+			return false;
+		}
+		
 
 	private:
 		static int compteur_;
@@ -52,36 +106,27 @@ namespace modele {
 	class Cavalier : public Piece {
 	public:
 		Cavalier(bool couleur, int positionLigne, int positionColonne);
-	private:
-		bool mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const override;
 	};
 
 	class Tour : public Piece {
 	public:
 		Tour(bool couleur, int positionLigne, int positionColonne);
-	private:
-		bool mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const override;
 	};
 
 	class Pion : public Piece {
 	public:
 		Pion(bool couleur, int positionLigne, int positionColonne);
-	private:
-		bool mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const override;
 	};
+
 
 	class Fou : public Piece {
 	public:
 		Fou(bool couleur, int positionLigne, int positionColonne);
-	private:
-		bool mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const override;
 	};
 
 	class Reine : public Piece {
 	public:
 		Reine(bool couleur, int positionLigne, int positionColonne);
-	private:
-		bool mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const override;
 	};
 
 	class Echiquier {

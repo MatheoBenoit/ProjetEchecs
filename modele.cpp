@@ -8,14 +8,15 @@ namespace modele {
 
 	// methodes de la classe Piece 
 
-	Piece::Piece(bool couleur, int positionLigne, int positionColonne) {
+	Piece::Piece(bool couleur, int positionLigne, int positionColonne, std::unique_ptr<DeplacementStrategie> strategieDeplacement)
+		: couleurNoire_(couleur), positionLigne_(positionLigne), positionColonne_(positionColonne), strategieDeplacement_(std::move(strategieDeplacement)) {
 		couleurNoire_ = couleur;
 		positionLigne_ = positionLigne;
 		positionColonne_ = positionColonne;
 	}
 
 	bool Piece::setPosition(int positionLigne, int positionColonne) {
-		if (this->mouvementValide(positionLigne, positionColonne)) {
+		if (this->mouvementValide(positionLigne_, positionColonne_, positionLigne, positionColonne)) {
 			positionLigne_ = positionLigne;
 			positionColonne_ = positionColonne;
 			return true;
@@ -29,16 +30,18 @@ namespace modele {
 
 	bool Piece::getCouleur() const { return couleurNoire_; }
 
-	bool Piece::mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const {
+	bool DeplacementStrategie::mouvementValide(int positionLigne, int positionColonne, int positionLigneVoulue, int positionColonneVoulue) const {
 		if ((positionLigneVoulue < 0) | (positionLigneVoulue >= nLignes)) return false;
 		else if ((positionColonneVoulue < 0) | (positionColonneVoulue >= nColonnes)) return false;
-		else if ((positionColonneVoulue == positionColonne_ && positionLigneVoulue == positionLigne_)) return false;
+		else if ((positionColonneVoulue == positionColonne && positionLigneVoulue == positionLigne)) return false;
 		return true;
 	}
 
 	//  methodes de la classe Roi
 
-	Roi::Roi(bool couleur, int positionLigne, int positionColonne) : Piece(couleur, positionLigne, positionColonne) {
+	Roi::Roi(bool couleur, int positionLigne, int positionColonne)
+		: Piece(couleur, positionLigne, positionColonne, std::make_unique<MouvementValideRoi>()) {
+
 		if (compteur_ >= nRoi) throw ConstructionInvalide("Plus de deux instances de Roi.");
 		compteur_++;
 	}
@@ -47,14 +50,13 @@ namespace modele {
 		compteur_--;
 	}
 
-	bool Roi::mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const {
-		if (Piece::mouvementValide(positionLigneVoulue, positionColonneVoulue)) {
+	bool MouvementValideRoi::mouvementValide(int positionLigne, int positionColonne, int positionLigneVoulue, int positionColonneVoulue) const {
+		if (DeplacementStrategie::mouvementValide(positionLigne, positionColonne, positionLigneVoulue, positionColonneVoulue)) {
 
-			bool validationLigne = abs(positionLigne_ - positionLigneVoulue) <= 1;
-			bool validationColonne = abs(positionColonne_ - positionColonneVoulue) <= 1;
+			bool validationLigne = abs(positionLigne - positionLigneVoulue) <= 1;
+			bool validationColonne = abs(positionColonne - positionColonneVoulue) <= 1;
 
 			if (validationLigne && validationColonne) {
-				aDejaBouge = true;
 				return true;
 			}
 		}
@@ -63,12 +65,13 @@ namespace modele {
 
 	//  methodes de la classe Cavalier
 
-	Cavalier::Cavalier(bool couleur, int positionLigne, int positionColonne) : Piece(couleur, positionLigne, positionColonne) {}
+	Cavalier::Cavalier(bool couleur, int positionLigne, int positionColonne)
+		: Piece(couleur, positionLigne, positionColonne, std::make_unique<MouvementValideCavalier>()) {}
 
-	bool Cavalier::mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const {
-		if (Piece::mouvementValide(positionLigneVoulue, positionColonneVoulue)) {
-			int variationLigne = abs(positionLigne_ - positionLigneVoulue);
-			int variationColonne = abs(positionColonne_ - positionColonneVoulue);
+	bool MouvementValideCavalier::mouvementValide(int positionLigne, int positionColonne, int positionLigneVoulue, int positionColonneVoulue) const {
+		if (DeplacementStrategie::mouvementValide(positionLigne, positionColonne, positionLigneVoulue, positionColonneVoulue)) {
+			int variationLigne = abs(positionLigne - positionLigneVoulue);
+			int variationColonne = abs(positionColonne - positionColonneVoulue);
 
 			bool validationLigne = (variationLigne == 2) | (variationLigne == 1);
 			bool validationColonne = (variationColonne == 2) | (variationColonne == 1);
@@ -83,18 +86,19 @@ namespace modele {
 
 	//methodes de la classe Pion 
 
-	Pion::Pion(bool couleur, int positionLigne, int positionColonne) : Piece(couleur, positionLigne, positionColonne) {}
+	Pion::Pion(bool couleur, int positionLigne, int positionColonne)
+		: Piece(couleur, positionLigne, positionColonne, std::make_unique<MouvementValidePion>(couleur)) {}
 
-	bool Pion::mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const {
-		if (Piece::mouvementValide(positionLigneVoulue, positionColonneVoulue)) {
-			if (couleurNoire_ && (positionLigneVoulue >= positionLigne_)) return false;   // ces deux conditions sassurent qu une piece avance
-			else if (!couleurNoire_ && positionLigneVoulue <= positionLigne_) return false;
-			int variationLigne = abs(positionLigne_ - positionLigneVoulue);
-			int variationColonne = abs(positionColonne_ - positionColonneVoulue);
+	bool MouvementValidePion::mouvementValide(int positionLigne, int positionColonne, int positionLigneVoulue, int positionColonneVoulue) const {
+		if (DeplacementStrategie::mouvementValide(positionLigne, positionColonne, positionLigneVoulue, positionColonneVoulue)) {
+			if (couleurNoire_ && (positionLigneVoulue >= positionLigne)) return false;   // ces deux conditions sassurent qu une piece avance
+			else if (!couleurNoire_ && positionLigneVoulue <= positionLigne) return false;
+			int variationLigne = abs(positionLigne - positionLigneVoulue);
+			int variationColonne = abs(positionColonne - positionColonneVoulue);
 			if (variationColonne == 0) { //et quil ny a pas de piece la, a ajouter
 				if (variationLigne == 1) return true;
-				else if ((variationLigne == 2) && couleurNoire_ && (positionLigne_ == 6)) return true;  // double saut au debut pour les noirs
-				else if ((variationLigne == 2) && !couleurNoire_ && (positionLigne_ == 1)) return true; //double saut a lavant pour les blancs
+				else if ((variationLigne == 2) && couleurNoire_ && (positionLigne == 6)) return true;  // double saut au debut pour les noirs
+				else if ((variationLigne == 2) && !couleurNoire_ && (positionLigne == 1)) return true; //double saut a lavant pour les blancs
 			}
 			if (variationColonne == 1 && variationLigne == 1) //et quil y a une piece la
 				return true;
@@ -104,12 +108,13 @@ namespace modele {
 
 	//  methodes de la classe Tour
 
-	Tour::Tour(bool couleur, int positionLigne, int positionColonne) : Piece(couleur, positionLigne, positionColonne) {}
+	Tour::Tour(bool couleur, int positionLigne, int positionColonne)
+		: Piece(couleur, positionLigne, positionColonne, std::make_unique<MouvementValideTour>()) {}
 
-	bool Tour::mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const {
-		if (Piece::mouvementValide(positionLigneVoulue, positionColonneVoulue)) {
-			int variationLigne = abs(positionLigne_ - positionLigneVoulue);
-			int variationColonne = abs(positionColonne_ - positionColonneVoulue);
+	bool MouvementValideTour::mouvementValide(int positionLigne, int positionColonne, int positionLigneVoulue, int positionColonneVoulue) const {
+		if (DeplacementStrategie::mouvementValide(positionLigne, positionColonne, positionLigneVoulue, positionColonneVoulue)) {
+			int variationLigne = abs(positionLigne - positionLigneVoulue);
+			int variationColonne = abs(positionColonne - positionColonneVoulue);
 
 			if ((variationColonne == 0 && variationLigne > 0) | (variationLigne == 0 && variationColonne > 0))
 				return true;
@@ -119,12 +124,13 @@ namespace modele {
 
 	// methodes de la classe Fou
 
-	Fou::Fou(bool couleur, int positionLigne, int positionColonne) : Piece(couleur, positionLigne, positionColonne) {}
+	Fou::Fou(bool couleur, int positionLigne, int positionColonne)
+		: Piece(couleur, positionLigne, positionColonne, std::make_unique<MouvementValideFou>()) {}
 
-	bool Fou::mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const {
-		if (Piece::mouvementValide(positionLigneVoulue, positionColonneVoulue)) {
-			int variationLigne = abs(positionLigne_ - positionLigneVoulue);
-			int variationColonne = abs(positionColonne_ - positionColonneVoulue);
+	bool MouvementValideFou::mouvementValide(int positionLigne, int positionColonne, int positionLigneVoulue, int positionColonneVoulue) const {
+		if (DeplacementStrategie::mouvementValide(positionLigne, positionColonne, positionLigneVoulue, positionColonneVoulue)) {
+			int variationLigne = abs(positionLigne - positionLigneVoulue);
+			int variationColonne = abs(positionColonne - positionColonneVoulue);
 			if (variationColonne == variationLigne)
 				return true;
 		}
@@ -133,13 +139,14 @@ namespace modele {
 
 	//methode de la classe Reine
 
-	Reine::Reine(bool couleur, int positionLigne, int positionColonne) : Piece(couleur, positionLigne, positionColonne) {}
+	Reine::Reine(bool couleur, int positionLigne, int positionColonne)
+		: Piece(couleur, positionLigne, positionColonne, std::make_unique<MouvementValideReine>()) {}
 
-	bool Reine::mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const {
-		if (!Piece::mouvementValide(positionLigneVoulue, positionColonneVoulue)) return false;
+	bool MouvementValideReine::mouvementValide(int positionLigne, int positionColonne, int positionLigneVoulue, int positionColonneVoulue) const {
+		if (!DeplacementStrategie::mouvementValide(positionLigne, positionColonne, positionLigneVoulue, positionColonneVoulue)) return false;
 		bool mouvementFou;
-		int variationLigne = abs(positionLigne_ - positionLigneVoulue);
-		int variationColonne = abs(positionColonne_ - positionColonneVoulue);
+		int variationLigne = abs(positionLigne - positionLigneVoulue);
+		int variationColonne = abs(positionColonne - positionColonneVoulue);
 		if (variationColonne == variationLigne)
 			mouvementFou = true;
 		else mouvementFou = false;
@@ -371,7 +378,7 @@ namespace modele {
 			for (int colonne = 0; colonne < nColonnes; colonne++)
 			{
 				if (!echiquier_[ligne][colonne] || echiquier_[ligne][colonne]->getCouleur() == couleur) continue;
-				else if (!pieceEnChemin(ligne, colonne, positionRoiX, positionRoiY) && echiquier_[ligne][colonne]->mouvementValide(positionRoiX, positionRoiY)) {
+				else if (!pieceEnChemin(ligne, colonne, positionRoiX, positionRoiY) && echiquier_[ligne][colonne]->mouvementValide(ligne, colonne, positionRoiX, positionRoiY)) {
 					std::cout << "Vous etes en echec: ";
 					return true;
 				}
