@@ -89,7 +89,6 @@ namespace modele {
 		~Roi();
 		mutable bool aDejaBouge = false;
 	private:
-		//bool mouvementValide(int positionLigneVoulue, int positionColonneVoulue) const override;
 		bool mouvementValide(int positionLigne, int positionColonne, int positionLigneVoulue, int positionColonneVoulue) const {
 			if (strategieDeplacement_->mouvementValide(positionLigne, positionColonne, positionLigneVoulue, positionColonneVoulue)) {
 				aDejaBouge = true;
@@ -127,6 +126,27 @@ namespace modele {
 	class Reine : public Piece {
 	public:
 		Reine(bool couleur, int positionLigne, int positionColonne);
+	};
+
+	class PieceFactory {
+	public:
+		static Piece* creerPiece(char type, bool couleur, int positionLigne, int positionColonne) {
+			switch (type) {
+			case 'r': return new Roi(couleur, positionLigne, positionColonne);
+			case 'c': return new Cavalier(couleur, positionLigne, positionColonne);
+			case 't': return new Tour(couleur, positionLigne, positionColonne);
+			case 'f': return new Fou(couleur, positionLigne, positionColonne);
+			case 'q': return new Reine(couleur, positionLigne, positionColonne);
+			case 'p': return new Pion(couleur, positionLigne, positionColonne);
+			case 'R': return new Roi(couleur, positionLigne, positionColonne);
+			case 'C': return new Cavalier(couleur, positionLigne, positionColonne);
+			case 'T': return new Tour(couleur, positionLigne, positionColonne);
+			case 'F': return new Fou(couleur, positionLigne, positionColonne);
+			case 'Q': return new Reine(couleur, positionLigne, positionColonne);
+			case 'P': return new Pion(couleur, positionLigne, positionColonne);
+			default: return nullptr; // Type de pièce invalide
+			}
+		}
 	};
 
 	class Echiquier {

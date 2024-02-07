@@ -207,27 +207,19 @@ namespace modele {
 				{
 					char caractereFEN;
 					fichier >> caractereFEN;
+					int couleur = (islower(caractereFEN)) ? noir : blanc;
 
 					if (caractereFEN == '/') colonne -= 1; // ce caractere sert a delimiter une nouvelle ligne dans notre fichier, on veut donc qu'il agisse comme iteration vide
-					else if (caractereFEN == 't') echiquier_[ligne][colonne] = new Tour(noir, ligne, colonne);
-					else if (caractereFEN == 'T') echiquier_[ligne][colonne] = new Tour(blanc, ligne, colonne);
-					else if (caractereFEN == 'c') echiquier_[ligne][colonne] = new Cavalier(noir, ligne, colonne);
-					else if (caractereFEN == 'C') echiquier_[ligne][colonne] = new Cavalier(blanc, ligne, colonne);
-					else if (caractereFEN == 'f') echiquier_[ligne][colonne] = new Fou(noir, ligne, colonne);
-					else if (caractereFEN == 'F') echiquier_[ligne][colonne] = new Fou(blanc, ligne, colonne);
-					else if (caractereFEN == 'q') echiquier_[ligne][colonne] = new Reine(noir, ligne, colonne);
-					else if (caractereFEN == 'Q') echiquier_[ligne][colonne] = new Reine(blanc, ligne, colonne);
-					else if (caractereFEN == 'p') echiquier_[ligne][colonne] = new Pion(noir, ligne, colonne);
-					else if (caractereFEN == 'P') echiquier_[ligne][colonne] = new Pion(blanc, ligne, colonne);
-					else if (caractereFEN == 'r') echiquier_[ligne][colonne] = new Roi(noir, ligne, colonne);
-					else if (caractereFEN == 'R') echiquier_[ligne][colonne] = new Roi(blanc, ligne, colonne);
-					else { // caractereFEN est necessairement un chiffre
+					else if (isdigit(caractereFEN)) { // caractereFEN est necessairement un chiffre
 						int iterations = caractereFEN - zeroEnASCII;
 						for (int i = 0; i < iterations; i++)
 						{
 							echiquier_[ligne][colonne + i] = nullptr;
 						}
 						colonne += iterations - 1;
+					}
+					else { 
+						echiquier_[ligne][colonne] = PieceFactory::creerPiece(caractereFEN, couleur, ligne, colonne);
 					}
 				}
 				catch (ConstructionInvalide& e) // on attrape l erreur de creation de plus de 2 rois
